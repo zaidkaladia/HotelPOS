@@ -1,127 +1,59 @@
 {
-    "hotelName": "Zaid Palace",
-    "address": "chotila, gujarat",
-    "phone": "8485913311",
-    "gstn": "heyThis 345678",
-    "email": "kaladiazaid@gmail.com",
+    "hotelName": "Hotel Airport",
+    "address": "Some Address",
+    "phone": "1234567890",
+    "gstn": "",
+    "email": "deepdkmail@gmail.com",
     "hasGroundFloor": true,
-    "floors": 3,
+    "floors": 4,
     "floorDetails": {
         "Ground Floor": [
             {
                 "number": "001",
-                "name": "jhbjhb",
-                "occupied": false
+                "name": "First room",
+                "occupied": true
             },
             {
                 "number": "002",
-                "name": "jhbj",
-                "occupied": false
+                "name": "Second room",
+                "occupied": true
             },
             {
                 "number": "003",
-                "name": "bjhb",
+                "name": "003",
+                "occupied": true
+            },
+            {
+                "number": "004",
+                "name": "004",
                 "occupied": false
             }
         ],
         "Floor 1": [
             {
                 "number": "101",
-                "name": "jhb",
-                "occupied": false
-            },
-            {
-                "number": "102",
-                "name": "ijhb",
-                "occupied": false
-            },
-            {
-                "number": "103",
-                "name": "jhb",
-                "occupied": false
-            },
-            {
-                "number": "104",
-                "name": "bjhb",
-                "occupied": false
-            },
-            {
-                "number": "105",
-                "name": "bjhb",
-                "occupied": false
-            },
-            {
-                "number": "106",
-                "name": "bjhb",
-                "occupied": false
-            },
-            {
-                "number": "107",
-                "name": "jhbjh",
-                "occupied": false
-            },
-            {
-                "number": "108",
-                "name": "bjhb",
-                "occupied": false
-            },
-            {
-                "number": "109",
-                "name": "jhb",
-                "occupied": false
-            },
-            {
-                "number": "110",
-                "name": "jhb",
+                "name": "101",
                 "occupied": false
             }
         ],
         "Floor 2": [
             {
                 "number": "201",
-                "name": "jhb",
-                "occupied": false
-            },
-            {
-                "number": "202",
-                "name": "jbhjb",
-                "occupied": false
-            },
-            {
-                "number": "203",
-                "name": "jbjhb",
-                "occupied": false
-            },
-            {
-                "number": "204",
-                "name": "bhjb",
+                "name": "201",
                 "occupied": false
             }
         ],
         "Floor 3": [
             {
                 "number": "301",
-                "name": "hbj",
+                "name": "301",
                 "occupied": false
-            },
+            }
+        ],
+        "Floor 4": [
             {
-                "number": "302",
-                "name": "bhjb",
-                "occupied": false
-            },
-            {
-                "number": "303",
-                "name": "bjhb",
-                "occupied": false
-            },
-            {
-                "number": "304",
-                "name": "bjhb",
-                "occupied": false
-            },
-            {
-                "number": "305",
-                "name": "bjhb",
+                "number": "401",
+                "name": "401",
                 "occupied": false
             }
         ]

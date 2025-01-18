@@ -46,7 +46,38 @@ def dashboard():
     data = load_data()
     return render_template("dashboard.html", hotel_data=data)
 
+@app.route("/checkin-form")
+def checkinForm():
+    # Load data from the JSON file
+    data = load_data()
+    return render_template("checkinform.html", hotel_data=data)
 
+@app.route("/occupancy", methods=['POST'])
+def occupancy():
+    # Load data from the JSON file
+    data = load_data()
+    requiredRoomNumber = request.get_json('roomNumber')['roomNumber']
+    print(requiredRoomNumber)
+    floorDetails = data['floorDetails']
+
+    roomFound = False
+    for floor in floorDetails:
+        if roomFound:
+            break
+        for room in floorDetails[floor]:
+            if room['number'] == requiredRoomNumber:
+                room['occupied'] = True
+                roomFound = True
+                break
+
+    save_data(data)
+    # print(data['floorDetails'])
+    # print("hello from after save data")
+
+    return jsonify({
+        'status': 200,
+        'message': 'Occupancy detail updated successfully.'
+    })
 
 if __name__ == "__main__":
     app.run(debug=True)
