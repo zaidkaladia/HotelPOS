@@ -1,357 +1,368 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Hotel Dashboard</title>
     <style>
-        :root {
-            --primary-color: #3498db;
-            --secondary-color: #2ecc71;
-            --accent-color: #e74c3c;
-            --background-color: #f5f7fa;
-            --text-color: #34495e;
-        }
+      :root {
+        --primary-color: #3498db;
+        --secondary-color: #2ecc71;
+        --accent-color: #e74c3c;
+        --background-color: #f5f7fa;
+        --text-color: #34495e;
+      }
 
-        body {
-            font-family: 'Roboto', sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: var(--background-color);
-            color: var(--text-color);
-        }
+      body {
+        font-family: "Roboto", sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: var(--background-color);
+        color: var(--text-color);
+      }
 
-        header {
-            background-color: var(--primary-color);
-            color: white;
-            padding: 20px 0;
-            text-align: center;
-            font-size: 28px;
-            font-weight: 300;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
+      header {
+        background-color: var(--primary-color);
+        color: white;
+        padding: 20px 0;
+        text-align: center;
+        font-size: 28px;
+        font-weight: 300;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
 
-        .container {
-            max-width: 1200px;
-            margin: 30px auto;
-            background: white;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            padding: 30px;
-        }
+      .container {
+        max-width: 1200px;
+        margin: 30px auto;
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        padding: 30px;
+      }
 
-        h2 {
-            margin: 0 0 20px;
-            color: var(--primary-color);
-            font-weight: 400;
-        }
+      h2 {
+        margin: 0 0 20px;
+        color: var(--primary-color);
+        font-weight: 400;
+      }
 
-        .hotel-details {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-            margin-bottom: 30px;
-        }
+      .hotel-details {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 20px;
+        margin-bottom: 30px;
+      }
 
-        .hotel-details p {
-            margin: 0;
-            font-size: 16px;
-        }
+      .hotel-details p {
+        margin: 0;
+        font-size: 16px;
+      }
 
-        .floor {
-            margin-top: 40px;
-            border-top: 1px solid #ecf0f1;
-            padding-top: 30px;
-        }
+      .floor {
+        margin-top: 40px;
+        border-top: 1px solid #ecf0f1;
+        padding-top: 30px;
+      }
 
-        .floor h2 {
-            font-size: 24px;
-            margin-bottom: 20px;
-            text-align: center;
-        }
+      .floor h2 {
+        font-size: 24px;
+        margin-bottom: 20px;
+        text-align: center;
+      }
 
-        .rooms {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-            gap: 25px;
-        }
+      .rooms {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+        gap: 25px;
+      }
 
-        .room {
-            padding: 20px;
-            border-radius: 8px;
-            text-align: center;
-            transition: all 0.3s ease;
-            background-color: #ecf0f1;
-        }
+      .room {
+        padding: 20px;
+        border-radius: 8px;
+        text-align: center;
+        transition: all 0.3s ease;
+        background-color: #ecf0f1;
+      }
 
-        .room.occupied {
-            background-color: #f8d7da; /* Light red */
-        }
+      .room.occupied {
+        background-color: #f8d7da; /* Light red */
+      }
 
-        .room.available {
-            background-color: #d4edda; /* Light green */
-        }
+      .room.available {
+        background-color: #d4edda; /* Light green */
+      }
 
-        .room:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
-        }
+      .room:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+      }
 
-        .room h3 {
-            margin: 0 0 10px;
-            font-size: 20px;
-            color: var(--text-color);
-        }
+      .room h3 {
+        margin: 0 0 10px;
+        font-size: 20px;
+        color: var(--text-color);
+      }
 
-        .room p {
-            font-size: 16px;
-            margin-bottom: 15px;
-        }
+      .room p {
+        font-size: 16px;
+        margin-bottom: 15px;
+      }
 
-        .room button {
-            margin: 5px;
-            padding: 10px 15px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 14px;
-            transition: background-color 0.3s ease;
-        }
+      .room button {
+        margin: 5px;
+        padding: 10px 15px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 14px;
+        transition: background-color 0.3s ease;
+      }
 
-        .room button.checkin {
-            background-color: var(--secondary-color);
-            color: white;
-        }
+      .room button.checkin {
+        background-color: var(--secondary-color);
+        color: white;
+      }
 
-        .room button.checkout {
-            background-color: var(--accent-color);
-            color: white;
-        }
+      .room button.checkout {
+        background-color: var(--accent-color);
+        color: white;
+      }
 
-        .room button.edit {
-            background-color: var(--primary-color);
-            color: white;
-        }
+      .room button.edit {
+        background-color: var(--primary-color);
+        color: white;
+      }
 
-        .room button:hover {
-            opacity: 0.9;
-        }
+      .room button:hover {
+        opacity: 0.9;
+      }
 
-        footer {
-            margin-top: 40px;
-            text-align: center;
-            font-size: 14px;
-            color: #7f8c8d;
-            padding: 20px 0;
-        }
+      footer {
+        margin-top: 40px;
+        text-align: center;
+        font-size: 14px;
+        color: #7f8c8d;
+        padding: 20px 0;
+      }
 
-        .modal {
-    display: none;
-    position: fixed;
-    z-index: 1;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-    background-color: rgba(0, 0, 0, 0.4);
-    padding-top: 60px;
-}
+      .modal {
+        display: none;
+        position: fixed;
+        z-index: 1;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0, 0, 0, 0.4);
+        padding-top: 60px;
+      }
 
-.modal-content {
-    background-color: white;
-    margin: 5% auto;
-    padding: 20px;
-    border: 1px solid #888;
-    width: 90%;
-    max-width: 800px;
-    border-radius: 8px;
-}
+      .modal-content {
+        background-color: white;
+        margin: 5% auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 90%;
+        max-width: 800px;
+        border-radius: 8px;
+      }
 
-.close {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-    cursor: pointer;
-}
+      .close {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+        cursor: pointer;
+      }
 
-.close:hover,
-.close:focus {
-    color: black;
-    text-decoration: none;
-}
+      .close:hover,
+      .close:focus {
+        color: black;
+        text-decoration: none;
+      }
 
-.progress-bar {
-    width: 100%;
-    height: 5px;
-    background-color: #f0f0f0;
-    margin-bottom: 20px;
-}
+      .progress-bar {
+        width: 100%;
+        height: 5px;
+        background-color: #f0f0f0;
+        margin-bottom: 20px;
+      }
 
-.progress {
-    height: 100%;
-    background-color: #4CAF50;
-    transition: width 0.3s ease;
-}
+      .progress {
+        height: 100%;
+        background-color: #4caf50;
+        transition: width 0.3s ease;
+      }
 
-.form-section {
-    margin-bottom: 20px;
-}
+      .form-section {
+        margin-bottom: 20px;
+      }
 
-.form-row {
-    display: flex;
-    flex-wrap: wrap;
-    margin-bottom: 15px;
-}
+      .form-row {
+        display: flex;
+        flex-wrap: wrap;
+        margin-bottom: 15px;
+      }
 
-.form-group {
-    flex: 1 1 200px;
-    margin-right: 15px;
-    margin-bottom: 15px;
-    position: relative;
-}
+      .form-group {
+        flex: 1 1 200px;
+        margin-right: 15px;
+        margin-bottom: 15px;
+        position: relative;
+      }
 
-.form-group:last-child {
-    margin-right: 0;
-}
-
-.form-group.full-width {
-    flex-basis: 100%;
-}
-
-label {
-    position: absolute;
-    top: 0;
-    left: 10px;
-    font-size: 14px;
-    color: #999;
-    transition: all 0.3s ease;
-    pointer-events: none;
-}
-
-input:focus ~ label,
-input:not(:placeholder-shown) ~ label,
-select:focus ~ label,
-select:not(:placeholder-shown) ~ label,
-textarea:focus ~ label,
-textarea:not(:placeholder-shown) ~ label {
-    top: -20px;
-    left: 0;
-    font-size: 12px;
-    color: #4CAF50;
-}
-
-input, select, textarea {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    font-size: 16px;
-}
-
-input:focus, select:focus, textarea:focus {
-    outline: none;
-    border-color: #4CAF50;
-}
-
-textarea {
-    height: 100px;
-    resize: vertical;
-}
-
-button[type="submit"] {
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    padding: 12px 24px;
-    cursor: pointer;
-    border-radius: 4px;
-    font-size: 16px;
-    transition: background-color 0.3s ease;
-}
-
-button[type="submit"]:hover {
-    background-color: #45a049;
-}
-
-@media screen and (max-width: 600px) {
-    .form-group {
-        flex-basis: 100%;
+      .form-group:last-child {
         margin-right: 0;
-    }
-}
+      }
 
+      .form-group.full-width {
+        flex-basis: 100%;
+      }
 
+      label {
+        position: absolute;
+        top: 0;
+        left: 10px;
+        font-size: 14px;
+        color: #999;
+        transition: all 0.3s ease;
+        pointer-events: none;
+      }
 
+      input:focus ~ label,
+      input:not(:placeholder-shown) ~ label,
+      select:focus ~ label,
+      select:not(:placeholder-shown) ~ label,
+      textarea:focus ~ label,
+      textarea:not(:placeholder-shown) ~ label {
+        top: -20px;
+        left: 0;
+        font-size: 12px;
+        color: #4caf50;
+      }
 
+      input,
+      select,
+      textarea {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: 16px;
+      }
 
+      input:focus,
+      select:focus,
+      textarea:focus {
+        outline: none;
+        border-color: #4caf50;
+      }
+
+      textarea {
+        height: 100px;
+        resize: vertical;
+      }
+
+      button[type="submit"] {
+        background-color: #4caf50;
+        color: white;
+        border: none;
+        padding: 12px 24px;
+        cursor: pointer;
+        border-radius: 4px;
+        font-size: 16px;
+        transition: background-color 0.3s ease;
+      }
+
+      button[type="submit"]:hover {
+        background-color: #45a049;
+      }
+
+      @media screen and (max-width: 600px) {
+        .form-group {
+          flex-basis: 100%;
+          margin-right: 0;
+        }
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <header>Hotel Management Dashboard</header>
 
     <div class="container">
-        <div class="hotel-details">
-            <h2>{{ hotel_data.hotelName }}</h2>
-            <p><strong>Address:</strong> {{ hotel_data.address }}</p>
-            <p><strong>Phone:</strong> {{ hotel_data.phone }}</p>
-            <p><strong>Email:</strong> {{ hotel_data.email }}</p>
-            <p><strong>GSTN:</strong> {{ hotel_data.gstn }}</p>
-        </div>
+      <div class="hotel-details">
+        <h2>{{ hotel_data.hotelName }}</h2>
+        <p><strong>Address:</strong> {{ hotel_data.address }}</p>
+        <p><strong>Phone:</strong> {{ hotel_data.phone }}</p>
+        <p><strong>Email:</strong> {{ hotel_data.email }}</p>
+        <p><strong>GSTN:</strong> {{ hotel_data.gstn }}</p>
+      </div>
 
-        <div id="dashboard">
-            {% for floor, rooms in hotel_data.floorDetails.items() %}
-            <div class="floor">
-                <h2>Floor {{ floor }}</h2>
-                <div class="rooms">
-                    {% for room in rooms %}
-                    <div class="room {{ 'occupied' if room.occupied else 'available' }}">
-                        <h3>{{ room.number }}</h3>
-                        <p>{{ room.name }}</p>
-                        {% if room.occupied %}
-                        <button class="checkout" onclick="updateStatus('{{ room.number }}', 'Available')">Check Out</button>
-                        {% else %}
-                        <button class="checkin" onclick="openCheckInModal()">Check In</button>
-                        {% endif %}
-                        <button class="edit" onclick="editRoom('{{ room.number }}')">Edit</button>
-                    </div>
-                    {% endfor %}
-                </div>
+      <div id="dashboard">
+        {% for floor, rooms in hotel_data.floorDetails.items() %}
+        <div class="floor">
+          <h2>Floor {{ floor }}</h2>
+          <div class="rooms">
+            {% for room in rooms %}
+            <div
+              class="room {{ 'occupied' if room.occupied else 'available' }}"
+            >
+              <h3>{{ room.number }}</h3>
+              <p>{{ room.name }}</p>
+              {% if room.occupied %}
+              <button
+                class="checkout"
+                onclick="updateStatus('{{ room.number }}', 'Available')"
+              >
+                Check Out
+              </button>
+              <button class="edit" onclick="editRoom('{{ room.number }}')">
+                Edit
+              </button>
             </div>
-            {% endfor %}
+            {% else %}
+            <button
+              class="checkin"
+              onclick="checkinHandler(event, '{{room.number}}', '{{room.name}}')"
+            >
+              Check In
+            </button>
+            {% endif %} {% endfor %}
+          </div>
         </div>
+        {% endfor %}
+      </div>
     </div>
 
     <footer>© 2025 Hotel Management System. All Rights Reserved.</footer>
 
-
-
     <script>
-        function openCheckInModal() {
-            document.getElementById("checkinModal").style.display = "block";
+      function checkinHandler(event, roomNumber, roomName) {
+        event.preventDefault();
+        const currTime = new Date();
+        console.log([currTime, roomNumber, roomName]);
+        const queryParamString = `?currentTime=${currTime}&roomNumber=${roomNumber}&roomName=${roomName}`;
+        window.location.href = `/checkin-form${queryParamString}`;
+      }
+
+      function closeCheckInModal() {
+        document.getElementById("checkinModal").style.display = "none";
+      }
+
+      window.onclick = function (event) {
+        if (event.target == document.getElementById("checkinModal")) {
+          closeCheckInModal();
         }
+      };
 
-        function closeCheckInModal() {
-            document.getElementById("checkinModal").style.display = "none";
-        }
+      function updateStatus(roomNumber, status) {
+        alert(`Room ${roomNumber} status updated to ${status}`);
+      }
 
-        window.onclick = function(event) {
-            if (event.target == document.getElementById("checkinModal")) {
-                closeCheckInModal();
-            }
-        }
-
-        function updateStatus(roomNumber, status) {
-            alert(`Room ${roomNumber} status updated to ${status}`);
-        }
-
-        function editRoom(roomNumber) {
-            alert(`Edit details for room ${roomNumber}`);
-        }
-
-        
-
+      function editRoom(roomNumber) {
+        alert(`Edit details for room ${roomNumber}`);
+      }
     </script>
-</body>
+  </body>
 </html>
