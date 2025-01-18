@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hotel Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+        }
+        .container {
+            width: 80%;
+            margin: 20px auto;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        label {
+            font-weight: bold;
+        }
+        input, select {
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        button {
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .floor {
+            margin: 20px;
+            padding: 10px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .floor h2 {
+            text-align: center;
+            color: #333;
+        }
+        .rooms {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+        }
+        .room {
+            width: 150px;
+            padding: 10px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            text-align: center;
+            background-color: #e0ffe0;
+            position: relative;
+        }
+        .room.occupied {
+            background-color: #ffe0e0;
+        }
+        .room h3 {
+            margin: 5px 0;
+        }
+        .room button {
+            margin: 5px;
+            padding: 5px 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .room button.checkin {
+            background-color: #4CAF50;
+            color: white;
+        }
+        .room button.checkout {
+            background-color: #f44336;
+            color: white;
+        }
+        .room button.edit {
+            background-color: #008CBA;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <h1>Hotel Management System</h1>
+
+    <div class="container">
+        <h2>Hotel Setup Form</h2>
+        <form id="hotelForm">
+            <label for="hotelName">Hotel Name:</label>
+            <input type="text" id="hotelName" name="hotelName" required>
+
+            <label for="address">Address:</label>
+            <input type="text" id="address" name="address" required>
+
+            <label for="phone">Phone Number:</label>
+            <input type="text" id="phone" name="phone" required>
+
+            <label for="gstn">GSTN:</label>
+            <input type="text" id="gstn" name="gstn" required>
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+
+            <label for="floors">Number of Floors:</label>
+            <input type="number" id="floors" name="floors" min="1" required>
+
+            <label for="roomsPerFloor">Rooms per Floor (comma-separated for each floor):</label>
+            <input type="text" id="roomsPerFloor" name="roomsPerFloor" placeholder="e.g., 3,4,5" required>
+
+            <button type="button" onclick="generateDashboard()">Submit</button>
+        </form>
+    </div>
+
+    <div id="dashboard">
+        <!-- Floors and Rooms will be dynamically inserted here -->
+    </div>
+
+    <script>
+        function generateDashboard() {
+            const hotelName = document.getElementById("hotelName").value;
+            const address = document.getElementById("address").value;
+            const phone = document.getElementById("phone").value;
+            const gstn = document.getElementById("gstn").value;
+            const email = document.getElementById("email").value;
+            const floors = parseInt(document.getElementById("floors").value, 10);
+            const roomsPerFloor = document.getElementById("roomsPerFloor").value.split(',').map(Number);
+
+            if (roomsPerFloor.length !== floors) {
+                alert("Please ensure the number of room entries matches the number of floors.");
+                return;
+            }
+
+            const hotelData = { floors: [] };
+
+            for (let i = 0; i < floors; i++) {
+                const floor = {
+                    floorNumber: i + 1,
+                    rooms: []
+                };
+
+                for (let j = 0; j < roomsPerFloor[i]; j++) {
+                    floor.rooms.push({
+                        roomName: `${i + 1}${String(j + 1).padStart(2, '0')}`,
+                        type: "Standard",
+                        status: "Available"
+                    });
+                }
+
+                hotelData.floors.push(floor);
+            }
+
+            renderDashboard(hotelData);
+        }
+
+        function renderDashboard(hotelData) {
+            const dashboard = document.getElementById("dashboard");
+            dashboard.innerHTML = ""; // Clear previous dashboard
+
+            hotelData.floors.forEach(floor => {
+                const floorDiv = document.createElement("div");
+                floorDiv.className = "floor";
+
+                const floorTitle = document.createElement("h2");
+                floorTitle.textContent = `Floor ${floor.floorNumber}`;
+                floorDiv.appendChild(floorTitle);
+
+                const roomsDiv = document.createElement("div");
+                roomsDiv.className = "rooms";
+
+                floor.rooms.forEach(room => {
+                    const roomDiv = document.createElement("div");
+                    roomDiv.className = `room ${room.status.toLowerCase()}`;
+
+                    const roomTitle = document.createElement("h3");
+                    roomTitle.textContent = `${room.roomName} (${room.type})`;
+                    roomDiv.appendChild(roomTitle);
+
+                    if (room.status === "Available") {
+                        const checkinButton = document.createElement("button");
+                        checkinButton.className = "checkin";
+                        checkinButton.textContent = "Check In";
+                        roomDiv.appendChild(checkinButton);
+                    } else {
+                        const checkoutButton = document.createElement("button");
+                        checkoutButton.className = "checkout";
+                        checkoutButton.textContent = "Check Out";
+                        roomDiv.appendChild(checkoutButton);
+                    }
+
+                    const editButton = document.createElement("button");
+                    editButton.className = "edit";
+                    editButton.textContent = "Edit";
+                    roomDiv.appendChild(editButton);
+
+                    roomsDiv.appendChild(roomDiv);
+                });
+
+                floorDiv.appendChild(roomsDiv);
+                dashboard.appendChild(floorDiv);
+            });
+        }
+    </script>
+</body>
+</html>

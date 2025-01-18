@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hotel Setup</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #f4f4f4;
+        }
+        .form-container {
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            width: 100%;
+            overflow-y: auto;
+            max-height: 90vh;
+        }
+        h2 {
+            margin-bottom: 15px;
+            color: #333333;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input, select, button {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #cccccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        .error {
+            color: red;
+            font-size: 0.9em;
+            margin-top: -10px;
+            margin-bottom: 10px;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .hidden {
+            display: none;
+        }
+        .floor-container {
+            margin-bottom: 20px;
+        }
+        .room-container {
+            margin-left: 20px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h2>Hotel Information</h2>
+        <form id="hotelInfoForm">
+            <div id="step1">
+                <label for="hotelName">Hotel Name</label>
+                <input type="text" id="hotelName" name="hotelName" placeholder="Enter hotel name" required>
+
+                <label for="address">Address</label>
+                <input type="text" id="address" name="address" placeholder="Enter hotel address" required>
+
+                <label for="phone">Phone Number</label>
+                <input type="tel" id="phone" name="phone" placeholder="Enter phone number" pattern="[0-9]{10}" title="Enter a valid 10-digit phone number" required>
+
+                <label for="gstn">GSTN</label>
+                <input type="text" id="gstn" name="gstn" placeholder="Enter GSTN (if applicable)">
+
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" placeholder="Enter email" required>
+
+                <button type="button" id="nextStep">Next</button>
+            </div>
+
+            <div id="step2" class="hidden">
+                <label for="hasGroundFloor">Does the hotel have a ground floor?</label>
+                <select id="hasGroundFloor" name="hasGroundFloor">
+                    <option value="yes">Yes</option>
+                    <option value="no">No</option>
+                </select>
+
+                <label for="floors">Number of Floors (excluding ground floor)</label>
+                <input type="number" id="floors" name="floors" placeholder="Enter number of floors" min="0" required>
+
+                <div id="floorDetails"></div>
+
+                <button type="button" id="generateFloors">Generate Floors</button>
+                <button type="submit">Submit</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        const nextStepButton = document.getElementById('nextStep');
+        const step1 = document.getElementById('step1');
+        const step2 = document.getElementById('step2');
+        const hotelInfoForm = document.getElementById('hotelInfoForm');
+        const generateFloorsButton = document.getElementById('generateFloors');
+        const floorDetails = document.getElementById('floorDetails');
+
+        nextStepButton.addEventListener('click', () => {
+            if (validateStep1()) {
+                step1.classList.add('hidden');
+                step2.classList.remove('hidden');
+            } else {
+                alert('Please fill in all required fields in Step 1.');
+            }
+        });
+
+        generateFloorsButton.addEventListener('click', generateFloors);
+
+        hotelInfoForm.addEventListener('submit', handleSubmit);
+
+        function validateStep1() {
+            return ['hotelName', 'address', 'phone', 'email'].every(id => 
+                document.getElementById(id).checkValidity()
+            );
+        }
+
+        function generateFloors() {
+            const hasGroundFloor = document.getElementById('hasGroundFloor').value === 'yes';
+            const floorCount = parseInt(document.getElementById('floors').value);
+
+            if (floorCount < 0 || isNaN(floorCount)) {
+                alert('Please enter a valid number of floors.');
+                return;
+            }
+
+            floorDetails.innerHTML = '';
+
+            if (hasGroundFloor) {
+                createFloorContainer('Ground Floor', 'groundFloor', 'roomsGroundFloor');
+            }
+
+            for (let i = 1; i <= floorCount; i++) {
+                createFloorContainer(`Floor ${i}`, `floor${i}`, `roomsFloor${i}`);
+            }
+        }
+
+        function createFloorContainer(floorName, floorId, roomsId) {
+            const floorContainer = document.createElement('div');
+            floorContainer.className = 'floor-container';
+            floorContainer.innerHTML = `
+                <label for="${floorId}">Number of Rooms on ${floorName}</label>
+                <input type="number" id="${floorId}" name="${floorId}" placeholder="Enter rooms for ${floorName}" min="1" required>
+                <div id="${roomsId}" class="room-container"></div>
+            `;
+
+            const roomInput = floorContainer.querySelector(`#${floorId}`);
+            roomInput.addEventListener('input', () => generateRoomInputs(roomInput, roomsId, floorName));
+
+            floorDetails.appendChild(floorContainer);
+        }
+
+        function generateRoomInputs(roomInput, roomsId, floorName) {
+    const roomCount = parseInt(roomInput.value);
+    const roomContainer = document.getElementById(roomsId);
+    roomContainer.innerHTML = '';
+
+    if (roomCount && roomCount > 0) {
+        let floorNumber = floorName === "Ground Floor" ? 0 : parseInt(floorName.split(" ")[1]);
+        for (let j = 1; j <= roomCount; j++) {
+            // For ground floor, use 00 prefix; for other floors, use the floor number.
+            const roomNumber = floorNumber === 0 
+                ? `00${j}`.slice(-3) // Ensures ground floor rooms are 001, 002, etc.
+                : `${floorNumber}${String(j).padStart(2, "0")}`; // Ensures rooms like 101, 102, etc.
+
+            const roomNameInput = document.createElement('input');
+            roomNameInput.type = 'text';
+            roomNameInput.name = `room_${floorName}_${roomNumber}`;
+            roomNameInput.placeholder = `Enter name for Room ${roomNumber}`;
+            roomNameInput.required = true;
+            roomContainer.appendChild(roomNameInput);
+        }
+    }
+}
+
+
+async function handleSubmit(event) {
+    event.preventDefault();
+
+    const formData = new FormData(hotelInfoForm);
+    const hotelInfo = {
+        hotelName: formData.get("hotelName"),
+        address: formData.get("address"),
+        phone: formData.get("phone"),
+        gstn: formData.get("gstn"),
+        email: formData.get("email"),
+        hasGroundFloor: formData.get("hasGroundFloor") === "yes",
+        floors: parseInt(formData.get("floors")),
+        floorDetails: {}
+    };
+
+    const floorContainers = document.querySelectorAll(".floor-container");
+    floorContainers.forEach(container => {
+        const floorName = container.querySelector("label").textContent.split(" on ")[1];
+        const roomInputs = container.querySelectorAll(".room-container input");
+        const floorNumber = floorName === "Ground Floor" ? 0 : parseInt(floorName.split(" ")[1]);
+
+        hotelInfo.floorDetails[floorName] = Array.from(roomInputs).map((input, index) => ({
+            // Correct room number formatting
+            number: floorNumber === 0 
+                ? `00${index + 1}`.slice(-3) // Ground floor rooms: 001, 002, 003
+                : `${floorNumber}${String(index + 1).padStart(2, '0')}`, // Other floors: 101, 102, 201
+            name: input.value,
+            occupied: false // Default to false on creation
+        }));
+    });
+
+    try {
+        const response = await fetch("/submit", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(hotelInfo)
+        });
+
+        const result = await response.json();
+        if (response.ok) {
+            alert("Hotel information saved successfully!");
+            console.log("Saved Data:", result);
+        } else {
+            alert("Error: " + result.error);
+        }
+    } catch (error) {
+        alert("An error occurred while saving the data.");
+        console.error(error);
+    }
+}
+
+
+    </script>
+</body>
+</html>
