@@ -130,7 +130,7 @@
       color: white;
     }
   </style>
-  
+
 </head>
 
 <body>
@@ -169,15 +169,15 @@
             <label>
               Check In Date * (By default, date time of checkin button clicked on dashboard)
             </label>
-            <input id="input-checkinDate" type="datetime-local" />
+            <input id="input-checkinDate" type="datetime-local" onchange="calculateNights()" />
           </div>
           <div class="form-group">
             <label>Check Out Date * (By default current time)</label>
-            <input id="input-checkoutDate" type="datetime-local" />
+            <input id="input-checkoutDate" type="datetime-local" onchange="calculateNights()" />
           </div>
           <div class="form-group">
-            <label>No Of Nights *</label>
-            <input type="number" />
+            <label>No Of Nights</label>
+            <input id="input-nights" type="number" readonly />
           </div>
           <div class="form-group">
             <label>Tour Type *</label>
@@ -399,6 +399,53 @@
         window.location.href = '/dashboard'
       });
     }
+
+//     function calculateNights() {
+//   const checkinInput = document.getElementById('input-checkinDate');
+//   const checkoutInput = document.getElementById('input-checkoutDate');
+//   const nightsInput = document.getElementById('input-nights');
+
+//   if (checkinInput.value && checkoutInput.value) {
+//     const nights = calculateNightsLogic(checkinInput.value, checkoutInput.value);
+//     nightsInput.value = nights;
+//   }
+// }
+
+// function calculateNightsLogic(checkin, checkout) {
+//   const hotelCheckinTime = 12; // 12 PM
+//   const hotelCheckoutTime = 10; // 10 AM
+
+//   // Parse the input dates
+//   let checkinDateTime = new Date(checkin);
+//   let checkoutDateTime = new Date(checkout);
+
+//   // Adjust check-in time to 12 PM if earlier
+//   if (checkinDateTime.getHours() < hotelCheckinTime) {
+//     checkinDateTime.setHours(hotelCheckinTime, 0, 0, 0);
+//   }
+
+//   // Adjust check-out time to 10 AM if later
+//   if (checkoutDateTime.getHours() > hotelCheckoutTime || 
+//       (checkoutDateTime.getHours() === hotelCheckoutTime && checkoutDateTime.getMinutes() > 0)) {
+//     checkoutDateTime.setHours(hotelCheckoutTime, 0, 0, 0);
+//   }
+
+//   // Calculate the difference in days
+//   const oneDay = 24 * 60 * 60 * 1000; // milliseconds in one day
+//   const diffTime = checkoutDateTime.getTime() - checkinDateTime.getTime();
+
+//   // Calculate full days
+//   const fullDays = Math.floor(diffTime / oneDay);
+
+//   // Check if partial time requires another night charge
+//   const remainingTime = diffTime % oneDay;
+//   const nights = fullDays + (remainingTime > 0 ? 1 : 0);
+
+//   // Ensure at least 1 night is charged
+//   return Math.max(1, checkinDateTime.getHours() < hotelCheckinTime nights+1);
+// }
+
+
 
 
     //   function addSecondaryGuest() {

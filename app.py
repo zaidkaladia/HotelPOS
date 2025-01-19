@@ -1,6 +1,8 @@
 from flask import Flask, request, render_template, jsonify
 import json
 import os
+import sqlite3
+
 
 app = Flask(__name__)
 
@@ -18,6 +20,13 @@ def load_data():
 def save_data(data):
     with open(DATA_FILE, "w") as file:
         json.dump(data, file, indent=4)
+
+
+def get_db_connection():
+    conn = sqlite3.connect('database.db')
+    print("Connected to database successfully")
+    conn.row_factory = sqlite3.Row
+    return conn
 
 @app.route("/")
 def index():
@@ -54,12 +63,43 @@ def checkinForm():
 
 @app.route("/occupancy", methods=['POST'])
 def occupancy():
+    requiredRoomNumber = request.get_json('roomNumber')['roomNumber']
+
+
+# Start Database Uploading---------------------
+    try:
+            conn = get_db_connection()
+            cursor = conn.cursor()
+
+            # Insert query
+            insert_query = """
+            INSERT INTO HotelManagement (
+                primary_person_name, primary_person_gender, primary_person_mobile, alternate_number, primary_person_address, primary_person_nationality, primary_person_id_type, primary_person_id_number, secondary_person_name, secondary_person_gender, secondary_person_id_type, secondary_person_id_number, room_no, room_name, check_in, bed_type, room_type, tour_type, company_name, gst
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            """
+            cursor.execute(insert_query, (
+                required_room_number, room_name, check_in, bed_type, room_type, total_fare
+            ))
+
+            conn.commit()
+            response_message = f"CheckedIn Succesfully"
+    except sqlite3.Error as e:
+            conn.rollback()
+            response_message = f"An error occurred: {e}"
+    finally:
+            conn.close()
+
+
+# End Database Uploading---------------------
+
+
+
+
+# Start Update the json file changing occupied to true ---------------------
     # Load data from the JSON file
     data = load_data()
-    requiredRoomNumber = request.get_json('roomNumber')['roomNumber']
     print(requiredRoomNumber)
     floorDetails = data['floorDetails']
-
     roomFound = False
     for floor in floorDetails:
         if roomFound:
@@ -71,8 +111,8 @@ def occupancy():
                 break
 
     save_data(data)
-    # print(data['floorDetails'])
-    # print("hello from after save data")
+# End Update the json file changing occupied to true ---------------------
+
 
     return jsonify({
         'status': 200,
