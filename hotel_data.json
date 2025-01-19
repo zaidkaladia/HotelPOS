@@ -11,24 +11,24 @@
             {
                 "number": "001",
                 "name": "gfd",
-                "occupied": true
+                "occupied": false
             },
             {
                 "number": "002",
                 "name": "jhgfds",
-                "occupied": true
+                "occupied": false
             },
             {
                 "number": "003",
                 "name": "vbnmnbgvf",
-                "occupied": true
+                "occupied": false
             }
         ],
         "Floor 1": [
             {
                 "number": "101",
                 "name": "cvbn",
-                "occupied": true
+                "occupied": false
             },
             {
                 "number": "102",
