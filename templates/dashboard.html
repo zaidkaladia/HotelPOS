@@ -301,50 +301,66 @@
 
       <div id="dashboard">
         {% for floor, rooms in hotel_data.floorDetails.items() %}
-        <div class="floor">
-          <h2>Floor {{ floor }}</h2>
-          <div class="rooms">
-            {% for room in rooms %}
-            <div
-              class="room {{ 'occupied' if room.occupied else 'available' }}"
-            >
-              <h3>{{ room.number }}</h3>
-              <p>{{ room.name }}</p>
-              {% if room.occupied %}
-              <button
-                class="checkout"
-                onclick="updateStatus('{{ room.number }}', 'Available')"
-              >
-                Check Out
-              </button>
-              <button class="edit" onclick="editRoom('{{ room.number }}')">
-                Edit
-              </button>
+          <section class="floor">
+            <h2>{{ floor }}</h2>
+            <div class="rooms">
+              {% for room in rooms %}
+                <article class="room {{ 'occupied' if room.occupied else 'available' }}">
+                  <h3>{{ room.number }}</h3>
+                  <p>{{ room.name }}</p>
+                  {% if room.occupied %}
+                    <button 
+                      class="checkout" 
+                      onclick="updateStatus('{{ room.number|escape }}', 'Available')"
+                      aria-label="Check out room {{ room.number }}"
+                    >
+                      Check Out
+                    </button>
+                    <button 
+                      class="edit" 
+                      onclick="editRoom('{{ room.number|escape }}')"
+                      aria-label="Edit room {{ room.number }}"
+                    >
+                      Edit
+                    </button>
+                  {% else %}
+                  <button 
+                  class="checkin"
+                  onclick="checkinHandler(event, '{{ room.number|escape }}', '{{ room.name|escape }}')"
+                  aria-label="Check in to room {{ room.number }}"
+                >
+                  Check In
+                </button>
+                  {% endif %}
+                </article>
+              {% endfor %}
             </div>
-            {% else %}
-            <button
-              class="checkin"
-              onclick="checkinHandler(event, '{{room.number}}', '{{room.name}}')"
-            >
-              Check In
-            </button>
-            {% endif %} {% endfor %}
-          </div>
-        </div>
+          </section>
         {% endfor %}
       </div>
+      
     </div>
 
     <footer>© 2025 Hotel Management System. All Rights Reserved.</footer>
 
-    <script>
+    <script >
+      // function checkinHandler(event, roomNumber, roomName) {
+      //   event.preventDefault();
+      //   const currTime = new Date();
+      //   console.log([currTime, roomNumber, roomName]);
+      //   const queryParamString = `?currentTime=${currTime}&roomNumber=${roomNumber}&roomName=${roomName}`;
+      //   window.location.href = `/checkin-form${queryParamString}`;
+      // }
+
       function checkinHandler(event, roomNumber, roomName) {
-        event.preventDefault();
-        const currTime = new Date();
-        console.log([currTime, roomNumber, roomName]);
-        const queryParamString = `?currentTime=${currTime}&roomNumber=${roomNumber}&roomName=${roomName}`;
-        window.location.href = `/checkin-form${queryParamString}`;
-      }
+    event.preventDefault();
+    const currTime = new Date();
+    console.log([currTime, roomNumber, roomName]);
+
+    // Format the time as ISO string for the query parameter
+    const queryParamString = `?currentTime=${currTime.toISOString()}&roomNumber=${roomNumber}&roomName=${roomName}`;
+    window.location.href = `/checkin-form${queryParamString}`;
+  }
 
       function closeCheckInModal() {
         document.getElementById("checkinModal").style.display = "none";
