@@ -489,13 +489,14 @@
 </head>
 <body>
     <div class="container" role="main">
-        <h3>Invoice - Room No: 106</h3>
+        <h3>Invoice - Room No: {{data.room_no}}</h3>
 
         <div class="table-container">
             <table>
                 <thead>
                     <tr>
-                        <th>Date</th>
+                        <th>Check in Date</th>
+                        <th>Check out Date</th>
                         <th>Room No</th>
                         <th>Particulars</th>
                         <th>Base Tariff</th>
@@ -506,8 +507,9 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td>16/01/2025</td>
-                        <td>106</td>
+                        <td>{{data.check_in}}</td>
+                        <td>{{data.check_out}}</td>
+                        <td>{{data.room_no}}</td>
                         <td>SUPER DELUXE 106 - Single</td>
                         <td>
                             <input type="number" class="base-tariff" oninput="calculateRow(this.closest('tr'), 'base-tariff')" step="0.01" value="1607.14" aria-label="Base Tariff">

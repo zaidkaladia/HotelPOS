@@ -16,12 +16,12 @@
             {
                 "number": "102",
                 "name": "Dexul",
-                "occupied": false
+                "occupied": true
             },
             {
                 "number": "103",
                 "name": "Super Delux",
-                "occupied": false
+                "occupied": true
             },
             {
                 "number": "104",

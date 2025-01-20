@@ -417,16 +417,11 @@
       // Get the query parameters from the URL
       const queryString = window.location.search;
       const urlParams = new URLSearchParams(queryString);
-      const checkinDate = urlParams.get("currentTime"); // Check-in time
       const roomNumber = urlParams.get("roomNumber"); // Room number
       const roomName = urlParams.get("roomName"); // Room name
 
       // Set default values on the form fields
       const currentDate = new Date();
-
-      // Checkin Date
-      const checkinDateElement = document.getElementById("input-checkinDate");
-      checkinDateElement.value = setDateTimeLocal(checkinDate);
 
       // Checkout Date
       const checkoutDateElement = document.getElementById("input-checkoutDate");
