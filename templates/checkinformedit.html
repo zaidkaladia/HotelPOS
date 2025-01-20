@@ -141,7 +141,7 @@
     <div id="checkinModal" class="modal">
       <div class="modal-content">
         <h2>Check-In Form</h2>
-        <form id="checkInForm" action="/checkin" method="POST">
+        <form id="checkInForm" action="/checkin-edit" method="POST">
           <div class="progress-bar">
             <div class="progress" style="width: 0%"></div>
           </div>
@@ -182,8 +182,9 @@
                 id="input-checkinDate"
                 name="checkinDate"
                 type="datetime-local"
-              onchange="calculateNights()" />
-            </div>
+                value="{{checkin_data.check_in}}"
+                onchange="calculateNights()" />
+            </div>            
             <div class="form-group">
               <label>Check Out Date * (By default current time)</label>
               <input
@@ -392,10 +393,10 @@
           <div class="form-row">
             <button type="submit">Save</button>
           </div>
+          <div class="form-row">
+            <button formaction="/checkin-edit-checkout">Save and CheckOut</button>
+          </div>
         </form>
-        <div class="form-row">
-          <button>Save and CheckOut</button>
-        </div>
       </div>
     </div>
 
@@ -441,20 +442,24 @@
 
 
 
-      function submitHandler(event) {
+      function editCheckout(event) {
         event.preventDefault();
-        fetch("/occupancy", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            roomNumber: roomNumber,
-          }),
-        }).then(() => {
-          window.location.href = "/dashboard";
-        });
+
+
+
       }
+      //   fetch("/occupancy", {
+      //     method: "POST",
+      //     headers: {
+      //       "Content-Type": "application/json",
+      //     },
+      //     body: JSON.stringify({
+      //       roomNumber: roomNumber,
+      //     }),
+      //   }).then(() => {
+      //     window.location.href = "/dashboard";
+      //   });
+      // }
 
       //   function addSecondaryGuest() {
       //     const container = document.getElementById("secondaryGuestsContainer");

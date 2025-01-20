@@ -318,7 +318,7 @@
                     </button>
                     <button 
                       class="edit" 
-                      onclick="editRoom('{{ room.number|escape }}')"
+                      onclick="editRoom(event, '{{ room.number|escape }}', '{{ room.name|escape }}')"
                       aria-label="Edit room {{ room.number }}"
                     >
                       Edit
@@ -362,23 +362,22 @@
     window.location.href = `/checkin-form${queryParamString}`;
   }
 
-      function closeCheckInModal() {
+    function closeCheckInModal() {
         document.getElementById("checkinModal").style.display = "none";
       }
 
-      window.onclick = function (event) {
-        if (event.target == document.getElementById("checkinModal")) {
-          closeCheckInModal();
-        }
-      };
-
-      function updateStatus(roomNumber, status) {
+    function editRoom(event, roomNumber, roomName) {
+        event.preventDefault();
+        const queryParamString = `?roomNumber=${roomNumber}&roomName=${roomName}`;
+        window.location.href = `/checkin-form-edit${queryParamString}`;
+        // alert(`Edit details for room ${roomNumber}`);
+      }
+      
+    function updateStatus(roomNumber, status) {
         alert(`Room ${roomNumber} status updated to ${status}`);
+
       }
 
-      function editRoom(roomNumber) {
-        alert(`Edit details for room ${roomNumber}`);
-      }
     </script>
   </body>
 </html>

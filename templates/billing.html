@@ -174,7 +174,7 @@
     </div>
 </body>
 </html> -->
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -341,5 +341,217 @@
             <button type="button">Save Invoice</button>
         </div>
     </div>
+</body>
+</html> -->
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invoice</title>
+    <style>
+        @media print {
+            body {
+                margin: 0;
+                padding: 0;
+                -webkit-print-color-adjust: exact;
+            }
+            .container {
+                margin: 0;
+                padding: 20mm;
+                border: none;
+                box-shadow: none;
+            }
+            .table-container {
+                overflow: visible;
+            }
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+        }
+        .container {
+            width: 210mm; /* A4 width */
+            max-width: 210mm;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        h3 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+            font-size: 18px;
+        }
+        .table-container {
+            margin-bottom: 20px;
+            overflow-x: auto;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+        th, td {
+            text-align: left;
+            padding: 8px;
+            border: 1px solid #ddd;
+        }
+        th {
+            background-color: #f1f1f1;
+            font-weight: bold;
+        }
+        td input {
+            width: calc(100% - 12px);
+            padding: 5px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 13px;
+        }
+        td input[readonly] {
+            background-color: #f9f9f9;
+        }
+        label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+        select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background-color: #fff;
+            font-size: 14px;
+        }
+        .calculate-section {
+            text-align: right;
+            margin-top: 20px;
+        }
+        button {
+            padding: 10px 15px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+    <script>
+        function calculateRow(row, changedField) {
+            const baseTariffInput = row.querySelector(".base-tariff");
+            const stateGSTInput = row.querySelector(".state-gst");
+            const centerGSTInput = row.querySelector(".center-gst");
+            const totalInput = row.querySelector(".total");
+
+            let baseTariff = parseFloat(baseTariffInput.value) || 0;
+            let total = parseFloat(totalInput.value) || 0;
+
+            if (changedField === "base-tariff" && baseTariff > 0) {
+                const stateGST = baseTariff * 0.06;
+                const centerGST = baseTariff * 0.06;
+                const calculatedTotal = baseTariff + stateGST + centerGST;
+
+                stateGSTInput.value = stateGST.toFixed(2);
+                centerGSTInput.value = centerGST.toFixed(2);
+                totalInput.value = calculatedTotal.toFixed(2);
+            } else if (changedField === "total" && total > 0) {
+                const baseTariffFromTotal = total / 1.12;
+                const stateGST = baseTariffFromTotal * 0.06;
+                const centerGST = baseTariffFromTotal * 0.06;
+
+                baseTariffInput.value = baseTariffFromTotal.toFixed(2);
+                stateGSTInput.value = stateGST.toFixed(2);
+                centerGSTInput.value = centerGST.toFixed(2);
+            }
+        }
+    </script>
+</head>
+<body>
+    <div class="container" role="main">
+        <h3>Invoice - Room No: 106</h3>
+
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Room No</th>
+                        <th>Particulars</th>
+                        <th>Base Tariff</th>
+                        <th>State GST</th>
+                        <th>Center GST</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>16/01/2025</td>
+                        <td>106</td>
+                        <td>SUPER DELUXE 106 - Single</td>
+                        <td>
+                            <input type="number" class="base-tariff" oninput="calculateRow(this.closest('tr'), 'base-tariff')" step="0.01" value="1607.14" aria-label="Base Tariff">
+                        </td>
+                        <td>
+                            <input type="number" class="state-gst" readonly value="96.43" aria-label="State GST">
+                        </td>
+                        <td>
+                            <input type="number" class="center-gst" readonly value="96.43" aria-label="Center GST">
+                        </td>
+                        <td>
+                            <input type="number" class="total" oninput="calculateRow(this.closest('tr'), 'total')" step="0.01" value="1800.00" aria-label="Total">
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div>
+            <label for="paymentMode">Payment Mode:</label>
+            <select id="paymentMode" aria-label="Payment Mode">
+                <option value="cash">Cash</option>
+                <option value="card">Card</option>
+                <option value="paytm">PayTM / GPay</option>
+                <option value="netbanking">Net Banking</option>
+                <option value="upi">UPI</option>
+            </select>
+        </div>
+
+        <div class="calculate-section">
+            <button type="button" onclick="printBill()">Print Bill</button>
+
+        </div>
+    </div>
+    <script>
+        function printBill() {
+    const printContents = document.querySelector('.container').innerHTML;
+    const originalContents = document.body.innerHTML;
+
+    document.body.innerHTML = printContents;
+    window.print();
+    document.body.innerHTML = originalContents;
+}
+
+    </script>
 </body>
 </html>

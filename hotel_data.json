@@ -1,82 +1,98 @@
 {
-    "hotelName": "Zaid Palace",
-    "address": "chotila, gujarat",
+    "hotelName": "Royal Palace",
+    "address": "chotila highway",
     "phone": "8485913311",
     "gstn": "heyThis 345678",
     "email": "kaladiazaid@gmail.com",
-    "hasGroundFloor": true,
-    "floors": 3,
+    "hasGroundFloor": false,
+    "floors": 2,
     "floorDetails": {
-        "Ground Floor": [
-            {
-                "number": "001",
-                "name": "gfd",
-                "occupied": false
-            },
-            {
-                "number": "002",
-                "name": "jhgfds",
-                "occupied": false
-            },
-            {
-                "number": "003",
-                "name": "vbnmnbgvf",
-                "occupied": false
-            }
-        ],
         "Floor 1": [
             {
                 "number": "101",
-                "name": "cvbn",
-                "occupied": false
+                "name": "Delux",
+                "occupied": true
             },
             {
                 "number": "102",
-                "name": "dfgh",
+                "name": "Dexul",
                 "occupied": false
             },
             {
                 "number": "103",
-                "name": "xcvbh",
+                "name": "Super Delux",
+                "occupied": false
+            },
+            {
+                "number": "104",
+                "name": "Super Delux",
+                "occupied": false
+            },
+            {
+                "number": "105",
+                "name": "Super Delux",
+                "occupied": false
+            },
+            {
+                "number": "106",
+                "name": "Super Delux",
+                "occupied": false
+            },
+            {
+                "number": "107",
+                "name": "Super Delux",
+                "occupied": false
+            },
+            {
+                "number": "108",
+                "name": "Super Delux",
+                "occupied": false
+            },
+            {
+                "number": "109",
+                "name": "Executive",
                 "occupied": false
             }
         ],
         "Floor 2": [
             {
                 "number": "201",
-                "name": "xcvb",
+                "name": "Delux",
                 "occupied": false
             },
             {
                 "number": "202",
-                "name": "fghbvc",
+                "name": "Delux",
                 "occupied": false
             },
             {
                 "number": "203",
-                "name": "xcvgfrds",
+                "name": "Super Delux",
                 "occupied": false
             },
             {
                 "number": "204",
-                "name": "xcgfe",
-                "occupied": false
-            }
-        ],
-        "Floor 3": [
-            {
-                "number": "301",
-                "name": "cvfd",
+                "name": "Super Delux",
                 "occupied": false
             },
             {
-                "number": "302",
-                "name": "fvbvc",
+                "number": "205",
+                "name": "Super Delux",
                 "occupied": false
             },
             {
-                "number": "303",
-                "name": "xcvbgf",
+                "number": "206",
+                "name": "Super Delux",
+                "occupied": false
+            },
+            {
+                "number": "207",
+                "name": "Super Delux",
+                "occupied": false
+            },
+            {
+                "number": "208",
+                "name": "Super Executive",
                 "occupied": false
             }
         ]
