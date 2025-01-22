@@ -194,9 +194,9 @@
               onchange="calculateNights()" />
             </div>
             <div class="form-group">
-              <label>No Of Nights</label>
-              <input id="input-nights" type="number" name="numberOfNights" readonly />
-            </div>
+  <label>No Of Nights</label>
+  <input id="input-nights" type="number" name="numberOfNights" readonly />
+</div>
             <div class="form-group">
               <label>Tour Type *</label>
               <div class="radio-group" value="{{checkin_data.tour_type}}">
@@ -211,7 +211,7 @@
             <h3>Room Details</h3>
             <div class="form-group">
               <label>Room No *</label>
-              <input id="input-roomNumber" name="roomNumber" type="text" value="{{checkin_data.room_no}}">
+              <input id="input-roomNumber" name="roomNumber" type="text" value="{{checkin_data.room_no}}" disabled>
             </div>
             <div class="form-group">
               <label>Bed Type *</label>
@@ -437,24 +437,71 @@
 
 
 
-      function editCheckout(event) {
-        event.preventDefault();
+      function calculateNights() {
+    const checkinInput = document.getElementById("input-checkinDate").value;
+    const checkoutInput = document.getElementById("input-checkoutDate").value;
+    const nightsInput = document.getElementById("input-nights");
+
+    if (!checkinInput || !checkoutInput) {
+      nightsInput.value = 0;
+      return;
+    }
+
+    const checkinDate = new Date(checkinInput);
+    const checkoutDate = new Date(checkoutInput);
+
+    // Ensure check-in date is before checkout date
+    if (checkinDate >= checkoutDate) {
+      nightsInput.value = 0;
+      return;
+    }
+
+    // Hotel check-in time and check-out time adjustment
+    const hotelCheckinTime = 12; // 12 PM
+    const hotelCheckoutTime = 10; // 10 AM
+
+    // Adjust check-in time to hotel's standard check-in time
+    checkinDate.setHours(hotelCheckinTime, 0, 0, 0);
+
+    // Adjust checkout time to hotel's standard checkout time
+    const adjustedCheckout = new Date(checkoutDate);
+    adjustedCheckout.setHours(hotelCheckoutTime, 0, 0, 0);
+
+    // Calculate total nights
+    let totalNights = Math.ceil(
+      (adjustedCheckout - checkinDate) / (1000 * 60 * 60 * 24)
+    );
+
+    // If checkout time is past 10 AM, add one additional night
+    if (checkoutDate.getHours() >= hotelCheckoutTime) {
+      totalNights += 1;
+    }
+
+    nightsInput.value = totalNights;
+  }
+
+  // Initialize default values on page load
+  function initializeDates() {
+    const checkinInput = document.getElementById("input-checkinDate");
+    const checkoutInput = document.getElementById("input-checkoutDate");
+
+    if (checkinInput && checkoutInput) {
+      const now = new Date();
+      // Set check-in to the current time
+      checkinInput.value = now.toISOString().slice(0, 16);
+
+      // Set check-out to the current time
+      checkoutInput.value = now.toISOString().slice(0, 16);
+
+      calculateNights(); // Calculate nights initially
+    }
+  }
 
 
 
-      }
-      //   fetch("/occupancy", {
-      //     method: "POST",
-      //     headers: {
-      //       "Content-Type": "application/json",
-      //     },
-      //     body: JSON.stringify({
-      //       roomNumber: roomNumber,
-      //     }),
-      //   }).then(() => {
-      //     window.location.href = "/dashboard";
-      //   });
-      // }
+
+
+      
 
       //   function addSecondaryGuest() {
       //     const container = document.getElementById("secondaryGuestsContainer");

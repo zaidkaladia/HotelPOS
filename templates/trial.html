@@ -1,180 +1,122 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Hotel Invoice</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+        }
+        .invoice-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        .hotel-info {
+            text-align: right;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        .amount-words {
+            margin: 20px 0;
+            font-style: italic;
+        }
+        .signatures {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 50px;
+        }
+        .payment-details {
+            border: 1px solid #ddd;
+            padding: 10px;
+            width: 200px;
+            float: right;
+        }
+    </style>
 </head>
 <body>
-    <div class="check-in-form">
-        <div class="header">
-            <h2>INVOICE Room No: 103</h2>
-            <div class="checkout-info">
-                <span>Checkout Type: [Time]</span>
-                <span>Checkout Time: [11:00:00]</span>
-                <span>Grace Period: [1 Hours]</span>
-                <input type="checkbox" id="sameDay"> Same day checkout?
-            </div>
+    <div class="invoice-header">
+        <div>
+            <h2>Invoice</h2>
+            <p>Primary person name</p>
+            <p>Company name</p>
+            <p>Company GST</p>
+            <p>Company Address</p>
         </div>
-    
-        <div class="form-grid">
-            <!-- Left Column -->
-            <div class="left-section">
-                <section class="basic-info">
-                    <h3>Basic Information</h3>
-                </section>
-    
-                <section class="invoice-info">
-                    <h3>Invoice Information</h3>
-                    <div class="form-group">
-                        <label>Invoice No</label>
-                        <input type="text" placeholder="Enter Invoice No">
-                    </div>
-                    <div class="form-group">
-                        <label>Invoice Date</label>
-                        <input type="date">
-                    </div>
-                    <div class="form-group">
-                        <label>Booking Type</label>
-                        <div class="radio-group">
-                            <input type="radio" name="bookingType" value="walkIn" checked> Walk In
-                            <input type="radio" name="bookingType" value="via"> Via
-                            <input type="radio" name="bookingType" value="online"> Online
-                        </div>
-                    </div>
-                </section>
-    
-                <section class="arrival-details">
-                    <h3>Arrival Details</h3>
-                    <div class="form-group">
-                        <label>Check In Date *</label>
-                        <input type="datetime-local">
-                    </div>
-                    <div class="form-group">
-                        <label>Check Out Date *</label>
-                        <input type="datetime-local">
-                    </div>
-                    <div class="form-group">
-                        <label>No Of Nights *</label>
-                        <input type="number">
-                    </div>
-                    <div class="form-group">
-                        <label>Tour Type *</label>
-                        <div class="radio-group">
-                            <input type="radio" name="tourType" value="personal"> Personal
-                            <input type="radio" name="tourType" value="business" checked> Business
-                        </div>
-                    </div>
-                </section>
-    
-                <section class="room-details">
-                    <h3>Room Details</h3>
-                    <div class="form-group">
-                        <label>Room No *</label>
-                        <select>
-                            <option>103 - SUPER DELUXE - 1700/1700</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>Bed Type *</label>
-                        <div class="radio-group">
-                            <input type="radio" name="bedType" value="single" checked> Single
-                            <input type="radio" name="bedType" value="double"> Double
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label>Room Type *</label>
-                        <div class="radio-group">
-                            <input type="radio" name="roomType" value="nonAC" checked> Non AC
-                            <input type="radio" name="roomType" value="AC"> AC
-                        </div>
-                    </div>
-                    <div class="occupancy">
-                        <div class="form-group">
-                            <label>Adults *</label>
-                            <input type="number">
-                        </div>
-                        <div class="form-group">
-                            <label>Children</label>
-                            <input type="number" value="0">
-                        </div>
-                        <div class="form-group">
-                            <label>Extra Bed</label>
-                            <input type="number" value="0">
-                        </div>
-                    </div>
-                </section>
-            </div>
-    
-            <!-- Right Column -->
-            <div class="right-section">
-                <section class="primary-guest">
-                    <h3>Primary Guest Details</h3>
-                    <div class="form-group">
-                        <label>Mobile Number *</label>
-                        <input type="tel" placeholder="Enter 10 digit mobile number">
-                    </div>
-                    <div class="form-group">
-                        <label>Guest Name *</label>
-                        <input type="text">
-                    </div>
-                    <div class="form-group">
-                        <label>Alternate Numbers</label>
-                        <input type="tel">
-                    </div>
-                    <div class="form-group">
-                        <label>Gender</label>
-                        <select>
-                            <option>Select Gender</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>Guest Details/Address</label>
-                        <textarea></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label>Nationality</label>
-                        <input type="text" value="Indian">
-                    </div>
-                    <div class="form-group">
-                        <label>ID Type</label>
-                        <select>
-                            <option>Select ID Proof</option>
-                        </select>
-                    </div>
-                </section>
-    
-                <section class="company-details">
-                    <div class="form-group">
-                        <label>Company</label>
-                        <input type="text" placeholder="Enter company information">
-                    </div>
-                    <div class="form-group">
-                        <label>Company GST</label>
-                        <input type="text" placeholder="Enter company GST No">
-                    </div>
-                    <div class="form-group">
-                        <label>Company Address</label>
-                        <textarea></textarea>
-                    </div>
-                </section>
-    
-                <section class="id-upload">
-                    <div class="form-group">
-                        <label>Id Card Photo</label>
-                        <input type="file">
-                    </div>
-                </section>
-            </div>
-        </div>
-    
-        <div class="form-actions">
-            <button class="group-details">Group Details</button>
-            <button class="next">Next</button>
-            <button class="print">Print GRC</button>
-            <button class="back">Back To List</button>
+        <div class="hotel-info">
+            <h2>Hotel Name</h2>
+            <p>Hotel Address</p>
+            <p>Hotel Phone number</p>
+            <p>Hotel Email</p>            
+            <p>Hotel GST</p>
+
         </div>
     </div>
-    
+
+    <table>
+        <tr>
+            <td>Invoice No: 302</td>
+            <td>Invoice Date: 17/01/2025</td>
+            <td>Nationality: INDIAN</td>
+            
+        </tr>
+        <tr>
+            <td>Room No</td>
+            <td>Arrival: 16/01/2025 4:30 pm</td>
+            <td>Departure: 17/01/2025 8:00 am</td>
+        </tr>
+    </table>
+
+    <table>
+        <tr>
+            <th>Date</th>
+            <th>Particulars</th>
+            <th>Room Tariff</th>
+            <th>Discount</th>
+            <th>Tariff After Discount</th>
+            <th>SGST</th>
+            <th>CGST</th>
+            <th>Room Total</th>
+        </tr>
+        <tr>
+            <td>16/01/2025</td>
+            <td>SUPER DELUXE - 106 - Single</td>
+            <td>1607.14</td>
+            <td>0.00</td>
+            <td>1607.14</td>
+            <td>96.43 (6%)</td>
+            <td>96.43 (6%)</td>
+            <td>1800.00</td>
+        </tr>
+    </table>
+
+    <div class="amount-words">
+        <p>Rupees One Thousand Eight Hundred Only</p>
+    </div>
+
+    <div class="payment-details">
+        <h4>PAYMENT DETAIL</h4>
+        <p>PayTM: 1800.00</p>
+        <p>Balance: 0</p>
+    </div>
+
+    <div class="signatures">
+        <div>
+            <p>Authorized Signature</p>
+            <p>_________________</p>
+        </div>
+        <div>
+            <p>Guest Signature</p>
+            <p>_________________</p>
+        </div>
+    </div>
 </body>
 </html>
