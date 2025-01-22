@@ -3,9 +3,8 @@ import json
 import os
 import sqlite3
 from flask import redirect
-
 import logging
-from datetime import datetime
+from datetime import datetime, time
 
 
 app = Flask(__name__)
@@ -86,7 +85,12 @@ def checkin():
         form_data = request.form
 
         print(form_data)
-        
+        # Input validation (example - add more as needed)
+        # required_fields = ['primaryGuestName', 'primaryGuestMobileNumber', 'roomNumber', 'checkinDate']
+        # for field in required_fields:
+        #     if field not in form_data:
+        #         return jsonify({"error": f"Missing required field: {field}"}), 400
+
         with get_db_connection() as conn:
             cursor = conn.cursor()
 
@@ -175,16 +179,24 @@ def checkin():
 
 @app.route("/checkin-checkout", methods=["POST"])
 def checkin_checkout():
+    print("inside checkin_checkout")
     try:
         form_data = request.form
 
-        print(form_data)
-        # Input validation (example - add more as needed)
-        # required_fields = ['primaryGuestName', 'primaryGuestMobileNumber', 'roomNumber', 'checkinDate']
-        # for field in required_fields:
-        #     if field not in form_data:
-        #         return jsonify({"error": f"Missing required field: {field}"}), 400
+        # Assuming form_data contains the check-in and check-out dates as strings
+        check_in_date = datetime.strptime(form_data.get("checkinDate"), "%Y-%m-%dT%H:%M")
+        checkout_date = datetime.strptime(form_data.get("checkoutDate"), "%Y-%m-%dT%H:%M")
 
+        # Extract the checkout time
+        checkout_time = checkout_date.time()
+
+        # Calculate the number of days stayed
+        days_stayed = (checkout_date.date() - check_in_date.date()).days
+
+        # Add an extra day if checkout time is after 10 AM
+        if checkout_time > time(10, 0):
+            days_stayed += 1
+    
         with get_db_connection() as conn:
             cursor = conn.cursor()
 
@@ -194,8 +206,8 @@ def checkin_checkout():
             primary_person_address, primary_person_nationality, primary_person_id_type, 
             primary_person_id_number, secondary_person_name, secondary_person_gender, 
             secondary_person_id_type, secondary_person_id_number, room_no, check_in, 
-            bed_type, room_type, tour_type, company_name, gst, company_address, no_of_adults, no_of_children, no_of_extra_bed, check_out
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)
+            bed_type, room_type, tour_type, company_name, gst, company_address, no_of_adults, no_of_children, no_of_extra_bed, check_out, no_of_nights
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?, ?)
     """
 
             cursor.execute(
@@ -225,19 +237,26 @@ def checkin_checkout():
                     form_data.get("children", 0),
                     form_data.get("extraBeds", 0),
                     form_data.get("checkoutDate"),
+                    days_stayed
                 ),
             )
             # print("hey hey hey",query_res)
             conn.commit()
 
-            print(form_data.get("room_no"))
+
+
+
+
+
+
+            # print(form_data.get("room_no"))
             find_query = """
             SELECT * FROM HotelManagement
             WHERE invoice_no IS NULL AND room_no = ?
             """
-            cursor.execute(find_query, (form_data.get("room_no"),))
+            cursor.execute(find_query, (form_data["roomNumber"],))
             results = dict(cursor.fetchall()[0])
-            print(results)
+            # print(results)
 
     except sqlite3.Error as e:
         conn.rollback()
@@ -246,12 +265,14 @@ def checkin_checkout():
     finally:
         conn.close()
 
+
+
     # Start Update the json file changing occupied to true ---------------------
     # Load data from the JSON file
     requiredRoomNumber = form_data["roomNumber"].split(" - ")[0]
-
-    data = load_data()
     # print(requiredRoomNumber)
+    data = load_data()
+    print(requiredRoomNumber)
     floorDetails = data["floorDetails"]
     roomFound = False
     for floor in floorDetails:
@@ -266,7 +287,7 @@ def checkin_checkout():
     save_data(data)
     # End Update the json file changing occupied to true ---------------------
 
-    data = load_data()
+    # data = load_data()
     return render_template("billing.html", hotel_data=data, data=results)
 
 
@@ -341,89 +362,6 @@ def checkin_edit():
                     primary_person_id_type = ?, primary_person_id_number = ?, secondary_person_name = ?, 
                     secondary_person_gender = ?, secondary_person_id_type = ?, secondary_person_id_number = ?, 
                     check_in = ?, bed_type = ?, room_type = ?, tour_type = ?, company_name = ?, 
-                    gst = ?, company_address = ?, no_of_adults = ?, no_of_children = ?, no_of_extra_bed = ?, check_in = ?
-                WHERE id = ?
-                """
-
-                cursor.execute(
-                    update_query,
-                    (
-                        form_data.get("primaryGuestName"),
-                        form_data.get("primaryGuestGender"),
-                        form_data.get("primaryGuestMobileNumber"),
-                        form_data.get("primaryGuestAlternateNumber") or None,
-                        form_data.get("primaryGuestAddress"),
-                        form_data.get("primaryGuestNationality"),
-                        form_data.get("primaryGuestIdType"),
-                        form_data.get("primaryGuestIdNumber"),
-                        form_data.get("secondaryGuestName") or None,
-                        form_data.get("secondaryGuestGender") or None,
-                        form_data.get("secondaryGuestIdType") or None,
-                        form_data.get("secondaryGuestIdNumber") or None,
-                        form_data.get("checkinDate"),
-                        form_data.get("bedType"),
-                        form_data.get("roomType"),
-                        form_data.get("tourType"),
-                        form_data.get("primaryGuestCompany") or None,
-                        form_data.get("primaryGuestCompanyGST") or None,
-                        form_data.get("primaryGuestCompanyAddress") or None,
-                        form_data.get("adults", 0),
-                        form_data.get("children", 0),
-                        form_data.get("extraBeds", 0),
-                        form_data.get("checkinDate"),
-                        entry_id,
-                    ),
-                )
-
-                conn.commit()
-                response_message = "Entry updated successfully"
-            elif len(results) > 1:
-                response_message = "Multiple entries found for this room number without an invoice. Please provide more information to identify the correct entry."
-            else:
-                response_message = (
-                    "No matching entry found or entry already has an invoice number"
-                )
-
-    except sqlite3.Error as e:
-        conn.rollback()
-        print(e)
-        response_message = f"An error occurred: {e}"
-    finally:
-        conn.close()
-
-    data = load_data()
-    return render_template("dashboard.html", hotel_data=data)
-
-
-# it handels the save and checkout of the edit page
-@app.route("/checkin-edit-checkout", methods=["POST"])
-def checkin_edit_checkout():
-    try:
-        form_data = request.form
-        print(form_data)
-
-        with get_db_connection() as conn:
-            cursor = conn.cursor()
-
-            # First, find the entry to update
-            find_query = """
-            SELECT id FROM HotelManagement
-            WHERE invoice_no IS NULL AND room_no = ?
-            """
-            cursor.execute(find_query, (form_data.get("roomNumber"),))
-            results = cursor.fetchall()
-
-            if len(results) == 1:
-                # We found exactly one matching entry
-                entry_id = results[0][0]
-
-                update_query = """
-                UPDATE HotelManagement
-                SET primary_person_name = ?, primary_person_gender = ?, primary_person_mobile = ?, 
-                    alternate_number = ?, primary_person_address = ?, primary_person_nationality = ?, 
-                    primary_person_id_type = ?, primary_person_id_number = ?, secondary_person_name = ?, 
-                    secondary_person_gender = ?, secondary_person_id_type = ?, secondary_person_id_number = ?, 
-                    check_in = ?, bed_type = ?, room_type = ?, tour_type = ?, company_name = ?, 
                     gst = ?, company_address = ?, no_of_adults = ?, no_of_children = ?, no_of_extra_bed = ?, check_out = ?
                 WHERE id = ?
                 """
@@ -459,14 +397,6 @@ def checkin_edit_checkout():
                 )
 
                 conn.commit()
-                # First, find the entry to update
-                find_query = """
-                SELECT * FROM HotelManagement
-                WHERE id = ?
-                """
-                cursor.execute(find_query, (entry_id,))
-                results = dict(cursor.fetchall()[0])
-                print(results)
                 response_message = "Entry updated successfully"
             elif len(results) > 1:
                 response_message = "Multiple entries found for this room number without an invoice. Please provide more information to identify the correct entry."
@@ -474,6 +404,98 @@ def checkin_edit_checkout():
                 response_message = (
                     "No matching entry found or entry already has an invoice number"
                 )
+
+    except sqlite3.Error as e:
+        conn.rollback()
+        print(e)
+        response_message = f"An error occurred: {e}"
+    finally:
+        conn.close()
+
+    data = load_data()
+    return render_template("dashboard.html", hotel_data=data)
+
+
+# it handels the save and checkout of the edit page
+@app.route("/checkin-edit-checkout", methods=["POST"])
+def checkin_edit_checkout():
+    try:
+        form_data = request.form
+
+        # Assuming form_data contains the check-in and check-out dates as strings
+        check_in_date = datetime.strptime(form_data.get("checkinDate"), "%Y-%m-%dT%H:%M")
+        checkout_date = datetime.strptime(form_data.get("checkoutDate"), "%Y-%m-%dT%H:%M")
+
+        # Extract the checkout time
+        checkout_time = checkout_date.time()
+
+        # Calculate the number of days stayed
+        days_stayed = (checkout_date.date() - check_in_date.date()).days
+
+        # Add an extra day if checkout time is after 10 AM
+        if checkout_time > time(10, 0):
+            days_stayed += 1
+    
+        with get_db_connection() as conn:
+            cursor = conn.cursor()
+
+            insert_query = """
+        INSERT INTO HotelManagement (
+            primary_person_name, primary_person_gender, primary_person_mobile, alternate_number, 
+            primary_person_address, primary_person_nationality, primary_person_id_type, 
+            primary_person_id_number, secondary_person_name, secondary_person_gender, 
+            secondary_person_id_type, secondary_person_id_number, room_no, check_in, 
+            bed_type, room_type, tour_type, company_name, gst, company_address, no_of_adults, no_of_children, no_of_extra_bed, check_out, no_of_nights
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?, ?)
+    """
+
+            cursor.execute(
+                insert_query,
+                (
+                    form_data.get("primaryGuestName"),
+                    form_data.get("primaryGuestGender"),
+                    form_data.get("primaryGuestMobileNumber"),
+                    form_data.get("primaryGuestAlternateNumber") or None,
+                    form_data.get("primaryGuestAddress"),
+                    form_data.get("primaryGuestNationality"),
+                    form_data.get("primaryGuestIdType"),
+                    form_data.get("primaryGuestIdNumber"),
+                    form_data.get("secondaryGuestName") or None,
+                    form_data.get("secondaryGuestGender") or None,
+                    form_data.get("secondaryGuestIdType") or None,
+                    form_data.get("secondaryGuestIdNumber") or None,
+                    form_data.get("roomNumber"),
+                    form_data.get("checkinDate"),
+                    form_data.get("bedType"),
+                    form_data.get("roomType"),
+                    form_data.get("tourType"),
+                    form_data.get("primaryGuestCompany") or None,
+                    form_data.get("primaryGuestCompanyGST") or None,
+                    form_data.get("primaryGuestCompanyAddress") or None,
+                    form_data.get("adults", 0),
+                    form_data.get("children", 0),
+                    form_data.get("extraBeds", 0),
+                    form_data.get("checkoutDate"),
+                    days_stayed
+                ),
+            )
+            # print("hey hey hey",query_res)
+            conn.commit()
+
+
+
+
+
+
+
+            # print(form_data.get("room_no"))
+            find_query = """
+            SELECT * FROM HotelManagement
+            WHERE invoice_no IS NULL AND room_no = ?
+            """
+            cursor.execute(find_query, (form_data.get("roomNumber"),))
+            results = dict(cursor.fetchall()[0])
+            # print(results)
 
     except sqlite3.Error as e:
         conn.rollback()

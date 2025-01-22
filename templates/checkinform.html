@@ -198,7 +198,7 @@
             </div>
             <div class="form-group">
               <label>Tour Type *</label>
-              <div class="radio-group" >
+              <div class="radio-group" value="{{checkin_data.tour_type}}">
                 <input type="radio" name="tourType" value="Personal" /> Personal
                 <input type="radio" name="tourType" value="Business" checked />
                 Business
@@ -210,11 +210,11 @@
             <h3>Room Details</h3>
             <div class="form-group">
               <label>Room No *</label>
-              <input id="input-roomNumber" name="roomNumber" type="text" >
+              <input id="input-roomNumber" name="roomNumber" type="text" value="{{checkin_data.room_no}}">
             </div>
             <div class="form-group">
               <label>Bed Type *</label>
-              <div class="radio-group" >
+              <div class="radio-group" value="{{checkin_data.bed_type}}">
                 <input type="radio" name="bedType" value="Single" checked />
                 Single
                 <input type="radio" name="bedType" value="Double" /> Double
@@ -230,15 +230,15 @@
             <div class="occupancy">
               <div class="form-group">
                 <label>Adults *</label>
-                <input type="number" name="adults" />
+                <input type="number" name="adults" value="{{checkin_data.no_of_adults}}"/>
               </div>
               <div class="form-group">
                 <label>Children</label>
-                <input type="number" name="children"  />
+                <input type="number" name="children" value="{{checkin_data.no_of_children}}" />
               </div>
               <div class="form-group">
                 <label>Extra Bed</label>
-                <input type="number" name="extraBeds"  />
+                <input type="number" name="extraBeds" value="{{checkin_data.no_of_extra_bed}}" />
               </div>
             </div>
           </section>
@@ -251,28 +251,29 @@
                 type="tel"
                 name="primaryGuestMobileNumber"
                 placeholder="Enter 10 digit mobile number"
+                value="{{checkin_data.primary_person_mobile}}"
               />
             </div>
             <div class="form-group">
               <label>Guest Name *</label>
-              <input type="text" name="primaryGuestName" />
+              <input type="text" name="primaryGuestName" value="{{checkin_data.primary_person_name}}"/>
             </div>
             <div class="form-group">
               <label>Alternate Number</label>
-              <input type="tel" name="primaryGuestAlternateNumber" />
+              <input type="tel" name="primaryGuestAlternateNumber" value="{{checkin_data.alternate_number}}"/>
             </div>
             <div class="form-group">
               <label>Gender</label>
               <select name="primaryGuestGender">
                 <option value="">Select Gender</option>
-                <option value="Male" >Male</option>
-                <option value="Female" >Female</option>
-                <option value="Other" >Other</option>
+                <option value="Male" {% if checkin_data.primary_person_gender == "Male" %}selected{% endif %}>Male</option>
+                <option value="Female" {% if checkin_data.primary_person_gender == "Female" %}selected{% endif %}>Female</option>
+                <option value="Other" {% if checkin_data.primary_person_gender == "Other" %}selected{% endif %}>Other</option>
               </select>
             </div>
             <div class="form-group">
               <label>Guest Details/Address</label>
-              <textarea name="primaryGuestAddress"></textarea>
+              <textarea name="primaryGuestAddress">{{checkin_data.primary_person_address}}</textarea>
             </div>
             <div class="form-group">
               <label>Nationality</label>
@@ -289,11 +290,11 @@
                 name="primaryGuestIdType"
               >
                 <option value="">Select ID Type</option>
-                <option value="Aadhar Card" >Aadhar Card</option>
-                <option value="Passport">Passport</option>
-                <option value="Driving License" >Driving License</option>
-                <option value="PAN Card" >PAN Card</option>
-                <option value="Voter ID Card" >Voter ID Card</option>
+                <option value="Aadhar Card" {% if checkin_data.primary_person_id_type == "Aadhar Card" %}selected{% endif %}>Aadhar Card</option>
+                <option value="Passport" {% if checkin_data.primary_person_id_type == "Passport" %}selected{% endif %}>Passport</option>
+                <option value="Driving License" {% if checkin_data.primary_person_id_type == "Driving License" %}selected{% endif %}>Driving License</option>
+                <option value="PAN Card" {% if checkin_data.primary_person_id_type == "PAN Card" %}selected{% endif %}>PAN Card</option>
+                <option value="Voter ID Card" {% if checkin_data.primary_person_id_type == "Voter ID Card" %}selected{% endif %}>Voter ID Card</option>
               </select>
             </div>
             
@@ -303,6 +304,7 @@
                 type="text"
                 name="primaryGuestIdNumber"
                 placeholder="Enter the Id Number"
+                value="{{checkin_data.primary_person_id_number}}"
               />
             </div>
             <div class="form-group">
@@ -311,6 +313,7 @@
                 type="text"
                 name="primaryGuestCompany"
                 placeholder="Enter company information"
+                value="{{checkin_data.company_name}}"
               />
             </div>
             <div class="form-group">
@@ -319,11 +322,12 @@
                 type="text"
                 name="primaryGuestCompanyGST"
                 placeholder="Enter company GST No"
+                value="{{checkin_data.gst}}"
               />
             </div>
             <div class="form-group">
               <label>Company Address</label>
-              <textarea name="primaryGuestCompanyAddress"></textarea>
+              <textarea name="primaryGuestCompanyAddress">{{checkin_data.company_address}}</textarea>
             </div>
           </section>
 
@@ -333,7 +337,7 @@
               <!-- Secondary guests will be added here dynamically -->
               <div class="form-group">
                 <label>Guest Name</label>
-                <input type="text" name='secondaryGuestName' placeholder="Enter guest name" />
+                <input type="text" name='secondaryGuestName' placeholder="Enter guest name" value="{{checkin_data.secondary_person_name}}"/>
               </div>
               <!-- <div class="form-group">
                 <label>Gender</label>
@@ -349,9 +353,9 @@
                 <label>Gender</label>
                 <select name="secondaryGuestGender">
                   <option value="">Select Gender</option>
-                  <option value="Male" >Male</option>
-                  <option value="Female" >Female</option>
-                  <option value="Other">Other</option>
+                  <option value="Male" {% if checkin_data.secondary_person_gender == "Male" %}selected{% endif %}>Male</option>
+                  <option value="Female" {% if checkin_data.secondary_person_gender == "Female" %}selected{% endif %}>Female</option>
+                  <option value="Other" {% if checkin_data.secondary_person_gender == "Other" %}selected{% endif %}>Other</option>
                 </select>
               </div>
 
@@ -362,17 +366,17 @@
                 <label>ID Proof Type</label>
                 <select name='secondaryGuestIdType'>
                   <option value="">Select ID Proof</option>
-                  <option value="Aadhar Card" >Aadhar Card</option>
-                  <option value="Passport" >Passport</option>
-                  <option value="Driving License" >Driving License</option>
-                  <option value="PAN Card" >PAN Card</option>
-                  <option value="Voter ID Card" >Voter ID Card</option>
+                  <option value="Aadhar Card" {% if checkin_data.secondary_person_id_type == "Aadhar Card" %}selected{% endif %}>Aadhar Card</option>
+                  <option value="Passport" {% if checkin_data.secondary_person_id_type == "Passport" %}selected{% endif %}>Passport</option>
+                  <option value="Driving License" {% if checkin_data.secondary_person_id_type == "Driving License" %}selected{% endif %}>Driving License</option>
+                  <option value="PAN Card" {% if checkin_data.secondary_person_id_type == "PAN Card" %}selected{% endif %}>PAN Card</option>
+                  <option value="Voter ID Card" {% if checkin_data.secondary_person_id_type == "Voter ID Card" %}selected{% endif %}>Voter ID Card</option>
                 </select>
               </div>
               
               <div class="form-group" >
                 <label>ID Number</label>
-                <input type="text" name='secondaryGuestIdNumber' placeholder="Enter ID Number" />
+                <input type="text" name='secondaryGuestIdNumber' placeholder="Enter ID Number" value="{{checkin_data.secondary_person_id_number}}"/>
               </div>
               <!-- <button type="button" class="remove-guest-btn" onclick="this.parentElement.remove()">Remove</button> -->
             </div>
@@ -389,7 +393,7 @@
             <button type="submit">Save</button>
           </div>
           <div class="form-row">
-            <button formaction="/checkin-edit-checkout">Save and CheckOut</button>
+            <button formaction="/checkin-checkout">Save and CheckOut</button>
           </div>
         </form>
       </div>
@@ -431,26 +435,26 @@
       const invoiceDateElement = document.getElementById("input-invoiceDate");
       invoiceDateElement.value = setDateTimeLocal(currentDate);
 
-      // // Room Number
-      // const roomNumberInput = document.getElementById("input-roomNumber");
-      // roomNumberInput.value = `${roomNumber} - ${roomName}`;
+      // Room Number
+      const roomNumberInput = document.getElementById("input-roomNumber");
+      roomNumberInput.value = `${roomNumber} - ${roomName}`;
 
 
 
-      // function submitHandler(event) {
-      //   event.preventDefault();
-      //   fetch("/occupancy", {
-      //     method: "POST",
-      //     headers: {
-      //       "Content-Type": "application/json",
-      //     },
-      //     body: JSON.stringify({
-      //       roomNumber: roomNumber,
-      //     }),
-      //   }).then(() => {
-      //     window.location.href = "/dashboard";
-      //   });
-      // }
+      function submitHandler(event) {
+        event.preventDefault();
+        fetch("/occupancy", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            roomNumber: roomNumber,
+          }),
+        }).then(() => {
+          window.location.href = "/dashboard";
+        });
+      }
 
       //   function addSecondaryGuest() {
       //     const container = document.getElementById("secondaryGuestsContainer");

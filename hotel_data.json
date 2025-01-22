@@ -21,27 +21,27 @@
             {
                 "number": "103",
                 "name": "Super Delux",
-                "occupied": true
+                "occupied": false
             },
             {
                 "number": "104",
                 "name": "Super Delux",
-                "occupied": false
+                "occupied": true
             },
             {
                 "number": "105",
                 "name": "Super Delux",
-                "occupied": false
+                "occupied": true
             },
             {
                 "number": "106",
                 "name": "Super Delux",
-                "occupied": false
+                "occupied": true
             },
             {
                 "number": "107",
                 "name": "Super Delux",
-                "occupied": false
+                "occupied": true
             },
             {
                 "number": "108",
@@ -93,7 +93,7 @@
             {
                 "number": "208",
                 "name": "Super Executive",
-                "occupied": false
+                "occupied": true
             }
         ]
     }
