@@ -11,12 +11,12 @@
             {
                 "number": "101",
                 "name": "Delux",
-                "occupied": true
+                "occupied": false
             },
             {
                 "number": "102",
                 "name": "Dexul",
-                "occupied": true
+                "occupied": false
             },
             {
                 "number": "103",
@@ -26,22 +26,22 @@
             {
                 "number": "104",
                 "name": "Super Delux",
-                "occupied": true
+                "occupied": false
             },
             {
                 "number": "105",
                 "name": "Super Delux",
-                "occupied": true
+                "occupied": false
             },
             {
                 "number": "106",
                 "name": "Super Delux",
-                "occupied": true
+                "occupied": false
             },
             {
                 "number": "107",
                 "name": "Super Delux",
-                "occupied": true
+                "occupied": false
             },
             {
                 "number": "108",
@@ -93,7 +93,7 @@
             {
                 "number": "208",
                 "name": "Super Executive",
-                "occupied": true
+                "occupied": false
             }
         ]
     }

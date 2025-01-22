@@ -36,6 +36,12 @@ def get_db_connection():
 
 @app.route("/")
 def index():
+    data = load_data()
+    return render_template("dashboard.html", hotel_data=data)
+
+    
+@app.route("/form")
+def dashboard():
     return render_template("form.html")
 
 
@@ -64,11 +70,7 @@ def submit():
         return jsonify({"error": str(e)}), 500
 
 
-@app.route("/dashboard")
-def dashboard():
-    # Load data from the JSON file
-    data = load_data()
-    return render_template("dashboard.html", hotel_data=data)
+
 
 
 @app.route("/checkin-form")
