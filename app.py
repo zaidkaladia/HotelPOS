@@ -678,7 +678,29 @@ def checkout():
     save_data(hotel_data)
     return jsonify({"message": response_message,"invoice_number": this_bill_invoice_number,"invoice_date": invoice_date_time}), 200
 
-
+@app.route('/invoice', methods=['GET'])
+def invoice():
+    try:
+        with get_db_connection() as conn:
+            cursor = conn.cursor()
+            # First, find the entry to update
+            find_query = """
+            SELECT * FROM HotelManagement
+            """
+            cursor.execute(find_query)
+            results = list(cursor.fetchall())
+            matches = len(results)
+            data = []
+            for result in results:
+                data.append(dict(result))
+            print(data[-1])
+            print(f'[INFO] Number of matches: {matches}')
+            print(f'[INFO] Data: {data}')
+            # record = dict(results)
+    except Exception as e:
+        print(f'[INFO] Something went wrong while processing /invoice endpoint: {e}')
+    return render_template('invoice.html', data=data)
+    
 
 if __name__ == "__main__":
     app.run(debug=True, port=54321)

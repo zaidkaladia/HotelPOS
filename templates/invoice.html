@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title></title>
+
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+    />
+  </head>
+  <style>
+		body {
+			font-family: arial;
+		}
+    
+    .container {
+      display: flex;
+      justify-content: center;
+    }
+    table {
+      border-collapse: collapse;
+      width: 95vw;
+    }
+		h3 {
+			margin: 0px
+		}
+    td,
+    th {
+      border: 1px solid #1e1e1e;
+      padding: 0.5rem;
+    }
+    i {
+      cursor: pointer;
+    }
+    #search-box {
+      height: 25px;
+    }
+  </style>
+  <body>
+    <div class="container">
+      <div>
+        <h3>Search Invoice</h3>
+        <div style="padding-top: 10px; padding-bottom: 10px">
+          <input type="text" id="search-box" placeholder="Search" />
+        </div>
+        <table>
+          <tr>
+            <th>Action</th>
+            <th>Invoice#</th>
+            <th>Folio No.</th>
+            <th>Date</th>
+            <th>Guest Name</th>
+            <th>Company</th>
+            <th>GST#</th>
+            <th>Checkin</th>
+            <th>Days</th>
+            <th>Room No</th>
+            <th>Tarrif</th>
+            <th>Discount</th>
+            <th>Taxable</th>
+            <th>SGST</th>
+            <th>CGST</th>
+            <th>Room</th>
+            <th>Service</th>
+            <th>Net</th>
+          </tr>
+          {% for row in data %}
+          <tr>
+            <td style="display: flex; justify-content: space-between">
+              <i class="fas fa-edit"></i><i class="fa-solid fa-trash"></i>
+            </td>
+            <td>{{ row.invoice_no }}</td>
+            <td>Folio Number</td>
+            <td>{{ row.checkout }}</td>
+            <td>{{ row.primary_person_name }}</td>
+            <td>{{ row.company_name }}</td>
+            <td>{{ row.gst }}</td>
+            <td>{{ row.checkin }}</td>
+            <td>{{ row.no_of_nights }}</td>
+            <td>{{ row.room_no.split(' - ')[0] if row.room_no }}</td>
+            <td>tarrif</td>
+            <td>discount</td>
+            <td>taxablet</td>
+            <td>sgst</td>
+            <td>csgst</td>
+            <td>
+              {{ row.room_no.split(' - ')[1] if row.room_no or row.room_no }}
+            </td>
+            <td>service</td>
+            <td>net</td>
+          </tr>
+          {% endfor %}
+        </table>
+      </div>
+    </div>
+  </body>
+  <script>
+    // Function to filter the table based on search input
+    document
+      .getElementById("search-box")
+      .addEventListener("keyup", function () {
+        const filter = this.value.toLowerCase();
+        const rows = document.querySelectorAll("tr");
+        if (rows.length > 0) {
+          for (let row_no = 1; row_no < rows.length; row_no++) {
+						row = rows[row_no]
+						console.log(row)
+						const cells = row.getElementsByTagName("td");
+						let match = false;
+
+						// Loop through each cell in the row
+						for (let i = 0; i < cells.length; i++) {
+							if (cells[i].textContent.toLowerCase().indexOf(filter) > -1) {
+								match = true;
+								break;
+							}
+						}
+
+						// If match found, show row, else hide it
+						if (match) {
+							row.style.display = "";
+						} else {
+							row.style.display = "none";
+						}
+          }
+        }
+      });
+  </script>
+</html>
