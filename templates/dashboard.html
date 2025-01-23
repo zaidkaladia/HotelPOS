@@ -279,6 +279,40 @@
         background-color: #45a049;
       }
 
+
+
+
+
+      .navbar {
+  background-color: #333;
+  padding: 10px 0;
+}
+
+.navbar ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: space-around;
+}
+
+.navbar li {
+  display: inline;
+}
+
+.navbar a {
+  color: white;
+  text-decoration: none;
+  padding: 10px 20px;
+  font-size: 16px;
+}
+
+.navbar a:hover {
+  background-color: #ddd;
+  color: black;
+}
+
+
       @media screen and (max-width: 600px) {
         .form-group {
           flex-basis: 100%;
@@ -288,8 +322,14 @@
     </style>
   </head>
   <body>
-    <header>Hotel Management Dashboard</header>
 
+    <nav class="navbar">
+  <ul>
+    <li><a href="">Dashboard</a></li>
+    <li><a href="/invoice">Invoice</a></li>
+    <li><a href="/report">Report</a></li>
+  </ul>
+</nav>
     <div class="container">
       <div class="hotel-details">
         <h2>{{ hotel_data.hotelName }}</h2>

@@ -258,12 +258,60 @@
       font-size: 16px;
     }
 
+    .navbar {
+  background-color: #333;
+  padding: 10px 0;
+}
 
-    @media print {
-      button, select {
-        display: none;
-      }
-      @page {
+.navbar ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: space-around;
+}
+
+.navbar li {
+  display: inline;
+}
+
+.navbar a {
+  color: white;
+  text-decoration: none;
+  padding: 10px 20px;
+  font-size: 16px;
+}
+
+.navbar a:hover {
+  background-color: #ddd;
+  color: black;
+}
+
+
+
+
+.invoice-header {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 1rem;
+}
+
+.customer-info,
+.hotel-info {
+    max-width: 100%;
+}
+
+.address {
+    word-wrap: break-word;
+    white-space: pre-wrap;
+}
+
+
+@media print {
+  button, select, nav, .navbar {
+    display: none;
+  }
+  @page {
     margin: 0;
   }
   @page :footer {
@@ -309,85 +357,31 @@
 
     </script>
 </head>
-<!-- <body>
-    <div class="container" role="main">
-        <h3>Invoice - Room No: {{data.room_no}}</h3>
-
-        <div class="table-container">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Check in Date</th>
-                        <th>Check out Date</th>
-                        <th>Room No</th>
-                        <th>Particulars</th>
-                        <th>Base Tariff</th>
-                        <th>State GST</th>
-                        <th>Center GST</th>
-                        <th>Total</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>{{data.check_in}}</td>
-                        <td>{{data.check_out}}</td>
-                        <td>{{data.room_no}}</td>
-                        <td>SUPER DELUXE 106 - Single</td>
-                        <td>
-                            <input type="number" class="base-tariff" oninput="calculateRow(this.closest('tr'), 'base-tariff')" step="0.01" value="1607.14" aria-label="Base Tariff">
-                        </td>
-                        <td>
-                            <input type="number" class="state-gst" readonly value="96.43" aria-label="State GST">
-                        </td>
-                        <td>
-                            <input type="number" class="center-gst" readonly value="96.43" aria-label="Center GST">
-                        </td>
-                        <td>
-                            <input type="number" class="total" oninput="calculateRow(this.closest('tr'), 'total')" step="0.01" value="1800.00" aria-label="Total">
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-
-        <div>
-            <label for="paymentMode">Payment Mode:</label>
-            <select id="paymentMode" aria-label="Payment Mode">
-                <option value="cash">Cash</option>
-                <option value="card">Card</option>
-                <option value="paytm">PayTM / GPay</option>
-                <option value="netbanking">Net Banking</option>
-                <option value="upi">UPI</option>
-            </select>
-        </div>
-
-        <div class="calculate-section">
-            <button type="button" onclick="printBill()">Print Bill</button>
-
-        </div>
-    </div>
-    <script>
-        
-
-    </script>
-</body> -->
 
 
 <body>
+  <nav class="navbar">
+    <ul>
+      <li><a href="http://localhost:54321/">Dashboard</a></li>
+    <li><a href="http://localhost:54321/invoice">Invoice</a></li>
+    <li><a href="http://localhost:54321/report">Report</a></li>
+  </ul>
+  </nav>
     <div class="invoice-header">
         <div>
             <h2>Invoice</h2>
             <h4>{{data.primary_person_name}}</h4>
-            <p><b>C/o:</b> {{data.company_name}}</p>
+            <p style="margin-bottom: 4px;"><b>C/o:</b> {{data.company_name}}</p>
             <p><b>GSTN:</b> {{data.gst}}</p>
             <p>{{data.company_address}}</p>
         </div>
+        <div class="empty-column"></div>
         <div class="hotel-info">
             <h2>{{hotel_data.hotelName}}</h2>
-            <p><b>Add:</b> {{hotel_data.address}}</p>
-            <p><b>Ph:</b> {{hotel_data.phone}}</p>
-            <p><b>Mail:</b> {{hotel_data.email}}</p>            
-            <p><b>GSTN:</b> {{hotel_data.gstn}}</p>
+            <p ><b>Add:</b> {{hotel_data.address}}</p>
+            <p ><b>Ph:</b> {{hotel_data.phone}}</p>
+            <p ><b>Mail:</b> {{hotel_data.email}}</p>            
+            <p ><b>GSTN:</b> {{hotel_data.gstn}}</p>
 
         </div>
     </div>

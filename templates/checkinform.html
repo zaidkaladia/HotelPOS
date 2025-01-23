@@ -175,8 +175,7 @@
             <h3>Arrival Details</h3>
             <div class="form-group">
               <label>
-                Check In Date * (By default, date time of checkin button clicked
-                on dashboard)
+                Check In Date
               </label>
               <input
                 id="input-checkinDate"
@@ -185,7 +184,7 @@
               onchange="calculateNights()" />
             </div>
             <div class="form-group">
-              <label>Check Out Date * (By default current time)</label>
+              <label>Check Out Date</label>
               <input
                 id="input-checkoutDate"
                 name="checkoutDate"
@@ -210,7 +209,7 @@
             <h3>Room Details</h3>
             <div class="form-group">
               <label>Room No *</label>
-              <input id="input-roomNumber" name="roomNumber" type="text" value="{{checkin_data.room_no}}">
+              <input id="input-roomNumber" name="roomNumber" type="text" value="{{checkin_data.room_no}}" disabled>
             </div>
             <div class="form-group">
               <label>Bed Type *</label>
