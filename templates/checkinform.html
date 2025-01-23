@@ -209,7 +209,7 @@
             <h3>Room Details</h3>
             <div class="form-group">
               <label>Room No *</label>
-              <input id="input-roomNumber" name="roomNumber" type="text" value="{{checkin_data.room_no}}" disabled>
+              <input id="input-roomNumber" name="roomNumber" type="text" value="{{checkin_data.room_no}}" readonly>
             </div>
             <div class="form-group">
               <label>Bed Type *</label>
@@ -437,6 +437,49 @@
       // Room Number
       const roomNumberInput = document.getElementById("input-roomNumber");
       roomNumberInput.value = `${roomNumber} - ${roomName}`;
+
+      function calculateNights() {
+    const checkinInput = document.getElementById("input-checkinDate").value;
+    const checkoutInput = document.getElementById("input-checkoutDate").value;
+    const nightsInput = document.getElementById("input-nights");
+
+    if (!checkinInput || !checkoutInput) {
+      nightsInput.value = 0;
+      return;
+    }
+
+    const checkinDate = new Date(checkinInput);
+    const checkoutDate = new Date(checkoutInput);
+
+    // Ensure check-in date is before checkout date
+    if (checkinDate >= checkoutDate) {
+      nightsInput.value = 0;
+      return;
+    }
+
+    // Hotel check-in time and check-out time adjustment
+    const hotelCheckinTime = 12; // 12 PM
+    const hotelCheckoutTime = 10; // 10 AM
+
+    // Adjust check-in time to hotel's standard check-in time
+    checkinDate.setHours(hotelCheckinTime, 0, 0, 0);
+
+    // Adjust checkout time to hotel's standard checkout time
+    const adjustedCheckout = new Date(checkoutDate);
+    adjustedCheckout.setHours(hotelCheckoutTime, 0, 0, 0);
+
+    // Calculate total nights
+    let totalNights = Math.ceil(
+      (adjustedCheckout - checkinDate) / (1000 * 60 * 60 * 24)
+    );
+
+    // If checkout time is past 10 AM, add one additional night
+    if (checkoutDate.getHours() >= hotelCheckoutTime) {
+      totalNights += 1;
+    }
+
+    nightsInput.value = totalNights;
+  }
 
 
 

@@ -83,8 +83,14 @@ def checkinForm():
 @app.route("/checkin", methods=["POST"])
 def checkin():
     data = load_data()
+    form_data = request.form
+    # required_fields = ['primaryGuestName', 'primaryGuestMobileNumber', 'roomNumber', 'checkinDate']
+    
+    # for field in required_fields:
+    #     if not form_data.get(field):
+    #         return jsonify({"error": f"Missing required field: {field}"}), 400
+
     try:
-        form_data = request.form
 
         print(form_data)
         # Input validation (example - add more as needed)
