@@ -447,18 +447,30 @@ def checkin_edit_checkout():
         with get_db_connection() as conn:
             cursor = conn.cursor()
 
-            insert_query = """
-        INSERT INTO HotelManagement (
-            primary_person_name, primary_person_gender, primary_person_mobile, alternate_number, 
-            primary_person_address, primary_person_nationality, primary_person_id_type, 
-            primary_person_id_number, secondary_person_name, secondary_person_gender, 
-            secondary_person_id_type, secondary_person_id_number, room_no, check_in, 
-            bed_type, room_type, tour_type, company_name, gst, company_address, no_of_adults, no_of_children, no_of_extra_bed, check_out, no_of_nights
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?, ?)
-    """
+            # First, find the entry to update
+            find_query = """
+            SELECT id FROM HotelManagement
+            WHERE invoice_no IS NULL AND room_no = ?
+            """
+            cursor.execute(find_query, (form_data.get("roomNumber"),))
+            results = cursor.fetchall()
+
+            entry_id = results[0][0]
+
+            update_query = """
+            UPDATE HotelManagement SET
+                primary_person_name = ?, primary_person_gender = ?, primary_person_mobile = ?, 
+                alternate_number = ?, primary_person_address = ?, primary_person_nationality = ?, 
+                primary_person_id_type = ?, primary_person_id_number = ?, secondary_person_name = ?, 
+                secondary_person_gender = ?, secondary_person_id_type = ?, secondary_person_id_number = ?, 
+                room_no = ?, check_in = ?, bed_type = ?, room_type = ?, tour_type = ?, company_name = ?, 
+                gst = ?, company_address = ?, no_of_adults = ?, no_of_children = ?, no_of_extra_bed = ?, 
+                check_out = ?, no_of_nights = ?
+            WHERE id = ?
+            """
 
             cursor.execute(
-                insert_query,
+                update_query,
                 (
                     form_data.get("primaryGuestName"),
                     form_data.get("primaryGuestGender"),
@@ -484,7 +496,8 @@ def checkin_edit_checkout():
                     form_data.get("children", 0),
                     form_data.get("extraBeds", 0),
                     form_data.get("checkoutDate"),
-                    days_stayed
+                    days_stayed,
+                    entry_id,
                 ),
             )
             # print("hey hey hey",query_res)
@@ -602,7 +615,7 @@ def checkout():
     
     try:
         with get_db_connection() as conn:
-            print("[INFO] Hello from dashboard-billing")
+            # print("[INFO] Hello from dashboard-billing")
             cursor = conn.cursor()
             # First, find the entry to update
             find_query = """
@@ -619,6 +632,7 @@ def checkout():
             query = "SELECT MAX(invoice_no) FROM HotelManagement"
             cursor.execute(query)
             result_for_invoice = cursor.fetchone()
+            print(result_for_invoice[0])
 
             if result_for_invoice[0] is not None:
                 max_current_invoice_number = result_for_invoice[0]
@@ -632,6 +646,10 @@ def checkout():
 
             if matches == 1:
                 entry_id = record["id"]
+                print("yoyoyoyoyo")
+                print(entry_id)
+                print("yoyoyoyoyo")
+
                 update_query = """
                                 UPDATE HotelManagement
                                 SET payment_method = ?, total_fare=?, invoice_date = ?,invoice_no=?
@@ -700,7 +718,6 @@ def invoice():
     except Exception as e:
         print(f'[INFO] Something went wrong while processing /invoice endpoint: {e}')
     return render_template('invoice.html', data=data)
-    
 
 if __name__ == "__main__":
     app.run(debug=True, port=54321)

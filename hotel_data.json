@@ -11,7 +11,7 @@
             {
                 "number": "101",
                 "name": "Delux",
-                "occupied": true
+                "occupied": false
             },
             {
                 "number": "102",
