@@ -497,6 +497,49 @@
     }
   }
 
+  document.addEventListener("DOMContentLoaded", () => {
+    const form = document.querySelector("form");
+    const genderSelectPrimary = document.querySelector('select[name="primaryGuestGender"]');
+    const idTypePrimary = document.querySelector('select[name="primaryGuestIdType"]');
+    const genderSelectSecondary = document.querySelector('select[name="secondaryGuestGender"]');
+    const idTypeSecondary = document.querySelector('select[name="secondaryGuestIdType"]');
+
+    const allowedGenders = ["Male", "Female", "Other"];
+    const allowedIdTypes = ["Aadhar Card", "Passport", "Driving License", "PAN Card", "Voter ID Card"];
+
+    form.addEventListener("submit", (event) => {
+      let isValid = true;
+
+      // Check Primary Guest Gender
+      if (!allowedGenders.includes(genderSelectPrimary.value)) {
+        isValid = false;
+        alert("Please select a valid Gender (Male, Female, Other) for the Primary Guest.");
+      }
+
+      // Check Primary Guest ID Type
+      if (!allowedIdTypes.includes(idTypePrimary.value)) {
+        isValid = false;
+        alert("Please select a valid ID Type (Aadhar Card, Passport, Driving License, PAN Card, Voter ID Card) for the Primary Guest.");
+      }
+
+      // Check Secondary Guest Gender (if exists)
+      if (genderSelectSecondary && genderSelectSecondary.value !== "" && !allowedGenders.includes(genderSelectSecondary.value)) {
+        isValid = false;
+        alert("Please select a valid Gender (Male, Female, Other) for the Secondary Guest.");
+      }
+
+      // Check Secondary Guest ID Type (if exists)
+      if (idTypeSecondary && idTypeSecondary.value !== "" && !allowedIdTypes.includes(idTypeSecondary.value)) {
+        isValid = false;
+        alert("Please select a valid ID Type (Aadhar Card, Passport, Driving License, PAN Card, Voter ID Card) for the Secondary Guest.");
+      }
+
+      // Prevent submission if any field is invalid
+      if (!isValid) {
+        event.preventDefault();
+      }
+    });
+  });
 
 
 

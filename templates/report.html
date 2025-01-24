@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title></title>
+
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+    />
+  </head>
+  <style>
+		body {
+			font-family: arial;
+		}
+    
+    .container {
+      display: flex;
+      justify-content: center;
+    }
+    table {
+      border-collapse: collapse;
+      width: 95vw;
+    }
+		h3 {
+			margin: 0px
+		}
+    td,
+    th {
+      border: 1px solid #1e1e1e;
+      padding: 0.5rem;
+    }
+    i {
+      cursor: pointer;
+    }
+    #search-box {
+      height: 25px;
+    }
+
+
+
+
+    .navbar {
+  background-color: #333;
+  padding: 10px 0;
+}
+
+.navbar ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: space-around;
+}
+
+.navbar li {
+  display: inline;
+}
+
+.navbar a {
+  color: white;
+  text-decoration: none;
+  padding: 10px 20px;
+  font-size: 16px;
+}
+
+.navbar a:hover {
+  background-color: #ddd;
+  color: black;
+}
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+th, td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+th {
+  background-color: #f2f2f2;
+  font-weight: bold;
+}
+
+tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+tr:nth-child(odd) {
+  background-color: #ffffff;
+}
+
+tr:hover {
+  background-color: #e6e6e6;
+}
+
+@media screen and (max-width: 600px) {
+  table {
+    font-size: 14px;
+  }
+  
+  th, td {
+    padding: 8px;
+  }
+}
+
+@media print {
+    table {
+    max-width: 90%;
+    font-size: 10pt;
+  }
+    .navbar {
+      display: none;
+    }
+    @page {
+    margin: 0;
+  }
+  @page :footer {
+    display: none;
+  }
+  @page :header {
+    display: none;
+  }
+  
+  body {
+    font-size: 8pt;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  table {
+    font-size: 7pt;
+    width: 100%;
+    table-layout: fixed;
+  }
+
+  th, td {
+    padding: 2px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  h2 {
+    font-size: 12pt;
+  }
+
+  h3 {
+    font-size: 10pt;
+  }
+}
+  </style>
+  <body>
+    <nav class="navbar">
+      <ul>
+        <li><a href="http://localhost:54321/">Dashboard</a></li>
+      <li><a href="http://localhost:54321/invoice">Invoice</a></li>
+      <li><a href="http://localhost:54321/report">Report</a></li>
+    </ul>
+    </nav>
+    <br>
+    <h2>{{hotel_data.hotelName}}</h2>
+
+    <br><br>
+    <h3 style="display: flex; justify-content: center;">Invoice Register For {{totals.start_date}} To {{totals.end_date}}</h3>
+    <div class="container">
+      <div>
+        
+        <table>
+            <tr>
+              <th>Stay Id</th>
+              <th>Invoice#</th>
+              <th>Room No</th>
+              <th>Invoice Date</th>
+              <th>Guest Name</th>
+              <th>Company Name</th>
+              <th>Company GST</th>
+              <th>Checkin</th>
+              <th>Checkout</th>
+              <th>Days</th>
+              <th>Tariff</th>
+              <th>SGST</th>
+              <th>CGST</th>
+              <th>Payment Mode</th>
+              <th>Final Total</th>
+            </tr>
+            {% set total_sgst = 0 %}
+            {% set total_cgst = 0 %}
+            {% set total_final = 0 %}
+            {% for row in data %}
+            {% set sgst = row.total_fare * 0.06 %}
+            {% set cgst = row.total_fare * 0.06 %}
+            {% set total_sgst = total_sgst + sgst %}
+            {% set total_cgst = total_cgst + cgst %}
+            {% set total_final = total_final + row.total_fare %}
+            <tr>
+              <td>{{ row.id }}</td>
+              <td>{{ row.invoice_no }}</td>
+              <td>{{ row.room_no.split(' - ')[0] if row.room_no }}</td>
+              <td>{{ row.invoice_date[:10] }}</td>
+              <td>{{ row.primary_person_name }}</td>
+              <td>{{ row.company_name if row.company_name else '' }}</td>
+              <td>{{ row.gst if row.gst else '' }}</td>
+              <td>{{ row.check_in[:10] }}</td>
+              <td>{{ row.check_out[:10] }}</td>
+              <td>{{ row.no_of_nights }}</td>
+              <td>{{ row.total_fare - sgst - cgst }}</td>
+              <td>{{ sgst }}</td>
+              <td>{{ cgst }}</td>
+              <td>{{ row.payment_method }}</td>
+              <td>{{ row.total_fare }}</td>
+            </tr>
+            {% endfor %}
+            <tr>
+                <td colspan="10" style="text-align: right; font-weight: bold;">Total</td>
+                <td><strong>{{totals['final_tarif']}}</strong></td>
+                <td><strong>{{ totals['sgst'] }}</strong></td>
+                <td><strong>{{ totals['cgst'] }}</strong></td>
+                <td></td>
+                <td><strong>{{ totals['final_total'] }}</strong></td>
+              </tr>
+          </table>
+      </div>
+    </div>
+    <button onclick="printTable()" style="margin-top: 20px;">Print</button>
+  </body>
+  <script>
+    // Function to filter the table based on search input
+    document
+      .getElementById("search-box")
+      .addEventListener("keyup", function () {
+        const filter = this.value.toLowerCase();
+        const rows = document.querySelectorAll("tr");
+        if (rows.length > 0) {
+          for (let row_no = 1; row_no < rows.length; row_no++) {
+						row = rows[row_no]
+						console.log(row)
+						const cells = row.getElementsByTagName("td");
+						let match = false;
+
+						// Loop through each cell in the row
+						for (let i = 0; i < cells.length; i++) {
+							if (cells[i].textContent.toLowerCase().indexOf(filter) > -1) {
+								match = true;
+								break;
+							}
+						}
+
+						// If match found, show row, else hide it
+						if (match) {
+							row.style.display = "";
+						} else {
+							row.style.display = "none";
+						}
+          }
+        }
+      });
+
+      function printTable() {
+    const originalContents = document.body.innerHTML;
+    const printContents = document.querySelector('h2').outerHTML +
+                          document.querySelector('h3').outerHTML +
+                          document.querySelector('.container').innerHTML;
+    document.body.innerHTML = printContents;
+    window.print();
+    document.body.innerHTML = originalContents;
+  }
+  </script>
+</html>

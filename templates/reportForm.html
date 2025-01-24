@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+         .navbar {
+  background-color: #333;
+  padding: 10px 0;
+}
+
+.navbar ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: space-around;
+}
+
+.navbar li {
+  display: inline;
+}
+
+.navbar a {
+  color: white;
+  text-decoration: none;
+  padding: 10px 20px;
+  font-size: 16px;
+}
+
+.navbar a:hover {
+  background-color: #ddd;
+  color: black;
+}
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <ul>
+          <li><a href="http://localhost:54321/">Dashboard</a></li>
+        <li><a href="http://localhost:54321/invoice">Invoice</a></li>
+        <li><a href="http://localhost:54321/report">Report</a></li>
+      </ul>
+      </nav>
+    <form action="/report-submit">
+        <div >
+            <label for="startDate">Start Date:</label>
+            <input type="date" name="startDate" id="startDate">
+        </div>
+        <div></div>
+            <label for="endDate">End Date:</label>
+            <input type="date" name="endDate" id="endDate">
+        </div>
+        <div>
+            <button type="submit">Submit</button>
+        </div>
+    </form>
+
+    
+</body>
+</html>

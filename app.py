@@ -719,5 +719,76 @@ def invoice():
         print(f'[INFO] Something went wrong while processing /invoice endpoint: {e}')
     return render_template('invoice.html', data=data)
 
+@app.route('/report-submit', methods=['GET'])
+def reportSubmit():
+    request_data = request.args.to_dict()
+    print("request_data: ", request_data)
+    print(request_data.get("startDate"))
+    try:
+        with get_db_connection() as conn:
+            cursor = conn.cursor()
+            
+            # Query to fetch filtered data
+            find_query = """
+            SELECT *
+            FROM HotelManagement
+            WHERE DATE(invoice_date) >= DATE(?) AND DATE(invoice_date) <= DATE(?)
+            """
+            cursor.execute(find_query, (request_data.get("startDate"), request_data.get("endDate")))
+            results = list(cursor.fetchall())
+            
+            matches = len(results)
+            data = []
+            totals = {
+                "sgst": 0.0,
+                "cgst": 0.0,
+                "final_total": 0.0,
+                "final_tarif": 0.0,
+                "start_date" : request_data.get("startDate"),
+                "end_date" : request_data.get("endDate")
+            }
+            
+            # Process data and calculate totals
+            for result in results:
+                record = dict(result)
+                # Calculate SGST, CGST, and add to the totals
+                sgst = record['total_fare'] * 0.06
+                cgst = record['total_fare'] * 0.06
+                final_total = record['total_fare']
+                tarif = final_total - sgst - cgst
+
+                
+                totals['sgst'] += sgst
+                totals['cgst'] += cgst
+                totals['final_tarif'] += tarif
+                totals['final_total'] += final_total
+                
+                # Add calculated fields to the record for passing to the template
+                record['sgst'] = sgst
+                record['cgst'] = cgst
+                record['final_tarif'] = tarif
+                data.append(record)
+            
+            print(f'[INFO] Number of matches: {matches}')
+            print(f'[INFO] Data: {data}')
+            print(f'[INFO] Totals: {totals}')
+    
+    except Exception as e:
+        print(f'[INFO] Something went wrong while processing /report endpoint: {e}')
+        data = []
+        totals = {"sgst": 0.0, "cgst": 0.0, "final_total": 0.0, "final_tarif":0.0,"start_date" : request_data.get("startDate"),
+                "end_date" : request_data.get("endDate")}
+    
+    # Pass data and totals to the template
+    hotel_data=load_data()
+    return render_template('report.html', data=data, totals=totals, hotel_data=hotel_data)
+
+
+@app.route('/report', methods=['GET'])
+def report():
+    return render_template("reportForm.html")
+    
+
+
 if __name__ == "__main__":
     app.run(debug=True, port=54321)

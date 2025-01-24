@@ -39,8 +39,47 @@
     #search-box {
       height: 25px;
     }
+
+
+
+
+    .navbar {
+  background-color: #333;
+  padding: 10px 0;
+}
+
+.navbar ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: space-around;
+}
+
+.navbar li {
+  display: inline;
+}
+
+.navbar a {
+  color: white;
+  text-decoration: none;
+  padding: 10px 20px;
+  font-size: 16px;
+}
+
+.navbar a:hover {
+  background-color: #ddd;
+  color: black;
+}
   </style>
   <body>
+    <nav class="navbar">
+      <ul>
+        <li><a href="http://localhost:54321/">Dashboard</a></li>
+      <li><a href="http://localhost:54321/invoice">Invoice</a></li>
+      <li><a href="http://localhost:54321/report">Report</a></li>
+    </ul>
+    </nav>
     <div class="container">
       <div>
         <h3>Search Invoice</h3>
@@ -51,21 +90,21 @@
           <tr>
             <th>Action</th>
             <th>Invoice#</th>
-            <th>Folio No.</th>
+            <th>Stay Id</th>
             <th>Date</th>
             <th>Guest Name</th>
             <th>Company</th>
             <th>GST#</th>
             <th>Checkin</th>
+            <th>Checkout</th>
             <th>Days</th>
             <th>Room No</th>
             <th>Tarrif</th>
-            <th>Discount</th>
-            <th>Taxable</th>
+            <!-- <th>Taxable</th> -->
             <th>SGST</th>
             <th>CGST</th>
             <th>Room</th>
-            <th>Service</th>
+            <!-- <th>Service</th> -->
             <th>Net</th>
           </tr>
           {% for row in data %}
@@ -79,19 +118,19 @@
             <td>{{ row.primary_person_name }}</td>
             <td>{{ row.company_name }}</td>
             <td>{{ row.gst }}</td>
-            <td>{{ row.checkin }}</td>
+            <td>{{ row.check_in }}</td>
+            <td>{{ row.check_out }}</td>
             <td>{{ row.no_of_nights }}</td>
             <td>{{ row.room_no.split(' - ')[0] if row.room_no }}</td>
-            <td>tarrif</td>
-            <td>discount</td>
-            <td>taxablet</td>
-            <td>sgst</td>
-            <td>csgst</td>
+            <td>{{row.total_fare - row.total_fare * 0.06 - row.total_fare * 0.06  }}</td>
+            <!-- <td>taxablet</td> -->
+            <td>{{ row.total_fare * 0.06 }}</td>
+            <td>{{ row.total_fare * 0.06 }}</td>
             <td>
               {{ row.room_no.split(' - ')[1] if row.room_no or row.room_no }}
             </td>
-            <td>service</td>
-            <td>net</td>
+            <!-- <td>service</td> -->
+            <td>{{row.total_fare}}</td>
           </tr>
           {% endfor %}
         </table>
