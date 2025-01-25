@@ -28,6 +28,9 @@
             padding: 0;
             background-color: #f4f4f9;
         }
+        p {
+          margin: 4px;
+        }
         .container {
             width: 210mm; /* A4 width */
             max-width: 210mm;
@@ -370,7 +373,7 @@
     <div class="invoice-header">
         <div>
             <h2>Invoice</h2>
-            <h4>{{data.primary_person_name}}</h4>
+            <p><b>Name: </b>{{data.primary_person_name}}</p>
             <p style="margin-bottom: 4px;"><b>C/o:</b> {{data.company_name}}</p>
             <p><b>GSTN:</b> {{data.gst}}</p>
             <p>{{data.company_address}}</p>
