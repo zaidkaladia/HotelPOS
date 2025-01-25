@@ -9,6 +9,7 @@ from datetime import datetime, time
 
 app = Flask(__name__)
 
+
 # Path to JSON file
 DATA_FILE = "hotel_data.json"
 
@@ -704,6 +705,8 @@ def invoice():
             # First, find the entry to update
             find_query = """
             SELECT * FROM HotelManagement
+            WHERE total_fare is NOT NULL
+            ORDER BY invoice_no DESC
             """
             cursor.execute(find_query)
             results = list(cursor.fetchall())
