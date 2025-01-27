@@ -190,14 +190,14 @@
                 name="checkoutDate"
                 type="datetime-local"
               onchange="calculateNights()" />
-            </div>
+            </div> 
             <div class="form-group">
               <label>No Of Nights</label>
-              <input id="input-nights" type="number" name="numberOfNights" readonly />
+              <input id="input-nights" type="number" name="numberOfNights" readonly  />
             </div>
             <div class="form-group">
               <label>Tour Type *</label>
-              <div class="radio-group" value="{{checkin_data.tour_type}}">
+              <div class="radio-group" >
                 <input type="radio" name="tourType" value="Personal" /> Personal
                 <input type="radio" name="tourType" value="Business" checked />
                 Business
@@ -209,11 +209,11 @@
             <h3>Room Details</h3>
             <div class="form-group">
               <label>Room No *</label>
-              <input id="input-roomNumber" name="roomNumber" type="text" value="{{checkin_data.room_no}}" readonly>
+              <input id="input-roomNumber" name="roomNumber" type="text" readonly>
             </div>
             <div class="form-group">
               <label>Bed Type *</label>
-              <div class="radio-group" value="{{checkin_data.bed_type}}">
+              <div class="radio-group" >
                 <input type="radio" name="bedType" value="Single" checked />
                 Single
                 <input type="radio" name="bedType" value="Double" /> Double
@@ -229,15 +229,15 @@
             <div class="occupancy">
               <div class="form-group">
                 <label>Adults *</label>
-                <input type="number" name="adults" value="{{checkin_data.no_of_adults}}"/>
+                <input type="number" name="adults" />
               </div>
               <div class="form-group">
                 <label>Children</label>
-                <input type="number" name="children" value="{{checkin_data.no_of_children}}" />
+                <input type="number" name="children"  />
               </div>
               <div class="form-group">
                 <label>Extra Bed</label>
-                <input type="number" name="extraBeds" value="{{checkin_data.no_of_extra_bed}}" />
+                <input type="number" name="extraBeds"  />
               </div>
             </div>
           </section>
@@ -250,29 +250,28 @@
                 type="tel"
                 name="primaryGuestMobileNumber"
                 placeholder="Enter 10 digit mobile number"
-                value="{{checkin_data.primary_person_mobile}}"
               />
             </div>
             <div class="form-group">
               <label>Guest Name *</label>
-              <input type="text" name="primaryGuestName" value="{{checkin_data.primary_person_name}}"/>
+              <input type="text" name="primaryGuestName" />
             </div>
             <div class="form-group">
               <label>Alternate Number</label>
-              <input type="tel" name="primaryGuestAlternateNumber" value="{{checkin_data.alternate_number}}"/>
+              <input type="tel" name="primaryGuestAlternateNumber" />
             </div>
             <div class="form-group">
               <label>Gender</label>
               <select name="primaryGuestGender">
                 <option value="">Select Gender</option>
-                <option value="Male" {% if checkin_data.primary_person_gender == "Male" %}selected{% endif %}>Male</option>
-                <option value="Female" {% if checkin_data.primary_person_gender == "Female" %}selected{% endif %}>Female</option>
-                <option value="Other" {% if checkin_data.primary_person_gender == "Other" %}selected{% endif %}>Other</option>
+                <option value="Male" >Male</option>
+                <option value="Female" >Female</option>
+                <option value="Other" >Other</option>
               </select>
             </div>
             <div class="form-group">
               <label>Guest Details/Address</label>
-              <textarea name="primaryGuestAddress">{{checkin_data.primary_person_address}}</textarea>
+              <textarea name="primaryGuestAddress"></textarea>
             </div>
             <div class="form-group">
               <label>Nationality</label>
@@ -289,11 +288,11 @@
                 name="primaryGuestIdType"
               >
                 <option value="">Select ID Type</option>
-                <option value="Aadhar Card" {% if checkin_data.primary_person_id_type == "Aadhar Card" %}selected{% endif %}>Aadhar Card</option>
-                <option value="Passport" {% if checkin_data.primary_person_id_type == "Passport" %}selected{% endif %}>Passport</option>
-                <option value="Driving License" {% if checkin_data.primary_person_id_type == "Driving License" %}selected{% endif %}>Driving License</option>
-                <option value="PAN Card" {% if checkin_data.primary_person_id_type == "PAN Card" %}selected{% endif %}>PAN Card</option>
-                <option value="Voter ID Card" {% if checkin_data.primary_person_id_type == "Voter ID Card" %}selected{% endif %}>Voter ID Card</option>
+                <option value="Aadhar Card" >Aadhar Card</option>
+                <option value="Passport" >Passport</option>
+                <option value="Driving License" >Driving License</option>
+                <option value="PAN Card" >PAN Card</option>
+                <option value="Voter ID Card" >Voter ID Card</option>
               </select>
             </div>
             
@@ -303,7 +302,6 @@
                 type="text"
                 name="primaryGuestIdNumber"
                 placeholder="Enter the Id Number"
-                value="{{checkin_data.primary_person_id_number}}"
               />
             </div>
             <div class="form-group">
@@ -312,7 +310,6 @@
                 type="text"
                 name="primaryGuestCompany"
                 placeholder="Enter company information"
-                value="{{checkin_data.company_name}}"
               />
             </div>
             <div class="form-group">
@@ -321,12 +318,11 @@
                 type="text"
                 name="primaryGuestCompanyGST"
                 placeholder="Enter company GST No"
-                value="{{checkin_data.gst}}"
               />
             </div>
             <div class="form-group">
               <label>Company Address</label>
-              <textarea name="primaryGuestCompanyAddress">{{checkin_data.company_address}}</textarea>
+              <textarea name="primaryGuestCompanyAddress"></textarea>
             </div>
           </section>
 
@@ -336,11 +332,11 @@
               <!-- Secondary guests will be added here dynamically -->
               <div class="form-group">
                 <label>Guest Name</label>
-                <input type="text" name='secondaryGuestName' placeholder="Enter guest name" value="{{checkin_data.secondary_person_name}}"/>
+                <input type="text" name='secondaryGuestName' placeholder="Enter guest name" />
               </div>
               <!-- <div class="form-group">
                 <label>Gender</label>
-                <select name='secondaryGuestGender' value="{{checkin_data.secondaryGuestGender}}">
+                <select name='secondaryGuestGender' >
                   <option value="">Select Gender</option>
                   <option value="Male">Male</option>
                   <option value="Female">Female</option>
@@ -352,9 +348,9 @@
                 <label>Gender</label>
                 <select name="secondaryGuestGender">
                   <option value="">Select Gender</option>
-                  <option value="Male" {% if checkin_data.secondary_person_gender == "Male" %}selected{% endif %}>Male</option>
-                  <option value="Female" {% if checkin_data.secondary_person_gender == "Female" %}selected{% endif %}>Female</option>
-                  <option value="Other" {% if checkin_data.secondary_person_gender == "Other" %}selected{% endif %}>Other</option>
+                  <option value="Male">Male</option>
+                  <option value="Female" >Female</option>
+                  <option value="Other">Other</option>
                 </select>
               </div>
 
@@ -365,17 +361,17 @@
                 <label>ID Proof Type</label>
                 <select name='secondaryGuestIdType'>
                   <option value="">Select ID Proof</option>
-                  <option value="Aadhar Card" {% if checkin_data.secondary_person_id_type == "Aadhar Card" %}selected{% endif %}>Aadhar Card</option>
-                  <option value="Passport" {% if checkin_data.secondary_person_id_type == "Passport" %}selected{% endif %}>Passport</option>
-                  <option value="Driving License" {% if checkin_data.secondary_person_id_type == "Driving License" %}selected{% endif %}>Driving License</option>
-                  <option value="PAN Card" {% if checkin_data.secondary_person_id_type == "PAN Card" %}selected{% endif %}>PAN Card</option>
-                  <option value="Voter ID Card" {% if checkin_data.secondary_person_id_type == "Voter ID Card" %}selected{% endif %}>Voter ID Card</option>
+                  <option value="Aadhar Card" >Aadhar Card</option>
+                  <option value="Passport" >Passport</option>
+                  <option value="Driving License">Driving License</option>
+                  <option value="PAN Card" >PAN Card</option>
+                  <option value="Voter ID Card">Voter ID Card</option>
                 </select>
               </div>
               
               <div class="form-group" >
                 <label>ID Number</label>
-                <input type="text" name='secondaryGuestIdNumber' placeholder="Enter ID Number" value="{{checkin_data.secondary_person_id_number}}"/>
+                <input type="text" name='secondaryGuestIdNumber' placeholder="Enter ID Number" />
               </div>
               <!-- <button type="button" class="remove-guest-btn" onclick="this.parentElement.remove()">Remove</button> -->
             </div>
@@ -437,6 +433,10 @@
       // Room Number
       const roomNumberInput = document.getElementById("input-roomNumber");
       roomNumberInput.value = `${roomNumber} - ${roomName}`;
+      
+      const noOfNights = document.getElementById("input-nights");
+      noOfNights.value = calculateNights();
+      // console.log(calculateNights())
 
       document.addEventListener("DOMContentLoaded", () => {
     const form = document.querySelector("form");
@@ -482,65 +482,68 @@
     });
   });
       
-      function calculateNights() {
-    const checkinInput = document.getElementById("input-checkinDate").value;
-    const checkoutInput = document.getElementById("input-checkoutDate").value;
-    const nightsInput = document.getElementById("input-nights");
 
-    if (!checkinInput || !checkoutInput) {
-      nightsInput.value = 0;
-      return;
-    }
+  function calculateNights() {
+  const checkinInput = document.getElementById("input-checkinDate").value;
+  const checkoutInput = document.getElementById("input-checkoutDate").value;
+  const nightsInput = document.getElementById("input-nights");
 
-    const checkinDate = new Date(checkinInput);
-    const checkoutDate = new Date(checkoutInput);
-
-    // Ensure check-in date is before checkout date
-    if (checkinDate >= checkoutDate) {
-      nightsInput.value = 0;
-      return;
-    }
-
-    // Hotel check-in time and check-out time adjustment
-    const hotelCheckinTime = 12; // 12 PM
-    const hotelCheckoutTime = 10; // 10 AM
-
-    // Adjust check-in time to hotel's standard check-in time
-    checkinDate.setHours(hotelCheckinTime, 0, 0, 0);
-
-    // Adjust checkout time to hotel's standard checkout time
-    const adjustedCheckout = new Date(checkoutDate);
-    adjustedCheckout.setHours(hotelCheckoutTime, 0, 0, 0);
-
-    // Calculate total nights
-    let totalNights = Math.ceil(
-      (adjustedCheckout - checkinDate) / (1000 * 60 * 60 * 24)
-    );
-
-    // If checkout time is past 10 AM, add one additional night
-    if (checkoutDate.getHours() >= hotelCheckoutTime) {
-      totalNights += 1;
-    }
-
-    nightsInput.value = totalNights;
+  if (!checkinInput || !checkoutInput) {
+    nightsInput.value = 0;
+    return;
   }
 
+  const checkinDate = new Date(checkinInput);
+  const checkoutDate = new Date(checkoutInput);
+
+  // Ensure check-in date is before checkout date
+  if (checkinDate > checkoutDate) {
+    nightsInput.value = 0;
+    return;
+  }
+
+  // Define the hotel's checkout time as "hh:mm"
+  const hotelCheckoutTime = "{{ hotel_data.hotelCheckoutTime}}"; // Example: "10:00 AM"
+
+  // Parse the hotel checkout time
+  const [checkoutHour, checkoutMinute] = hotelCheckoutTime.split(":").map(Number);
+
+  // Adjust the checkout date's time to the hotel's standard checkout time
+  const adjustedCheckout = new Date(checkoutDate);
+  adjustedCheckout.setHours(checkoutHour, checkoutMinute, 0, 0);
+
+  // Calculate total nights (difference in days between check-in and adjusted checkout)
+  let totalNights = Math.floor((adjustedCheckout - checkinDate) / (1000 * 60 * 60 * 24));
+
+  // If the actual checkout time is past the hotel's checkout time, add an additional night
+  if (checkoutDate.getHours() > checkoutHour || 
+      (checkoutDate.getHours() === checkoutHour && checkoutDate.getMinutes() > checkoutMinute)) {
+    totalNights += 1;
+  }
+
+  totalNights = Math.max(totalNights,1)
+  // Update the nights input field
+  nightsInput.value = totalNights;
+
+  return totalNights;
+}
 
 
-      function submitHandler(event) {
-        event.preventDefault();
-        fetch("/occupancy", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            roomNumber: roomNumber,
-          }),
-        }).then(() => {
-          window.location.href = "/dashboard";
-        });
-      }
+
+      // function submitHandler(event) {
+      //   event.preventDefault();
+      //   fetch("/occupancy", {
+      //     method: "POST",
+      //     headers: {
+      //       "Content-Type": "application/json",
+      //     },
+      //     body: JSON.stringify({
+      //       roomNumber: roomNumber,
+      //     }),
+      //   }).then(() => {
+      //     window.location.href = "/dashboard";
+      //   });
+      // }
 
       //   function addSecondaryGuest() {
       //     const container = document.getElementById("secondaryGuestsContainer");

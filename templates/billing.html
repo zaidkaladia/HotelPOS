@@ -439,7 +439,7 @@
 
       <div>
         <label for="paymentMode">Payment Mode:</label>
-        <select id="paymentMode" aria-label="Payment Mode">
+        <select id="paymentMode" aria-label="Payment Mode" >
             <option value="cash">Cash</option>
             <option value="card">Card</option>
             <option value="paytm">PayTM / GPay</option>
@@ -474,73 +474,84 @@
 </div>
 
     <script>
+      
+
         function populateStayRows() {
+    const checkinInput = "{{data.check_in}}"; // Replace with actual data
+    const checkoutInput = "{{data.check_out}}"; // Replace with actual data
+    const roomNo = "{{data.room_no}}"; // Room number from your data
+    const tableBody = document.getElementById("stay-rows");
+    const totalDisplay = document.getElementById("total-amount");
+    const totalInWordsDisplay = document.getElementById("total-amount-words");
+    tableBody.innerHTML = ""; // Clear existing rows
 
-            const checkinInput = "{{data.check_in}}"; // Replace with actual data
-const checkoutInput = "{{data.check_out}}"; // Replace with actual data
-const roomNo = "{{data.room_no}}"; // Room number from your data
-const tableBody = document.getElementById("stay-rows");
-const totalDisplay = document.getElementById("total-amount");
-const totalInWordsDisplay = document.getElementById("total-amount-words");
-tableBody.innerHTML = ""; // Clear existing rows
+    // Parse check-in and check-out dates
+    const checkinDate = new Date(checkinInput); // Ensure checkinInput is a valid date string
+    const checkoutDate = new Date(checkoutInput); // Ensure checkoutInput is a valid date string
 
-// Parse check-in and check-out dates
-const checkinDate = new Date(checkinInput);
-const checkoutDate = new Date(checkoutInput);
+    // Hotel checkout time as a string (e.g., "12:00"), needs to be parsed
+    const hotelCheckoutTime = "{{ hotel_data.hotelCheckoutTime}}"; // Example: "12:00"
+    const [checkoutHour, checkoutMinute] = hotelCheckoutTime.split(":").map(Number); // Convert "12:00" to 12 (hour) and 0 (minute)
 
-const CHECKOUT_CUTOFF_HOUR = 10; // 10 AM cut-off for checkout
+    // Adjust checkoutDate for comparison with hotel checkout time
+    const checkoutCutoff = new Date(checkoutDate);
+    checkoutCutoff.setHours(checkoutHour, checkoutMinute, 0, 0); // Set the checkout cutoff time (e.g., 12:00 PM)
 
-// Calculate the number of days stayed
-const timeDiff = checkoutDate.getTime() - checkinDate.getTime();
-let daysStayed = Math.floor(timeDiff / (1000 * 3600 * 24));
+    // Calculate the number of days stayed
+    let daysStayed = Math.floor((checkoutDate - checkinDate) / (1000 * 3600 * 24)) + 1; // Base calculation includes the first day
 
-// Include checkout day if checkout time is after 10 AM
-if (checkoutDate.getHours() > CHECKOUT_CUTOFF_HOUR) {
-    daysStayed += 1;
+    // Exclude the last day if the departure is before the hotel's checkout time
+    if (checkoutDate <= checkoutCutoff) {
+        daysStayed -= 1;
+    }
+
+    // Ensure at least one day is counted
+    daysStayed = Math.max(daysStayed, 1);
+
+    // Generate an array of dates from check-in to the adjusted check-out day
+    const dates = [];
+    const currentDate = new Date(checkinDate); // Start from the check-in date
+    for (let i = 0; i < daysStayed; i++) {
+        dates.push(new Date(currentDate)); // Add a copy of the current date
+        currentDate.setDate(currentDate.getDate() + 1); // Move to the next day
+    }
+
+    let grandTotal = 0; // Initialize total sum
+
+    // Populate table rows
+    dates.forEach((date) => {
+        const formattedDate = date.toLocaleDateString("en-GB"); // Format as dd/mm/yyyy
+        const baseTariff = 1607.14; // Default room tariff
+        const sgst = (baseTariff * 0.06).toFixed(2);
+        const cgst = (baseTariff * 0.06).toFixed(2);
+        const total = (baseTariff + parseFloat(sgst) + parseFloat(cgst)).toFixed(2);
+
+        grandTotal += parseFloat(total); // Add to total sum
+
+        const row = document.createElement("tr");
+        row.innerHTML = `
+            <td>${formattedDate}</td>
+            <td>${roomNo}</td>
+            <td>
+                <input type="number" class="base-tariff" oninput="calculateRow(this.closest('tr'), 'base-tariff')" step="0.01" value="${baseTariff}" aria-label="Base Tariff">
+            </td>
+            <td>
+                <input type="number" class="state-gst" readonly value="${sgst}" aria-label="State GST">
+            </td>
+            <td>
+                <input type="number" class="center-gst" readonly value="${cgst}" aria-label="Center GST">
+            </td>
+            <td>
+                <input type="number" class="total" oninput="calculateRow(this.closest('tr'), 'total')" step="0.01" value="${total}" aria-label="Total">
+            </td>
+        `;
+        tableBody.appendChild(row);
+    });
+
+    // Update the total and amount in words
+    updateTotalDisplay(grandTotal);
 }
 
-// Generate dates
-const dates = [];
-const currentDate = new Date(checkinDate);
-for (let i = 0; i < daysStayed; i++) {
-    dates.push(new Date(currentDate));
-    currentDate.setDate(currentDate.getDate() + 1);
-}
-
-let grandTotal = 0; // Initialize total sum
-
-// Populate table rows
-dates.forEach((date) => {
-    const formattedDate = date.toLocaleDateString("en-GB"); // Format as dd/mm/yyyy
-    const baseTariff = 1607.14; // Default room tariff
-    const sgst = (baseTariff * 0.06).toFixed(2);
-    const cgst = (baseTariff * 0.06).toFixed(2);
-    const total = (baseTariff + parseFloat(sgst) + parseFloat(cgst)).toFixed(2);
-
-    grandTotal += parseFloat(total); // Add to total sum
-
-    const row = document.createElement("tr");
-    row.innerHTML = `
-        <td>${formattedDate}</td>
-        <td>${roomNo}</td>
-        <td>
-            <input type="number" class="base-tariff" oninput="calculateRow(this.closest('tr'), 'base-tariff')" step="0.01" value="${baseTariff}" aria-label="Base Tariff">
-        </td>
-        <td>
-            <input type="number" class="state-gst" readonly value="${sgst}" aria-label="State GST">
-        </td>
-        <td>
-            <input type="number" class="center-gst" readonly value="${cgst}" aria-label="Center GST">
-        </td>
-        <td>
-            <input type="number" class="total" oninput="calculateRow(this.closest('tr'), 'total')" step="0.01" value="${total}" aria-label="Total">
-        </td>
-    `;
-    tableBody.appendChild(row);
-});
-updateTotalDisplay(grandTotal); // Update the total and amount in words
-
-        }
         // Function to calculate row values dynamically
         function calculateRow(row, changedField) {
             const baseTariffInput = row.querySelector(".base-tariff");

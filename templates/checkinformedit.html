@@ -163,12 +163,12 @@
             <div class="form-group">
               <label>Booking Type</label>
               <div class="radio-group">
-                <input type="radio" name="bookingType" value="Walk In" checked />
+                <input type="radio" name="bookingType" value="Walk In" {% if checkin_data.booking_type == "Walk In" %}checked{% endif %} />
                 Walk In
-                <!-- <input type="radio" name="bookingType" value="via"> Via -->
-                <input type="radio" name="bookingType" value="Online" /> Online
+                <input type="radio" name="bookingType" value="Online" {% if checkin_data.booking_type == "Online" %}checked{% endif %} /> Online
               </div>
             </div>
+            
           </section>
 
           <section class="arrival-details">
@@ -200,8 +200,8 @@
             <div class="form-group">
               <label>Tour Type *</label>
               <div class="radio-group" value="{{checkin_data.tour_type}}">
-                <input type="radio" name="tourType" value="Personal" /> Personal
-                <input type="radio" name="tourType" value="Business" checked />
+                <input type="radio" name="tourType" value="Personal" {% if checkin_data.tour_type == "Personal" %}checked{% endif %} /> Personal
+                <input type="radio" name="tourType" value="Business" {% if checkin_data.tour_type == "Business" %}checked{% endif %}  />
                 Business
               </div>
             </div>
@@ -216,16 +216,16 @@
             <div class="form-group">
               <label>Bed Type *</label>
               <div class="radio-group" value="{{checkin_data.bed_type}}">
-                <input type="radio" name="bedType" value="Single" checked />
+                <input type="radio" name="bedType" value="Single" {% if checkin_data.bed_type == "Single" %}checked{% endif %} />
                 Single
-                <input type="radio" name="bedType" value="Double" /> Double
+                <input type="radio" name="bedType" value="Double" {% if checkin_data.bed_type == "Double" %}checked{% endif %}  /> Double
               </div>
             </div>
             <div class="form-group">
               <label>Room Type *</label>
               <div class="radio-group">
-                <input type="radio" name="roomType" value="Non AC" checked /> Non AC 
-                <input type="radio" name="roomType" value="AC" /> AC
+                <input type="radio" name="roomType" value="Non AC" {% if checkin_data.room_type == "Non AC" %}checked{% endif %} /> Non AC 
+                <input type="radio" name="roomType" value="AC" {% if checkin_data.room_type == "AC" %}checked{% endif %}/> AC
               </div>
             </div>
             <div class="occupancy">
@@ -435,50 +435,56 @@
       const roomNumberInput = document.getElementById("input-roomNumber");
       roomNumberInput.value = `${roomNumber} - ${roomName}`;
 
+      // No of Nights
+      const noOfNights = document.getElementById("input-nights");
+      noOfNights.value = calculateNights();
+
 
 
       function calculateNights() {
-    const checkinInput = document.getElementById("input-checkinDate").value;
-    const checkoutInput = document.getElementById("input-checkoutDate").value;
-    const nightsInput = document.getElementById("input-nights");
+  const checkinInput = document.getElementById("input-checkinDate").value;
+  const checkoutInput = document.getElementById("input-checkoutDate").value;
+  const nightsInput = document.getElementById("input-nights");
 
-    if (!checkinInput || !checkoutInput) {
-      nightsInput.value = 0;
-      return;
-    }
-
-    const checkinDate = new Date(checkinInput);
-    const checkoutDate = new Date(checkoutInput);
-
-    // Ensure check-in date is before checkout date
-    if (checkinDate >= checkoutDate) {
-      nightsInput.value = 0;
-      return;
-    }
-
-    // Hotel check-in time and check-out time adjustment
-    const hotelCheckinTime = 12; // 12 PM
-    const hotelCheckoutTime = 10; // 10 AM
-
-    // Adjust check-in time to hotel's standard check-in time
-    checkinDate.setHours(hotelCheckinTime, 0, 0, 0);
-
-    // Adjust checkout time to hotel's standard checkout time
-    const adjustedCheckout = new Date(checkoutDate);
-    adjustedCheckout.setHours(hotelCheckoutTime, 0, 0, 0);
-
-    // Calculate total nights
-    let totalNights = Math.ceil(
-      (adjustedCheckout - checkinDate) / (1000 * 60 * 60 * 24)
-    );
-
-    // If checkout time is past 10 AM, add one additional night
-    if (checkoutDate.getHours() >= hotelCheckoutTime) {
-      totalNights += 1;
-    }
-
-    nightsInput.value = totalNights;
+  if (!checkinInput || !checkoutInput) {
+    nightsInput.value = 0;
+    return;
   }
+
+  const checkinDate = new Date(checkinInput);
+  const checkoutDate = new Date(checkoutInput);
+
+  // Ensure check-in date is before checkout date
+  if (checkinDate > checkoutDate) {
+    nightsInput.value = 0;
+    return;
+  }
+
+  // Define the hotel's checkout time as "hh:mm"
+  const hotelCheckoutTime = "{{ hotel_data.hotelCheckoutTime}}"; // Example: "10:00 AM"
+
+  // Parse the hotel checkout time
+  const [checkoutHour, checkoutMinute] = hotelCheckoutTime.split(":").map(Number);
+
+  // Adjust the checkout date's time to the hotel's standard checkout time
+  const adjustedCheckout = new Date(checkoutDate);
+  adjustedCheckout.setHours(checkoutHour, checkoutMinute, 0, 0);
+
+  // Calculate total nights (difference in days between check-in and adjusted checkout)
+  let totalNights = Math.floor((adjustedCheckout - checkinDate) / (1000 * 60 * 60 * 24));
+
+  // If the actual checkout time is past the hotel's checkout time, add an additional night
+  if (checkoutDate.getHours() > checkoutHour || 
+      (checkoutDate.getHours() === checkoutHour && checkoutDate.getMinutes() > checkoutMinute)) {
+    totalNights += 1;
+  }
+
+  totalNights = Math.max(totalNights,1)
+  // Update the nights input field
+  nightsInput.value = totalNights;
+
+  return totalNights
+}
 
   // Initialize default values on page load
   function initializeDates() {

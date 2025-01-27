@@ -1,5 +1,3 @@
-# Author: Clinton Daniel, University of South Florida
-# Date: 4/4/2023
 # Description: This python script assumes that you already have
 # a database.db file at the root of your workspace.
 # This python script will CREATE a table called students 
@@ -37,6 +35,7 @@ CREATE TABLE HotelManagement (
     check_out DATETIME,
     bed_type TEXT  CHECK(bed_type IN ('Single', 'Double')),
     room_type TEXT CHECK(room_type IN ('AC', 'Non AC')),
+    booking_type TEXT CHECK(booking_type IN ('Walk In', 'Online')),
     no_of_nights INTEGER,
     tour_type TEXT  CHECK(tour_type IN ('Personal', 'Business')),
     company_name TEXT,

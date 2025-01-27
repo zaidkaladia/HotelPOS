@@ -1,99 +1,60 @@
 {
-    "hotelName": "Royal Palace",
-    "address": "chotila highway,chotila highway,chotila highway,chotila highway,chotila highway,chotila highway,chotila highway",
+    "hotelName": "Zaid Palace",
+    "address": "chotila, gujarat",
     "phone": "8485913311",
     "gstn": "heyThis 345678",
-    "email": "kaladiazaid@gmail.com",
+    "email": "admin@example.com",
+    "hotelCheckoutTime": "12:01",
     "hasGroundFloor": false,
     "floors": 2,
     "floorDetails": {
         "Floor 1": [
             {
                 "number": "101",
-                "name": "Delux",
+                "name": "kjn",
                 "occupied": true
             },
             {
                 "number": "102",
-                "name": "Dexul",
-                "occupied": false
+                "name": "kjn",
+                "occupied": true
             },
             {
                 "number": "103",
-                "name": "Super Delux",
-                "occupied": false
+                "name": "kjn",
+                "occupied": true
             },
             {
                 "number": "104",
-                "name": "Super Delux",
-                "occupied": false
-            },
-            {
-                "number": "105",
-                "name": "Super Delux",
-                "occupied": false
-            },
-            {
-                "number": "106",
-                "name": "Super Delux",
-                "occupied": false
-            },
-            {
-                "number": "107",
-                "name": "Super Delux",
-                "occupied": false
-            },
-            {
-                "number": "108",
-                "name": "Super Delux",
-                "occupied": false
-            },
-            {
-                "number": "109",
-                "name": "Executive",
+                "name": "nkjn",
                 "occupied": false
             }
         ],
         "Floor 2": [
             {
                 "number": "201",
-                "name": "Delux",
-                "occupied": false
+                "name": "kjn",
+                "occupied": true
             },
             {
                 "number": "202",
-                "name": "Delux",
-                "occupied": false
+                "name": "kjn",
+                "occupied": true
             },
             {
                 "number": "203",
-                "name": "Super Delux",
-                "occupied": false
+                "name": "nkjn",
+                "occupied": true
             },
             {
                 "number": "204",
-                "name": "Super Delux",
-                "occupied": false
+                "name": "nkjn",
+                "occupied": true
             },
             {
                 "number": "205",
-                "name": "Super Delux",
-                "occupied": false
-            },
-            {
-                "number": "206",
-                "name": "Super Delux",
-                "occupied": false
-            },
-            {
-                "number": "207",
-                "name": "Super Delux",
-                "occupied": false
-            },
-            {
-                "number": "208",
-                "name": "Super Executive",
-                "occupied": false
+                "name": "kjnkjn",
+                "occupied": true
             }
         ]
     }

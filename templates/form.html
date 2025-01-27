@@ -95,6 +95,9 @@
             </div>
 
             <div id="step2" class="hidden">
+                <label for="checkoutTime">Checkout Time</label>
+                <input type="time" id="checkoutTime" name="checkoutTime" required>
+
                 <label for="hasGroundFloor">Does the hotel have a ground floor?</label>
                 <select id="hasGroundFloor" name="hasGroundFloor">
                     <option value="yes">Yes</option>
@@ -208,6 +211,7 @@ async function handleSubmit(event) {
         phone: formData.get("phone"),
         gstn: formData.get("gstn"),
         email: formData.get("email"),
+        checkoutTime: formData.get("checkoutTime"), 
         hasGroundFloor: formData.get("hasGroundFloor") === "yes",
         floors: parseInt(formData.get("floors")),
         floorDetails: {}
