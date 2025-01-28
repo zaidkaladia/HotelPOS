@@ -40,7 +40,7 @@ def index():
     data = load_data()
     return render_template("dashboard.html", hotel_data=data)
 
-    
+
 @app.route("/form")
 def dashboard():
     return render_template("form.html")
@@ -71,9 +71,6 @@ def submit():
         return jsonify({"error": str(e)}), 500
 
 
-
-
-
 @app.route("/checkin-form")
 def checkinForm():
     # Load data from the JSON file
@@ -87,7 +84,7 @@ def checkin():
     form_data = request.form
     print(form_data)
     # required_fields = ['primaryGuestName', 'primaryGuestMobileNumber', 'roomNumber', 'checkinDate']
-    
+
     # for field in required_fields:
     #     if not form_data.get(field):
     #         return jsonify({"error": f"Missing required field: {field}"}), 400
@@ -155,7 +152,6 @@ def checkin():
     finally:
         conn.close()
 
-
     # End Database Uploading---------------------
 
     # Start Update the json file changing occupied to true ---------------------
@@ -188,8 +184,12 @@ def checkin_checkout():
         form_data = request.form
 
         # Assuming form_data contains the check-in and check-out dates as strings
-        check_in_date = datetime.strptime(form_data.get("checkinDate"), "%Y-%m-%dT%H:%M")
-        checkout_date = datetime.strptime(form_data.get("checkoutDate"), "%Y-%m-%dT%H:%M")
+        check_in_date = datetime.strptime(
+            form_data.get("checkinDate"), "%Y-%m-%dT%H:%M"
+        )
+        checkout_date = datetime.strptime(
+            form_data.get("checkoutDate"), "%Y-%m-%dT%H:%M"
+        )
 
         # Extract the checkout time
         checkout_time = checkout_date.time()
@@ -200,7 +200,7 @@ def checkin_checkout():
         # Add an extra day if checkout time is after 10 AM
         if checkout_time > time(10, 0):
             days_stayed += 1
-    
+
         with get_db_connection() as conn:
             cursor = conn.cursor()
 
@@ -248,12 +248,6 @@ def checkin_checkout():
             # print("hey hey hey",query_res)
             conn.commit()
 
-
-
-
-
-
-
             # print(form_data.get("room_no"))
             find_query = """
             SELECT * FROM HotelManagement
@@ -269,8 +263,6 @@ def checkin_checkout():
         response_message = f"An error occurred: {e}"
     finally:
         conn.close()
-
-
 
     # Start Update the json file changing occupied to true ---------------------
     # Load data from the JSON file
@@ -420,11 +412,9 @@ def checkin_edit():
                         form_data.get("checkoutDate"),
                         form_data.get("bookingType"),
                         form_data.get("roomTotal"),
-                        entry_id  
-                    )
+                        entry_id,
+                    ),
                 )
-                    
-
 
                 conn.commit()
                 response_message = "Entry updated successfully"
@@ -465,7 +455,7 @@ def checkin_edit_checkout():
         # # Add an extra day if checkout time is after 10 AM
         # if checkout_time > time(10, 0):
         #     days_stayed += 1
-    
+
         with get_db_connection() as conn:
             cursor = conn.cursor()
 
@@ -525,12 +515,6 @@ def checkin_edit_checkout():
             # print("hey hey hey",query_res)
             conn.commit()
 
-
-
-
-
-
-
             # print(form_data.get("room_no"))
             find_query = """
             SELECT * FROM HotelManagement
@@ -549,7 +533,6 @@ def checkin_edit_checkout():
 
     data = load_data()
     return render_template("billing.html", hotel_data=data, data=results)
-
 
 
 @app.route("/dashboard-billing")
@@ -574,19 +557,19 @@ def dashboard_checkout():
             # print(record)
 
             now = datetime.now()
-            
 
             check_out_date_time = now.strftime("%Y-%m-%dT%H:%M")
-            print(check_out_date_time)
             if matches == 1:
                 entry_id = record["id"]
+                print(f'[INFO] entry_id: {entry_id}')
+                print(f'[INFO] check_out_date_time: {check_out_date_time}')
                 update_query = """
                                 UPDATE HotelManagement
-                                SET check_out = ?, 
+                                SET check_out = ?
                                 WHERE id = ?
                             """
                 check_out_date_update_response = cursor.execute(
-                    update_query, (check_out_date_time, entry_id)
+                    update_query, (check_out_date_time, entry_id,)
                 )
                 print(f"[INFO] response: {check_out_date_update_response}")
 
@@ -602,9 +585,10 @@ def dashboard_checkout():
                 )
             # First, find the entry to update
             find_query = """
-            SELECT * FROM HotelManagement
-            WHERE invoice_no IS NULL AND room_no = ?
+                SELECT * FROM HotelManagement
+                WHERE invoice_no IS NULL AND room_no = ?
             """
+            print(f"[INFO] Room number: {roomNumber}")
             cursor.execute(find_query, (roomNumber,))
             results = dict(cursor.fetchall()[0])
             print(results)
@@ -614,22 +598,20 @@ def dashboard_checkout():
         print(f"[ERROR] Some error occured: {e}")
     finally:
         conn.close()
-    
-    
-    print(results)
+
+    print(list(results))
     print(f'mobile number: {results.get("primary_person_mobile")}')
     data = load_data()
     return render_template("billing.html", hotel_data=data, data=results)
 
 
-
-@app.route('/checkout', methods=['POST'])
+@app.route("/checkout", methods=["POST"])
 def checkout():
     data = request.json
-    total_amount = data.get('total_amount')
-    room_no = data.get('room_no')
-    payment_method = data.get('payment_method')
-    
+    total_amount = data.get("total_amount")
+    room_no = data.get("room_no")
+    payment_method = data.get("payment_method")
+
     try:
         with get_db_connection() as conn:
             # print("[INFO] Hello from dashboard-billing")
@@ -644,8 +626,6 @@ def checkout():
             matches = len(results)
             record = dict(results[0])
 
-
-
             query = "SELECT MAX(invoice_no) FROM HotelManagement"
             cursor.execute(query)
             result_for_invoice = cursor.fetchone()
@@ -656,7 +636,6 @@ def checkout():
                 this_bill_invoice_number = max_current_invoice_number + 1
             else:
                 this_bill_invoice_number = 1
-
 
             now = datetime.now()
             invoice_date_time = now.strftime("%Y-%m-%dT%H:%M")
@@ -673,7 +652,14 @@ def checkout():
                                 WHERE id = ?
                             """
                 check_out_date_update_response = cursor.execute(
-                    update_query, (payment_method,total_amount,invoice_date_time,this_bill_invoice_number,entry_id)
+                    update_query,
+                    (
+                        payment_method,
+                        total_amount,
+                        invoice_date_time,
+                        this_bill_invoice_number,
+                        entry_id,
+                    ),
                 )
 
                 # conn.commit()
@@ -691,29 +677,39 @@ def checkout():
         print(f"[ERROR] Some error occured: {e}")
     finally:
         conn.close()
-    
+
     hotel_data = load_data()
-    
+
     requiredRoomNumber = room_no.split(" - ")[0]
     # print(requiredRoomNumber)
     floorDetails = hotel_data["floorDetails"]
     roomFound = False
     # print(type(requiredRoomNumber))
-    
+
     for floor in floorDetails:
         if roomFound:
             break
         for room in floorDetails[floor]:
             if room["number"] == requiredRoomNumber:
-                print(room["number"],type(room["number"]))
+                print(room["number"], type(room["number"]))
                 room["occupied"] = False
                 roomFound = True
                 break
-    
-    save_data(hotel_data)
-    return jsonify({"message": response_message,"invoice_number": this_bill_invoice_number,"invoice_date": invoice_date_time}), 200
 
-@app.route('/invoice', methods=['GET'])
+    save_data(hotel_data)
+    return (
+        jsonify(
+            {
+                "message": response_message,
+                "invoice_number": this_bill_invoice_number,
+                "invoice_date": invoice_date_time,
+            }
+        ),
+        200,
+    )
+
+
+@app.route("/invoice", methods=["GET"])
 def invoice():
     try:
         with get_db_connection() as conn:
@@ -731,14 +727,15 @@ def invoice():
             for result in results:
                 data.append(dict(result))
             print(data[-1])
-            print(f'[INFO] Number of matches: {matches}')
-            print(f'[INFO] Data: {data}')
+            print(f"[INFO] Number of matches: {matches}")
+            print(f"[INFO] Data: {data}")
             # record = dict(results)
     except Exception as e:
-        print(f'[INFO] Something went wrong while processing /invoice endpoint: {e}')
-    return render_template('invoice.html', data=data)
+        print(f"[INFO] Something went wrong while processing /invoice endpoint: {e}")
+    return render_template("invoice.html", data=data)
 
-@app.route('/report-submit', methods=['GET'])
+
+@app.route("/report-submit", methods=["GET"])
 def reportSubmit():
     request_data = request.args.to_dict()
     print("request_data: ", request_data)
@@ -746,16 +743,18 @@ def reportSubmit():
     try:
         with get_db_connection() as conn:
             cursor = conn.cursor()
-            
+
             # Query to fetch filtered data
             find_query = """
             SELECT *
             FROM HotelManagement
             WHERE DATE(invoice_date) >= DATE(?) AND DATE(invoice_date) <= DATE(?)
             """
-            cursor.execute(find_query, (request_data.get("startDate"), request_data.get("endDate")))
+            cursor.execute(
+                find_query, (request_data.get("startDate"), request_data.get("endDate"))
+            )
             results = list(cursor.fetchall())
-            
+
             matches = len(results)
             data = []
             totals = {
@@ -763,50 +762,56 @@ def reportSubmit():
                 "cgst": 0.0,
                 "final_total": 0.0,
                 "final_tarif": 0.0,
-                "start_date" : request_data.get("startDate"),
-                "end_date" : request_data.get("endDate")
+                "start_date": request_data.get("startDate"),
+                "end_date": request_data.get("endDate"),
             }
-            
+
             # Process data and calculate totals
             for result in results:
                 record = dict(result)
                 # Calculate SGST, CGST, and add to the totals
-                sgst = record['total_fare'] * 0.06
-                cgst = record['total_fare'] * 0.06
-                final_total = record['total_fare']
+                sgst = record["total_fare"] * 0.06
+                cgst = record["total_fare"] * 0.06
+                final_total = record["total_fare"]
                 tarif = final_total - sgst - cgst
 
-                
-                totals['sgst'] += sgst
-                totals['cgst'] += cgst
-                totals['final_tarif'] += tarif
-                totals['final_total'] += final_total
-                
+                totals["sgst"] += sgst
+                totals["cgst"] += cgst
+                totals["final_tarif"] += tarif
+                totals["final_total"] += final_total
+
                 # Add calculated fields to the record for passing to the template
-                record['sgst'] = sgst
-                record['cgst'] = cgst
-                record['final_tarif'] = tarif
+                record["sgst"] = sgst
+                record["cgst"] = cgst
+                record["final_tarif"] = tarif
                 data.append(record)
-            
-            print(f'[INFO] Number of matches: {matches}')
-            print(f'[INFO] Data: {data}')
-            print(f'[INFO] Totals: {totals}')
-    
+
+            print(f"[INFO] Number of matches: {matches}")
+            print(f"[INFO] Data: {data}")
+            print(f"[INFO] Totals: {totals}")
+
     except Exception as e:
-        print(f'[INFO] Something went wrong while processing /report endpoint: {e}')
+        print(f"[INFO] Something went wrong while processing /report endpoint: {e}")
         data = []
-        totals = {"sgst": 0.0, "cgst": 0.0, "final_total": 0.0, "final_tarif":0.0,"start_date" : request_data.get("startDate"),
-                "end_date" : request_data.get("endDate")}
-    
+        totals = {
+            "sgst": 0.0,
+            "cgst": 0.0,
+            "final_total": 0.0,
+            "final_tarif": 0.0,
+            "start_date": request_data.get("startDate"),
+            "end_date": request_data.get("endDate"),
+        }
+
     # Pass data and totals to the template
-    hotel_data=load_data()
-    return render_template('report.html', data=data, totals=totals, hotel_data=hotel_data)
+    hotel_data = load_data()
+    return render_template(
+        "report.html", data=data, totals=totals, hotel_data=hotel_data
+    )
 
 
-@app.route('/report', methods=['GET'])
+@app.route("/report", methods=["GET"])
 def report():
     return render_template("reportForm.html")
-    
 
 
 if __name__ == "__main__":
