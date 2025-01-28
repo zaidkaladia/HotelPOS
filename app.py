@@ -343,7 +343,7 @@ def checkin_edit_form():
 def checkin_edit():
     try:
         form_data = request.form
-        # print(form_data)
+        print(form_data)
 
         with get_db_connection() as conn:
             cursor = conn.cursor()
@@ -554,7 +554,9 @@ def checkin_edit_checkout():
 
 @app.route("/dashboard-billing")
 def dashboard_checkout():
+    hotel_data = load_data()
     roomNumber = request.args.get("roomNumber")
+    # print(roomNumber)
     try:
         with get_db_connection() as conn:
             print("[INFO] Hello from dashboard-billing")
@@ -566,26 +568,16 @@ def dashboard_checkout():
             """
             cursor.execute(find_query, (roomNumber,))
             results = cursor.fetchall()
+            # print(results)
             matches = len(results)
             record = dict(results[0])
-            # print(results)
+            # print(record)
 
             now = datetime.now()
-
-
-            check_in_date = datetime.strptime(record["check_in"], "%Y-%m-%dT%H:%M")
-            checkout_time = now.hour
-            checkout_date = now.date()
-    
-
-            days_stayed = (checkout_date - check_in_date.date()).days
-    
-            if checkout_time > 10:
-                # Include checkout date if checkout time is after 10 AM
-                days_stayed += 1
-
+            
 
             check_out_date_time = now.strftime("%Y-%m-%dT%H:%M")
+            print(check_out_date_time)
             if matches == 1:
                 entry_id = record["id"]
                 update_query = """
@@ -596,7 +588,7 @@ def dashboard_checkout():
                 check_out_date_update_response = cursor.execute(
                     update_query, (check_out_date_time, entry_id)
                 )
-                # print(f"[INFO] response: {check_out_date_update_response}")
+                print(f"[INFO] response: {check_out_date_update_response}")
 
                 # conn.commit()
                 response_message = "Entry updated successfully"
@@ -622,7 +614,10 @@ def dashboard_checkout():
         print(f"[ERROR] Some error occured: {e}")
     finally:
         conn.close()
-
+    
+    
+    print(results)
+    print(f'mobile number: {results.get("primary_person_mobile")}')
     data = load_data()
     return render_template("billing.html", hotel_data=data, data=results)
 

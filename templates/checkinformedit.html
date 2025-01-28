@@ -351,6 +351,16 @@
             });
         });
 
+        // Add this function to initialize the form
+function initializeForm() {
+  const totalInput = document.querySelector('.total');
+  if (totalInput.value) {
+    updateFromTotal(totalInput);
+  }
+}
+
+// Call this function when the page loads
+window.addEventListener('load', initializeForm);
 
   </script>
 
@@ -387,7 +397,7 @@
                   <tr>
                     <td>
                       <input type="number" step="0.01" class="base-tariff" placeholder="0" aria-label="Room Tariff"
-                        oninput="updateFromTariff(this)" >
+                        oninput="updateFromTariff(this)" name="roomTariff">
                     </td>
                     <td>
                       <input type="number" step="0.01" class="state-gst" readonly value="0" aria-label="State GST">
@@ -397,7 +407,7 @@
                     </td>
                     <td>
                       <input type="number" step="0.01" class="total" placeholder="0" aria-label="Room Total" value="{{checkin_data.room_total}}"
-                        oninput="updateFromTotal(this)" >
+                        oninput="updateFromTotal(this)" name="roomTotal">
                     </td>
                   </tr>
                 </tbody>
@@ -501,13 +511,13 @@
             <section class="primary-guest">
               <h3>Primary Guest Details</h3>
               <div class="form-group">
-                <label>Mobile Number *</label>
-                <input type="tel" name="primaryGuestMobileNumber" placeholder="Enter 10 digit mobile number"
+                <label>Mobile Number </label>
+                <input required type="tel" name="primaryGuestMobileNumber" placeholder="Enter 10 digit mobile number"
                   value="{{checkin_data.primary_person_mobile}}" />
               </div>
               <div class="form-group">
                 <label>Guest Name *</label>
-                <input type="text" name="primaryGuestName" value="{{checkin_data.primary_person_name}}" />
+                <input required type="text" name="primaryGuestName" value="{{checkin_data.primary_person_name}}" />
               </div>
               <div class="form-group">
                 <label>Alternate Number</label>
@@ -552,7 +562,7 @@
 
               <div class="form-group">
                 <label>ID Number</label>
-                <input type="text" name="primaryGuestIdNumber" placeholder="Enter the Id Number"
+                <input required type="text" name="primaryGuestIdNumber" placeholder="Enter the Id Number"
                   value="{{checkin_data.primary_person_id_number}}" />
               </div>
               <div class="form-group">

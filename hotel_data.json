@@ -34,17 +34,17 @@
             {
                 "number": "201",
                 "name": "kjn",
-                "occupied": false
+                "occupied": true
             },
             {
                 "number": "202",
                 "name": "kjn",
-                "occupied": false
+                "occupied": true
             },
             {
                 "number": "203",
                 "name": "nkjn",
-                "occupied": false
+                "occupied": true
             },
             {
                 "number": "204",
@@ -54,7 +54,7 @@
             {
                 "number": "205",
                 "name": "kjnkjn",
-                "occupied": false
+                "occupied": true
             }
         ]
     }
