@@ -315,7 +315,7 @@
     display: none;
   }
   @page {
-    margin: 0;
+    margin: 15px;
   }
   @page :footer {
     display: none;
@@ -372,17 +372,19 @@
   </nav>
     <div class="invoice-header">
         <div>
-            <h2>Invoice</h2>
+            <p><b style="font-size: xx-large;">Invoice</b></p>
             <p><b>Name: </b>{{data.primary_person_name}}</p>
-            <p style="margin-bottom: 4px;"><b>C/o:</b> {{data.company_name}}</p>
+            <p ><b>Ph:</b>+91 {{data.primary_person_mobile[:5]}}-{{data.primary_person_mobile[5:]}}</p>
+
+            <p><b>C/o:</b> {{data.company_name}}</p>
             <p><b>GSTN:</b> {{data.gst}}</p>
             <p>{{data.company_address}}</p>
         </div>
         <div class="empty-column"></div>
         <div class="hotel-info">
-            <h2>{{hotel_data.hotelName}}</h2>
+            <p><b style="font-size: x-large;">{{hotel_data.hotelName}}</b></p>
             <p ><b>Add:</b> {{hotel_data.address}}</p>
-            <p ><b>Ph:</b> {{hotel_data.phone}}</p>
+            <p ><b>Ph:</b>+91 {{hotel_data.phone[:5]}}-{{hotel_data.phone[5:]}}</p>
             <p ><b>Mail:</b> {{hotel_data.email}}</p>            
             <p ><b>GSTN:</b> {{hotel_data.gstn}}</p>
 
@@ -399,8 +401,8 @@
         </tr>
         <tr>
             <td><b>Room No:</b> <br>{{data.room_no}}</td>
-            <td><b>Arrival:</b> <br>{{data.check_in}}</td>
-            <td><b>Departure:</b><br> {{data.check_out}}</td>
+            <td><b>Arrival:</b> <br>{{data.check_in[:10]}} {{data.check_in[12:]}} </td>
+            <td><b>Departure:</b><br> {{data.check_out[:10]}} {{data.check_out[12:]}}</td>
             <td><b>No of Days:</b><br> {{data.no_of_nights}}</td>
         </tr>
     </table>

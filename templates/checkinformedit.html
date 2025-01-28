@@ -1,346 +1,586 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <link href="https://cdn.tailwindcss.com" rel="stylesheet" />
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-    <script
-      src="{{ url_for('static', filename='/scripts/utils/utils.js') }}"
-      type="module"
-    ></script>
-    <style>
-      /* Add this CSS to style the form */
-      .modal {
-        font-family: Arial, sans-serif;
-        padding: 20px;
-      }
 
-      .modal-content {
-        background: #fff;
-        padding: 20px;
-        border-radius: 8px;
-      }
+<head>
+  <link href="https://cdn.tailwindcss.com" rel="stylesheet" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+  <script src="{{ url_for('static', filename='/scripts/utils/utils.js') }}" type="module"></script>
+  <style>
+    /* Add this CSS to style the form */
+    .modal {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
 
-      .form-group {
-        margin-bottom: 15px;
-      }
+    .modal-content {
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+    }
 
-      .form-group label {
-        display: block;
-        margin-bottom: 5px;
-        font-size: 14px;
-      }
+    .form-group {
+      margin-bottom: 15px;
+    }
 
-      .form-group input[type="text"],
-      .form-group input[type="tel"],
-      .form-group input[type="date"],
-      .form-group input[type="datetime-local"],
-      .form-group input[type="number"],
-      .form-group select,
-      .form-group textarea {
-        width: 100%;
-        padding: 8px;
-        border: 1px solid #ddd;
-        border-radius: 4px;
-        font-size: 14px;
-      }
+    .form-group label {
+      display: block;
+      margin-bottom: 5px;
+      font-size: 14px;
+    }
 
-      .radio-group {
-        display: flex;
-        gap: 20px;
-      }
+    .form-group input[type="text"],
+    .form-group input[type="tel"],
+    .form-group input[type="date"],
+    .form-group input[type="datetime-local"],
+    .form-group input[type="number"],
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 14px;
+    }
 
-      .radio-group input[type="radio"] {
-        margin-right: 5px;
-      }
+    .radio-group {
+      display: flex;
+      gap: 20px;
+    }
 
-      section {
-        margin-bottom: 25px;
-        border-bottom: 1px solid #eee;
-        padding-bottom: 20px;
-      }
+    .radio-group input[type="radio"] {
+      margin-right: 5px;
+    }
 
-      h3 {
-        color: #333;
-        margin-bottom: 15px;
-        font-size: 16px;
-      }
+    section {
+      margin-bottom: 25px;
+      border-bottom: 1px solid #eee;
+      padding-bottom: 20px;
+    }
 
-      .occupancy {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 15px;
-      }
+    h3 {
+      color: #333;
+      margin-bottom: 15px;
+      font-size: 16px;
+    }
 
-      /* Add these new styles to match the image */
-      .header-info {
-        display: flex;
-        justify-content: space-between;
-        margin-bottom: 20px;
-      }
+    .occupancy {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 15px;
+    }
 
-      .checkout-info {
-        display: flex;
-        gap: 20px;
-        align-items: center;
-      }
+    /* Add these new styles to match the image */
+    .header-info {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
 
-      .room-number {
-        font-size: 18px;
-        font-weight: bold;
-      }
+    .checkout-info {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+    }
 
-      .complementary-breakfast {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-      }
+    .room-number {
+      font-size: 18px;
+      font-weight: bold;
+    }
 
-      .office-use {
-        background: #f9f9f9;
-        padding: 15px;
-        border-radius: 4px;
-        margin-top: 20px;
-      }
+    .complementary-breakfast {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
 
-      .button-group {
-        display: flex;
-        gap: 10px;
-        margin-top: 20px;
-      }
+    .office-use {
+      background: #f9f9f9;
+      padding: 15px;
+      border-radius: 4px;
+      margin-top: 20px;
+    }
 
-      .button-group button {
-        padding: 8px 15px;
-        border-radius: 4px;
-        border: none;
-        cursor: pointer;
-      }
+    .button-group {
+      display: flex;
+      gap: 10px;
+      margin-top: 20px;
+    }
 
-      .button-group .next {
-        background: #4caf50;
-        color: white;
-      }
+    .button-group button {
+      padding: 8px 15px;
+      border-radius: 4px;
+      border: none;
+      cursor: pointer;
+    }
 
-      .button-group .print {
-        background: #2196f3;
-        color: white;
-      }
+    .button-group .next {
+      background: #4caf50;
+      color: white;
+    }
+
+    .button-group .print {
+      background: #2196f3;
+      color: white;
+    }
 
     .button-group .back {
       background: #607d8b;
       color: white;
     }
+
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+    }
+
+    .modal-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+    }
+
+    form {
+      width: 100%;
+    }
+
+    section {
+      background: #f9f9f9;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 20px;
+      margin: 10px 0;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      flex: 1 1 calc(45% - 20px);
+    }
+
+    section h3 {
+      margin-top: 0;
+      color: #333;
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    .form-group label {
+      font-weight: bold;
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    .radio-group {
+      display: flex;
+      gap: 15px;
+      /* Space between buttons */
+      align-items: center;
+    }
+
+    .radio-group input[type="radio"] {
+      margin-right: 5px;
+      /* Small space between the radio button and its label */
+      vertical-align: middle;
+      /* Ensures radio button is vertically aligned */
+    }
+
+    .radio-group label {
+      font-size: 14px;
+      color: #333;
+      /* Neutral text color */
+      cursor: pointer;
+      vertical-align: middle;
+      /* Aligns label text with radio button */
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+
+    table th,
+    table td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: center;
+    }
+
+    table th {
+      background: #f1f1f1;
+      font-weight: bold;
+    }
+
+    .occupancy {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    button {
+      background-color: #007bff;
+      color: #fff;
+      padding: 10px 15px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    .form-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+
+    /* Enhanced Radio Button Styling */
+    input[type="radio"] {
+      width: 18px;
+      height: 18px;
+      accent-color: #007bff;
+      margin-right: 8px;
+      cursor: pointer;
+    }
+
+    input[type="radio"]+label {
+      font-size: 16px;
+      color: #333;
+      margin-right: 25px;
+      cursor: pointer;
+    }
+
+    .radio-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      padding: 10px 0;
+    }
+
+    .radio-option {
+      display: flex;
+      align-items: center;
+    }
+
+    /* Hover effect for better interactivity */
+    input[type="radio"]:hover {
+      transform: scale(1.1);
+      transition: transform 0.2s ease;
+    }
+
+    /* Focus state for accessibility */
+    input[type="radio"]:focus {
+      outline: 2px solid rgba(0, 123, 255, 0.25);
+      outline-offset: 2px;
+    }
+
+
+
+
+    /* } */
   </style>
 
+  <script>
+    function updateFromTariff(tariffInput) {
+      const baseTariff = parseFloat(tariffInput.value) || 0;
+      const row = tariffInput.closest("tr");
+      const sgstInput = row.querySelector(".state-gst");
+      const cgstInput = row.querySelector(".center-gst");
+      const totalInput = row.querySelector(".total");
+
+      const gstRate = baseTariff < 7500 ? 0.06 : 0.09;
+      const sgst = baseTariff * gstRate;
+      const cgst = baseTariff * gstRate;
+      const total = baseTariff + sgst + cgst;
+
+      sgstInput.value = sgst.toFixed(2);
+      cgstInput.value = cgst.toFixed(2);
+      totalInput.value = total.toFixed(2);
+    }
+
+    function updateFromTotal(totalInput) {
+      const total = parseFloat(totalInput.value) || 0;
+      const row = totalInput.closest("tr");
+      const tariffInput = row.querySelector(".base-tariff");
+      const sgstInput = row.querySelector(".state-gst");
+      const cgstInput = row.querySelector(".center-gst");
+
+      let baseTariff, gstRate;
+
+      if (total / 1.18 < 7500) {
+        gstRate = 0.06;
+        baseTariff = total / 1.12;
+      } else {
+        gstRate = 0.09;
+        baseTariff = total / 1.18;
+      }
+
+      const sgst = baseTariff * gstRate;
+      const cgst = baseTariff * gstRate;
+
+      tariffInput.value = baseTariff.toFixed(2);
+      sgstInput.value = sgst.toFixed(2);
+      cgstInput.value = cgst.toFixed(2);
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+            const form = document.getElementById("checkInForm");
+            form.addEventListener("keydown", function(event) {
+                if (event.key === "Enter") {
+                    event.preventDefault(); // Prevent default action (form submission)
+                }
+            });
+        });
+
+
+  </script>
+
 </head>
-     
 
 
-  <body>
-    <div id="checkinModal" class="modal">
-      <div class="modal-content">
-        <h2>Check-In Form</h2>
-        <form id="checkInForm" action="/checkin-edit" method="POST">
-          <div class="progress-bar">
-            <div class="progress" style="width: 0%"></div>
-          </div>
 
-          <section class="invoice-info">
-            <h3>Invoice Information</h3>
-            <!-- <div class="form-group">
+<body>
+  <div id="checkinModal" class="modal">
+    <div class="modal-content">
+      <div style="display: flex;">
+        <h2>Check-In for Room Number: </h2>
+        <h2 id="heading-roomNumber"></h2>
+      </div>
+
+      <form id="checkInForm" action="/checkin-edit" method="POST">
+
+
+
+
+
+            <section class="price-info">
+              <h3>Price Information</h3>
+              <table>
+                <thead>
+                  <tr>
+                    <th>Room Tariff</th>
+                    <th>SGST </th>
+                    <th>CGST </th>
+                    <th>Room Total</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>
+                      <input type="number" step="0.01" class="base-tariff" placeholder="0" aria-label="Room Tariff"
+                        oninput="updateFromTariff(this)" >
+                    </td>
+                    <td>
+                      <input type="number" step="0.01" class="state-gst" readonly value="0" aria-label="State GST">
+                    </td>
+                    <td>
+                      <input type="number" step="0.01" class="center-gst" readonly value="0" aria-label="Center GST">
+                    </td>
+                    <td>
+                      <input type="number" step="0.01" class="total" placeholder="0" aria-label="Room Total" value="{{checkin_data.room_total}}"
+                        oninput="updateFromTotal(this)" >
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </section>
+            <section class="invoice-info">
+              <h3>Invoice Information</h3>
+              <!-- <div class="form-group">
                         <label>Invoice No</label>
                         <input disabled type="" placeholder="Enter Invoice No">
                     </div> -->
-            <div class="form-group">
-              <label>Invoice Date</label>
-              <input
-                id="input-invoiceDate"
-                name="invoiceDate"
-                type="datetime-local"
-              />
-            </div>
-            <div class="form-group">
-              <label>Booking Type</label>
-              <div class="radio-group">
-                <input type="radio" name="bookingType" value="Walk In" {% if checkin_data.booking_type == "Walk In" %}checked{% endif %} />
-                Walk In
-                <input type="radio" name="bookingType" value="Online" {% if checkin_data.booking_type == "Online" %}checked{% endif %} /> Online
-              </div>
-            </div>
-            
-          </section>
-
-          <section class="arrival-details">
-            <h3>Arrival Details</h3>
-            <div class="form-group">
-              <label>
-                Check In Date * (By default, date time of checkin button clicked
-                on dashboard)
-              </label>
-              <input
-                id="input-checkinDate"
-                name="checkinDate"
-                type="datetime-local"
-                value="{{checkin_data.check_in}}"
-                onchange="calculateNights()" />
-            </div>            
-            <div class="form-group">
-              <label>Check Out Date * (By default current time)</label>
-              <input
-                id="input-checkoutDate"
-                name="checkoutDate"
-                type="datetime-local"
-              onchange="calculateNights()" />
-            </div>
-            <div class="form-group">
-  <label>No Of Nights</label>
-  <input id="input-nights" type="number" name="numberOfNights" readonly />
-</div>
-            <div class="form-group">
-              <label>Tour Type *</label>
-              <div class="radio-group" value="{{checkin_data.tour_type}}">
-                <input type="radio" name="tourType" value="Personal" {% if checkin_data.tour_type == "Personal" %}checked{% endif %} /> Personal
-                <input type="radio" name="tourType" value="Business" {% if checkin_data.tour_type == "Business" %}checked{% endif %}  />
-                Business
-              </div>
-            </div>
-          </section>
-
-          <section class="room-details">
-            <h3>Room Details</h3>
-            <div class="form-group">
-              <label>Room No *</label>
-              <input id="input-roomNumber" name="roomNumber" type="text" value="{{checkin_data.room_no}}" readonly>
-            </div>
-            <div class="form-group">
-              <label>Bed Type *</label>
-              <div class="radio-group" value="{{checkin_data.bed_type}}">
-                <input type="radio" name="bedType" value="Single" {% if checkin_data.bed_type == "Single" %}checked{% endif %} />
-                Single
-                <input type="radio" name="bedType" value="Double" {% if checkin_data.bed_type == "Double" %}checked{% endif %}  /> Double
-              </div>
-            </div>
-            <div class="form-group">
-              <label>Room Type *</label>
-              <div class="radio-group">
-                <input type="radio" name="roomType" value="Non AC" {% if checkin_data.room_type == "Non AC" %}checked{% endif %} /> Non AC 
-                <input type="radio" name="roomType" value="AC" {% if checkin_data.room_type == "AC" %}checked{% endif %}/> AC
-              </div>
-            </div>
-            <div class="occupancy">
               <div class="form-group">
-                <label>Adults *</label>
-                <input type="number" name="adults" value="{{checkin_data.no_of_adults}}"/>
+                <label>Invoice Date</label>
+                <input id="input-invoiceDate" name="invoiceDate" type="datetime-local" />
               </div>
               <div class="form-group">
-                <label>Children</label>
-                <input type="number" name="children" value="{{checkin_data.no_of_children}}" />
+                <label>Booking Type</label>
+                <div class="radio-group">
+                  <input type="radio" name="bookingType" value="Walk In" {% if checkin_data.booking_type=="Walk In"
+                    %}checked{% endif %} />
+                  Walk In
+                  <input type="radio" name="bookingType" value="Online" {% if checkin_data.booking_type=="Online"
+                    %}checked{% endif %} /> Online
+                </div>
+              </div>
+
+            </section>
+
+            <section class="arrival-details">
+              <h3>Arrival Details</h3>
+              <div class="form-group">
+                <label>
+                  Check In Date * (By default, date time of checkin button clicked
+                  on dashboard)
+                </label>
+                <input id="input-checkinDate" name="checkinDate" type="datetime-local" value="{{checkin_data.check_in}}"
+                  onchange="calculateNights()" />
               </div>
               <div class="form-group">
-                <label>Extra Bed</label>
-                <input type="number" name="extraBeds" value="{{checkin_data.no_of_extra_bed}}" />
+                <label>Check Out Date * (By default current time)</label>
+                <input id="input-checkoutDate" name="checkoutDate" type="datetime-local" onchange="calculateNights()" />
               </div>
-            </div>
-          </section>
-
-          <section class="primary-guest">
-            <h3>Primary Guest Details</h3>
-            <div class="form-group">
-              <label>Mobile Number *</label>
-              <input
-                type="tel"
-                name="primaryGuestMobileNumber"
-                placeholder="Enter 10 digit mobile number"
-                value="{{checkin_data.primary_person_mobile}}"
-              />
-            </div>
-            <div class="form-group">
-              <label>Guest Name *</label>
-              <input type="text" name="primaryGuestName" value="{{checkin_data.primary_person_name}}"/>
-            </div>
-            <div class="form-group">
-              <label>Alternate Number</label>
-              <input type="tel" name="primaryGuestAlternateNumber" value="{{checkin_data.alternate_number}}"/>
-            </div>
-            <div class="form-group">
-              <label>Gender</label>
-              <select name="primaryGuestGender">
-                <option value="">Select Gender</option>
-                <option value="Male" {% if checkin_data.primary_person_gender == "Male" %}selected{% endif %}>Male</option>
-                <option value="Female" {% if checkin_data.primary_person_gender == "Female" %}selected{% endif %}>Female</option>
-                <option value="Other" {% if checkin_data.primary_person_gender == "Other" %}selected{% endif %}>Other</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label>Guest Details/Address</label>
-              <textarea name="primaryGuestAddress">{{checkin_data.primary_person_address}}</textarea>
-            </div>
-            <div class="form-group">
-              <label>Nationality</label>
-              <input
-                type="text"
-                name="primaryGuestNationality"
-                value="Indian"
-              />
-            </div>
-            <div class="form-group">
-              <label>ID Type</label>
-              <select
-                id="primaryPersonIDType"
-                name="primaryGuestIdType"
-              >
-                <option value="">Select ID Type</option>
-                <option value="Aadhar Card" {% if checkin_data.primary_person_id_type == "Aadhar Card" %}selected{% endif %}>Aadhar Card</option>
-                <option value="Passport" {% if checkin_data.primary_person_id_type == "Passport" %}selected{% endif %}>Passport</option>
-                <option value="Driving License" {% if checkin_data.primary_person_id_type == "Driving License" %}selected{% endif %}>Driving License</option>
-                <option value="PAN Card" {% if checkin_data.primary_person_id_type == "PAN Card" %}selected{% endif %}>PAN Card</option>
-                <option value="Voter ID Card" {% if checkin_data.primary_person_id_type == "Voter ID Card" %}selected{% endif %}>Voter ID Card</option>
-              </select>
-            </div>
-            
-            <div class="form-group">
-              <label>ID Number</label>
-              <input
-                type="text"
-                name="primaryGuestIdNumber"
-                placeholder="Enter the Id Number"
-                value="{{checkin_data.primary_person_id_number}}"
-              />
-            </div>
-            <div class="form-group">
-              <label>Company</label>
-              <input
-                type="text"
-                name="primaryGuestCompany"
-                placeholder="Enter company information"
-                value="{{checkin_data.company_name}}"
-              />
-            </div>
-            <div class="form-group">
-              <label>Company GST</label>
-              <input
-                type="text"
-                name="primaryGuestCompanyGST"
-                placeholder="Enter company GST No"
-                value="{{checkin_data.gst}}"
-              />
-            </div>
-            <div class="form-group">
-              <label>Company Address</label>
-              <textarea name="primaryGuestCompanyAddress">{{checkin_data.company_address}}</textarea>
-            </div>
-          </section>
-
-          <section class="secondary-guests">
-            <h3>Secondary Guest Details</h3>
-            <div id="secondaryGuestsContainer">
-              <!-- Secondary guests will be added here dynamically -->
               <div class="form-group">
-                <label>Guest Name</label>
-                <input type="text" name='secondaryGuestName' placeholder="Enter guest name" value="{{checkin_data.secondary_person_name}}"/>
+                <label>No Of Nights</label>
+                <input id="input-nights" type="number" name="numberOfNights" readonly />
               </div>
-              <!-- <div class="form-group">
+              <div class="form-group">
+                <label>Tour Type *</label>
+                <div class="radio-group" value="{{checkin_data.tour_type}}">
+                  <input type="radio" name="tourType" value="Personal" {% if checkin_data.tour_type=="Personal"
+                    %}checked{% endif %} /> Personal
+                  <input type="radio" name="tourType" value="Business" {% if checkin_data.tour_type=="Business"
+                    %}checked{% endif %} />
+                  Business
+                </div>
+              </div>
+            </section>
+
+            <section class="room-details">
+              <h3>Room Details</h3>
+              <div class="form-group">
+                <label>Room No *</label>
+                <input id="input-roomNumber" name="roomNumber" type="text" value="{{checkin_data.room_no}}" readonly>
+              </div>
+              <div class="form-group">
+                <label>Bed Type *</label>
+                <div class="radio-group" value="{{checkin_data.bed_type}}">
+                  <input type="radio" name="bedType" value="Single" {% if checkin_data.bed_type=="Single" %}checked{%
+                    endif %} />
+                  Single
+                  <input type="radio" name="bedType" value="Double" {% if checkin_data.bed_type=="Double" %}checked{%
+                    endif %} /> Double
+                </div>
+              </div>
+              <div class="form-group">
+                <label>Room Type *</label>
+                <div class="radio-group">
+                  <input type="radio" name="roomType" value="Non AC" {% if checkin_data.room_type=="Non AC" %}checked{%
+                    endif %} /> Non AC
+                  <input type="radio" name="roomType" value="AC" {% if checkin_data.room_type=="AC" %}checked{% endif
+                    %} /> AC
+                </div>
+              </div>
+              <div class="occupancy">
+                <div class="form-group">
+                  <label>Adults *</label>
+                  <input type="number" name="adults" value="{{checkin_data.no_of_adults}}" />
+                </div>
+                <div class="form-group">
+                  <label>Children</label>
+                  <input type="number" name="children" value="{{checkin_data.no_of_children}}" />
+                </div>
+                <div class="form-group">
+                  <label>Extra Bed</label>
+                  <input type="number" name="extraBeds" value="{{checkin_data.no_of_extra_bed}}" />
+                </div>
+              </div>
+            </section>
+
+
+            <section class="primary-guest">
+              <h3>Primary Guest Details</h3>
+              <div class="form-group">
+                <label>Mobile Number *</label>
+                <input type="tel" name="primaryGuestMobileNumber" placeholder="Enter 10 digit mobile number"
+                  value="{{checkin_data.primary_person_mobile}}" />
+              </div>
+              <div class="form-group">
+                <label>Guest Name *</label>
+                <input type="text" name="primaryGuestName" value="{{checkin_data.primary_person_name}}" />
+              </div>
+              <div class="form-group">
+                <label>Alternate Number</label>
+                <input type="tel" name="primaryGuestAlternateNumber" value="{{checkin_data.alternate_number}}" />
+              </div>
+              <div class="form-group">
+                <label>Gender</label>
+                <select name="primaryGuestGender">
+                  <option value="">Select Gender</option>
+                  <option value="Male" {% if checkin_data.primary_person_gender=="Male" %}selected{% endif %}>Male
+                  </option>
+                  <option value="Female" {% if checkin_data.primary_person_gender=="Female" %}selected{% endif %}>Female
+                  </option>
+                  <option value="Other" {% if checkin_data.primary_person_gender=="Other" %}selected{% endif %}>Other
+                  </option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Guest Details/Address</label>
+                <textarea name="primaryGuestAddress">{{checkin_data.primary_person_address}}</textarea>
+              </div>
+              <div class="form-group">
+                <label>Nationality</label>
+                <input type="text" name="primaryGuestNationality" value="Indian" />
+              </div>
+              <div class="form-group">
+                <label>ID Type</label>
+                <select id="primaryPersonIDType" name="primaryGuestIdType">
+                  <option value="">Select ID Type</option>
+                  <option value="Aadhar Card" {% if checkin_data.primary_person_id_type=="Aadhar Card" %}selected{%
+                    endif %}>Aadhar Card</option>
+                  <option value="Passport" {% if checkin_data.primary_person_id_type=="Passport" %}selected{% endif %}>
+                    Passport</option>
+                  <option value="Driving License" {% if checkin_data.primary_person_id_type=="Driving License"
+                    %}selected{% endif %}>Driving License</option>
+                  <option value="PAN Card" {% if checkin_data.primary_person_id_type=="PAN Card" %}selected{% endif %}>
+                    PAN Card</option>
+                  <option value="Voter ID Card" {% if checkin_data.primary_person_id_type=="Voter ID Card" %}selected{%
+                    endif %}>Voter ID Card</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label>ID Number</label>
+                <input type="text" name="primaryGuestIdNumber" placeholder="Enter the Id Number"
+                  value="{{checkin_data.primary_person_id_number}}" />
+              </div>
+              <div class="form-group">
+                <label>Company</label>
+                <input type="text" name="primaryGuestCompany" placeholder="Enter company information"
+                  value="{{checkin_data.company_name}}" />
+              </div>
+              <div class="form-group">
+                <label>Company GST</label>
+                <input type="text" name="primaryGuestCompanyGST" placeholder="Enter company GST No"
+                  value="{{checkin_data.gst}}" />
+              </div>
+              <div class="form-group">
+                <label>Company Address</label>
+                <textarea name="primaryGuestCompanyAddress">{{checkin_data.company_address}}</textarea>
+              </div>
+            </section>
+
+            <section class="secondary-guests">
+              <h3>Secondary Guest Details</h3>
+              <div id="secondaryGuestsContainer">
+                <!-- Secondary guests will be added here dynamically -->
+                <div class="form-group">
+                  <label>Guest Name</label>
+                  <input type="text" name='secondaryGuestName' placeholder="Enter guest name"
+                    value="{{checkin_data.secondary_person_name}}" />
+                </div>
+                <!-- <div class="form-group">
                 <label>Gender</label>
                 <select name='secondaryGuestGender' value="{{checkin_data.secondaryGuestGender}}">
                   <option value="">Select Gender</option>
@@ -350,45 +590,60 @@
                 </select>
               </div> -->
 
-              <div class="form-group">
-                <label>Gender</label>
-                <select name="secondaryGuestGender">
-                  <option value="">Select Gender</option>
-                  <option value="Male" {% if checkin_data.secondary_person_gender == "Male" %}selected{% endif %}>Male</option>
-                  <option value="Female" {% if checkin_data.secondary_person_gender == "Female" %}selected{% endif %}>Female</option>
-                  <option value="Other" {% if checkin_data.secondary_person_gender == "Other" %}selected{% endif %}>Other</option>
-                </select>
+                <div class="form-group">
+                  <label>Gender</label>
+                  <select name="secondaryGuestGender">
+                    <option value="">Select Gender</option>
+                    <option value="Male" {% if checkin_data.secondary_person_gender=="Male" %}selected{% endif %}>Male
+                    </option>
+                    <option value="Female" {% if checkin_data.secondary_person_gender=="Female" %}selected{% endif %}>
+                      Female</option>
+                    <option value="Other" {% if checkin_data.secondary_person_gender=="Other" %}selected{% endif %}>
+                      Other</option>
+                  </select>
+                </div>
+
+
+
+
+                <div class="form-group">
+                  <label>ID Proof Type</label>
+                  <select name='secondaryGuestIdType'>
+                    <option value="">Select ID Proof</option>
+                    <option value="Aadhar Card" {% if checkin_data.secondary_person_id_type=="Aadhar Card" %}selected{%
+                      endif %}>Aadhar Card</option>
+                    <option value="Passport" {% if checkin_data.secondary_person_id_type=="Passport" %}selected{% endif
+                      %}>Passport</option>
+                    <option value="Driving License" {% if checkin_data.secondary_person_id_type=="Driving License"
+                      %}selected{% endif %}>Driving License</option>
+                    <option value="PAN Card" {% if checkin_data.secondary_person_id_type=="PAN Card" %}selected{% endif
+                      %}>PAN Card</option>
+                    <option value="Voter ID Card" {% if checkin_data.secondary_person_id_type=="Voter ID Card"
+                      %}selected{% endif %}>Voter ID Card</option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label>ID Number</label>
+                  <input type="text" name='secondaryGuestIdNumber' placeholder="Enter ID Number"
+                    value="{{checkin_data.secondary_person_id_number}}" />
+                </div>
+                <!-- <button type="button" class="remove-guest-btn" onclick="this.parentElement.remove()">Remove</button> -->
               </div>
-
-
-
-
-              <div class="form-group">
-                <label>ID Proof Type</label>
-                <select name='secondaryGuestIdType'>
-                  <option value="">Select ID Proof</option>
-                  <option value="Aadhar Card" {% if checkin_data.secondary_person_id_type == "Aadhar Card" %}selected{% endif %}>Aadhar Card</option>
-                  <option value="Passport" {% if checkin_data.secondary_person_id_type == "Passport" %}selected{% endif %}>Passport</option>
-                  <option value="Driving License" {% if checkin_data.secondary_person_id_type == "Driving License" %}selected{% endif %}>Driving License</option>
-                  <option value="PAN Card" {% if checkin_data.secondary_person_id_type == "PAN Card" %}selected{% endif %}>PAN Card</option>
-                  <option value="Voter ID Card" {% if checkin_data.secondary_person_id_type == "Voter ID Card" %}selected{% endif %}>Voter ID Card</option>
-                </select>
-              </div>
-              
-              <div class="form-group" >
-                <label>ID Number</label>
-                <input type="text" name='secondaryGuestIdNumber' placeholder="Enter ID Number" value="{{checkin_data.secondary_person_id_number}}"/>
-              </div>
-              <!-- <button type="button" class="remove-guest-btn" onclick="this.parentElement.remove()">Remove</button> -->
-            </div>
-            <!-- <button
+              <!-- <button
               type="button"
               class="add-guest-btn"
               onclick="addSecondaryGuest()"
             >
               + Add Guest
             </button> -->
-          </section>
+            </section>
+            <div>
+
+            </div>
+
+
+
 
           <div class="form-row">
             <button type="submit">Save</button>
@@ -396,201 +651,208 @@
           <div class="form-row">
             <button formaction="/checkin-edit-checkout">Save and CheckOut</button>
           </div>
-        </form>
-      </div>
+      </form>
     </div>
+  </div>
 
-    <script>
-      const setDateTimeLocal = (date) => {
-        date = new Date(date);
-        const year = date.getFullYear();
-        const month = String(date.getMonth() + 1).padStart(2, "0"); // Months are zero-indexed
-        const day = String(date.getDate()).padStart(2, "0");
-        const hours = String(date.getHours()).padStart(2, "0");
-        const minutes = String(date.getMinutes()).padStart(2, "0");
+  <script>
+    
 
-        // Format: YYYY-MM-DDTHH:MM
-        const formattedDateTime = `${year}-${month}-${day}T${hours}:${minutes}`;
-        return formattedDateTime;
-      };
+    const setDateTimeLocal = (date) => {
+      date = new Date(date);
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, "0"); // Months are zero-indexed
+      const day = String(date.getDate()).padStart(2, "0");
+      const hours = String(date.getHours()).padStart(2, "0");
+      const minutes = String(date.getMinutes()).padStart(2, "0");
 
-      // Get the query parameters from the URL
-      const queryString = window.location.search;
-      const urlParams = new URLSearchParams(queryString);
-      const roomNumber = urlParams.get("roomNumber"); // Room number
-      const roomName = urlParams.get("roomName"); // Room name
+      // Format: YYYY-MM-DDTHH:MM
+      const formattedDateTime = `${year}-${month}-${day}T${hours}:${minutes}`;
+      return formattedDateTime;
+    };
 
-      // Set default values on the form fields
-      const currentDate = new Date();
+    // Get the query parameters from the URL
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    const roomNumber = urlParams.get("roomNumber"); // Room number
+    const roomName = urlParams.get("roomName"); // Room name
 
-      // Checkout Date
-      const checkoutDateElement = document.getElementById("input-checkoutDate");
-      checkoutDateElement.value = setDateTimeLocal(currentDate);
+    // Set default values on the form fields
+    const currentDate = new Date();
 
-      // Invoice Date
-      const invoiceDateElement = document.getElementById("input-invoiceDate");
-      invoiceDateElement.value = setDateTimeLocal(currentDate);
+    // Checkout Date
+    const checkoutDateElement = document.getElementById("input-checkoutDate");
+    checkoutDateElement.value = setDateTimeLocal(currentDate);
 
-      // Room Number
-      const roomNumberInput = document.getElementById("input-roomNumber");
-      roomNumberInput.value = `${roomNumber} - ${roomName}`;
+    // Invoice Date
+    const invoiceDateElement = document.getElementById("input-invoiceDate");
+    invoiceDateElement.value = setDateTimeLocal(currentDate);
 
-      // No of Nights
-      const noOfNights = document.getElementById("input-nights");
-      noOfNights.value = calculateNights();
+    // Room Number
+    const roomNumberInput = document.getElementById("input-roomNumber");
+    roomNumberInput.value = `${roomNumber} - ${roomName}`;
+
+    // No of Nights
+    const noOfNights = document.getElementById("input-nights");
+    noOfNights.value = calculateNights();
 
 
 
-      function calculateNights() {
-  const checkinInput = document.getElementById("input-checkinDate").value;
-  const checkoutInput = document.getElementById("input-checkoutDate").value;
-  const nightsInput = document.getElementById("input-nights");
+    function calculateNights() {
+      const checkinInput = document.getElementById("input-checkinDate").value;
+      const checkoutInput = document.getElementById("input-checkoutDate").value;
+      const nightsInput = document.getElementById("input-nights");
 
-  if (!checkinInput || !checkoutInput) {
-    nightsInput.value = 0;
-    return;
-  }
+      if (!checkinInput || !checkoutInput) {
+        nightsInput.value = 0;
+        return;
+      }
 
-  const checkinDate = new Date(checkinInput);
-  const checkoutDate = new Date(checkoutInput);
+      const checkinDate = new Date(checkinInput);
+      const checkoutDate = new Date(checkoutInput);
 
-  // Ensure check-in date is before checkout date
-  if (checkinDate > checkoutDate) {
-    nightsInput.value = 0;
-    return;
-  }
+      // Ensure check-in date is before checkout date
+      if (checkinDate > checkoutDate) {
+        nightsInput.value = 0;
+        return;
+      }
 
-  // Define the hotel's checkout time as "hh:mm"
-  const hotelCheckoutTime = "{{ hotel_data.hotelCheckoutTime}}"; // Example: "10:00 AM"
+      // Define the hotel's checkout time as "hh:mm"
+      const hotelCheckoutTime = "{{ hotel_data.hotelCheckoutTime}}"; // Example: "10:00 AM"
 
-  // Parse the hotel checkout time
-  const [checkoutHour, checkoutMinute] = hotelCheckoutTime.split(":").map(Number);
+      // Parse the hotel checkout time
+      const [checkoutHour, checkoutMinute] = hotelCheckoutTime.split(":").map(Number);
 
-  // Adjust the checkout date's time to the hotel's standard checkout time
-  const adjustedCheckout = new Date(checkoutDate);
-  adjustedCheckout.setHours(checkoutHour, checkoutMinute, 0, 0);
+      // Adjust the checkout date's time to the hotel's standard checkout time
+      const adjustedCheckout = new Date(checkoutDate);
+      adjustedCheckout.setHours(checkoutHour, checkoutMinute, 0, 0);
 
-  // Calculate total nights (difference in days between check-in and adjusted checkout)
-  let totalNights = Math.floor((adjustedCheckout - checkinDate) / (1000 * 60 * 60 * 24));
+      const roomNumberHeading = document.getElementById("heading-roomNumber");
+      roomNumberHeading.textContent = `${roomNumber} - ${roomName}`;
 
-  // If the actual checkout time is past the hotel's checkout time, add an additional night
-  if (checkoutDate.getHours() > checkoutHour || 
-      (checkoutDate.getHours() === checkoutHour && checkoutDate.getMinutes() > checkoutMinute)) {
-    totalNights += 1;
-  }
 
-  totalNights = Math.max(totalNights,1)
-  // Update the nights input field
-  nightsInput.value = totalNights;
+      // Calculate total nights (difference in days between check-in and adjusted checkout)
+      let totalNights = Math.floor((adjustedCheckout - checkinDate) / (1000 * 60 * 60 * 24));
 
-  return totalNights
-}
+      // If the actual checkout time is past the hotel's checkout time, add an additional night
+      if (checkoutDate.getHours() > checkoutHour ||
+        (checkoutDate.getHours() === checkoutHour && checkoutDate.getMinutes() > checkoutMinute)) {
+        totalNights += 1;
+      }
 
-  // Initialize default values on page load
-  function initializeDates() {
-    const checkinInput = document.getElementById("input-checkinDate");
-    const checkoutInput = document.getElementById("input-checkoutDate");
+      totalNights = Math.max(totalNights, 1)
+      // Update the nights input field
+      nightsInput.value = totalNights;
 
-    if (checkinInput && checkoutInput) {
-      const now = new Date();
-      // Set check-in to the current time
-      checkinInput.value = now.toISOString().slice(0, 16);
-
-      // Set check-out to the current time
-      checkoutInput.value = now.toISOString().slice(0, 16);
-
-      calculateNights(); // Calculate nights initially
+      return totalNights
     }
-  }
 
-  document.addEventListener("DOMContentLoaded", () => {
-    const form = document.querySelector("form");
-    const genderSelectPrimary = document.querySelector('select[name="primaryGuestGender"]');
-    const idTypePrimary = document.querySelector('select[name="primaryGuestIdType"]');
-    const genderSelectSecondary = document.querySelector('select[name="secondaryGuestGender"]');
-    const idTypeSecondary = document.querySelector('select[name="secondaryGuestIdType"]');
+    // Initialize default values on page load
+    function initializeDates() {
+      const checkinInput = document.getElementById("input-checkinDate");
+      const checkoutInput = document.getElementById("input-checkoutDate");
 
-    const allowedGenders = ["Male", "Female", "Other"];
-    const allowedIdTypes = ["Aadhar Card", "Passport", "Driving License", "PAN Card", "Voter ID Card"];
+      if (checkinInput && checkoutInput) {
+        const now = new Date();
+        // Set check-in to the current time
+        checkinInput.value = now.toISOString().slice(0, 16);
 
-    form.addEventListener("submit", (event) => {
-      let isValid = true;
+        // Set check-out to the current time
+        checkoutInput.value = now.toISOString().slice(0, 16);
 
-      // Check Primary Guest Gender
-      if (!allowedGenders.includes(genderSelectPrimary.value)) {
-        isValid = false;
-        alert("Please select a valid Gender (Male, Female, Other) for the Primary Guest.");
+        calculateNights(); // Calculate nights initially
       }
+    }
 
-      // Check Primary Guest ID Type
-      if (!allowedIdTypes.includes(idTypePrimary.value)) {
-        isValid = false;
-        alert("Please select a valid ID Type (Aadhar Card, Passport, Driving License, PAN Card, Voter ID Card) for the Primary Guest.");
-      }
+    document.addEventListener("DOMContentLoaded", () => {
+      const form = document.querySelector("form");
+      const genderSelectPrimary = document.querySelector('select[name="primaryGuestGender"]');
+      const idTypePrimary = document.querySelector('select[name="primaryGuestIdType"]');
+      const genderSelectSecondary = document.querySelector('select[name="secondaryGuestGender"]');
+      const idTypeSecondary = document.querySelector('select[name="secondaryGuestIdType"]');
 
-      // Check Secondary Guest Gender (if exists)
-      if (genderSelectSecondary && genderSelectSecondary.value !== "" && !allowedGenders.includes(genderSelectSecondary.value)) {
-        isValid = false;
-        alert("Please select a valid Gender (Male, Female, Other) for the Secondary Guest.");
-      }
+      const allowedGenders = ["Male", "Female", "Other"];
+      const allowedIdTypes = ["Aadhar Card", "Passport", "Driving License", "PAN Card", "Voter ID Card"];
 
-      // Check Secondary Guest ID Type (if exists)
-      if (idTypeSecondary && idTypeSecondary.value !== "" && !allowedIdTypes.includes(idTypeSecondary.value)) {
-        isValid = false;
-        alert("Please select a valid ID Type (Aadhar Card, Passport, Driving License, PAN Card, Voter ID Card) for the Secondary Guest.");
-      }
+      form.addEventListener("submit", (event) => {
+        let isValid = true;
 
-      // Prevent submission if any field is invalid
-      if (!isValid) {
-        event.preventDefault();
-      }
+        // Check Primary Guest Gender
+        if (!allowedGenders.includes(genderSelectPrimary.value)) {
+          isValid = false;
+          alert("Please select a valid Gender (Male, Female, Other) for the Primary Guest.");
+        }
+
+        // Check Primary Guest ID Type
+        if (!allowedIdTypes.includes(idTypePrimary.value)) {
+          isValid = false;
+          alert("Please select a valid ID Type (Aadhar Card, Passport, Driving License, PAN Card, Voter ID Card) for the Primary Guest.");
+        }
+
+        // Check Secondary Guest Gender (if exists)
+        if (genderSelectSecondary && genderSelectSecondary.value !== "" && !allowedGenders.includes(genderSelectSecondary.value)) {
+          isValid = false;
+          alert("Please select a valid Gender (Male, Female, Other) for the Secondary Guest.");
+        }
+
+        // Check Secondary Guest ID Type (if exists)
+        if (idTypeSecondary && idTypeSecondary.value !== "" && !allowedIdTypes.includes(idTypeSecondary.value)) {
+          isValid = false;
+          alert("Please select a valid ID Type (Aadhar Card, Passport, Driving License, PAN Card, Voter ID Card) for the Secondary Guest.");
+        }
+
+        // Prevent submission if any field is invalid
+        if (!isValid) {
+          event.preventDefault();
+        }
+      });
     });
-  });
 
 
 
 
-      
 
-      //   function addSecondaryGuest() {
-      //     const container = document.getElementById("secondaryGuestsContainer");
-      //     const guestDiv = document.createElement("div");
-      //     guestDiv.className = "secondary-guest-entry";
 
-      //     guestDiv.innerHTML = `
-      //     <div class="form-group">
-      //         <label>Guest Name</label>
-      //         <input type="text" placeholder="Enter guest name">
-      //     </div>
-      //     <div class="form-group">
-      //         <label>Gender</label>
-      //         <select>
-      //             <option value="">Select Gender</option>
-      //             <option value="male">Male</option>
-      //             <option value="female">Female</option>
-      //             <option value="other">Other</option>
-      //         </select>
-      //     </div>
-      //     <div class="form-group">
-      //         <label>ID Proof Type</label>
-      //         <select>
-      //             <option value="">Select ID Proof</option>
-      //             <option value="aadhar">Aadhar Card</option>
-      //             <option value="passport">Passport</option>
-      //             <option value="drivingLicense">Driving License</option>
-      //             <option value="panCard">PAN Card</option>
-      //             <option value="voterID">Voter ID Card</option>
-      //         </select>
-      //     </div>
-      //     <div class="form-group">
-      //         <label>ID Number</label>
-      //         <input type="text" placeholder="Enter ID Number">
-      //     </div>
-      //     <button type="button" class="remove-guest-btn" onclick="this.parentElement.remove()">Remove</button>
-      // `;
+    //   function addSecondaryGuest() {
+    //     const container = document.getElementById("secondaryGuestsContainer");
+    //     const guestDiv = document.createElement("div");
+    //     guestDiv.className = "secondary-guest-entry";
 
-      //     container.appendChild(guestDiv);
-      //   }
-    </script>
-  </body>
+    //     guestDiv.innerHTML = `
+    //     <div class="form-group">
+    //         <label>Guest Name</label>
+    //         <input type="text" placeholder="Enter guest name">
+    //     </div>
+    //     <div class="form-group">
+    //         <label>Gender</label>
+    //         <select>
+    //             <option value="">Select Gender</option>
+    //             <option value="male">Male</option>
+    //             <option value="female">Female</option>
+    //             <option value="other">Other</option>
+    //         </select>
+    //     </div>
+    //     <div class="form-group">
+    //         <label>ID Proof Type</label>
+    //         <select>
+    //             <option value="">Select ID Proof</option>
+    //             <option value="aadhar">Aadhar Card</option>
+    //             <option value="passport">Passport</option>
+    //             <option value="drivingLicense">Driving License</option>
+    //             <option value="panCard">PAN Card</option>
+    //             <option value="voterID">Voter ID Card</option>
+    //         </select>
+    //     </div>
+    //     <div class="form-group">
+    //         <label>ID Number</label>
+    //         <input type="text" placeholder="Enter ID Number">
+    //     </div>
+    //     <button type="button" class="remove-guest-btn" onclick="this.parentElement.remove()">Remove</button>
+    // `;
+
+    //     container.appendChild(guestDiv);
+    //   }
+  </script>
+</body>
+
 </html>

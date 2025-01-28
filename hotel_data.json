@@ -27,34 +27,34 @@
             {
                 "number": "104",
                 "name": "nkjn",
-                "occupied": false
+                "occupied": true
             }
         ],
         "Floor 2": [
             {
                 "number": "201",
                 "name": "kjn",
-                "occupied": true
+                "occupied": false
             },
             {
                 "number": "202",
                 "name": "kjn",
-                "occupied": true
+                "occupied": false
             },
             {
                 "number": "203",
                 "name": "nkjn",
-                "occupied": true
+                "occupied": false
             },
             {
                 "number": "204",
                 "name": "nkjn",
-                "occupied": true
+                "occupied": false
             },
             {
                 "number": "205",
                 "name": "kjnkjn",
-                "occupied": true
+                "occupied": false
             }
         ]
     }

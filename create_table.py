@@ -44,7 +44,8 @@ CREATE TABLE HotelManagement (
     payment_method TEXT ,
     total_fare REAL  CHECK(total_fare >= 0),
     invoice_date DATE ,
-    invoice_no INTEGER UNIQUE
+    invoice_no INTEGER UNIQUE,
+    room_total REAL
 )
 ''')
 print("Created table successfully!")

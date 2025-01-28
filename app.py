@@ -85,7 +85,7 @@ def checkinForm():
 def checkin():
     data = load_data()
     form_data = request.form
-    # print(form_data.get("bookingType"))
+    print(form_data)
     # required_fields = ['primaryGuestName', 'primaryGuestMobileNumber', 'roomNumber', 'checkinDate']
     
     # for field in required_fields:
@@ -110,8 +110,8 @@ def checkin():
             primary_person_address, primary_person_nationality, primary_person_id_type, 
             primary_person_id_number, secondary_person_name, secondary_person_gender, 
             secondary_person_id_type, secondary_person_id_number, room_no, check_in, 
-            bed_type, room_type, tour_type, company_name, gst, company_address, no_of_adults, no_of_children, no_of_extra_bed, check_out,booking_type,no_of_nights
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?,?)
+            bed_type, room_type, tour_type, company_name, gst, company_address, no_of_adults, no_of_children, no_of_extra_bed, check_out,booking_type, room_total
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     """
 
             cursor.execute(
@@ -142,7 +142,7 @@ def checkin():
                     form_data.get("extraBeds", 0),
                     form_data.get("checkoutDate"),
                     form_data.get("bookingType"),
-                    form_data.get("numberOfNights"),
+                    form_data.get("roomTotal"),
                 ),
             )
             # print("hey hey hey",query_res)
@@ -155,14 +155,6 @@ def checkin():
     finally:
         conn.close()
 
-    #     return jsonify({"message": "Checked In Successfully"}), 200
-
-    # except sqlite3.Error as e:
-    #     logging.error(f"Database error: {e}")
-    #     return jsonify({"error": "An error occurred while processing your request"}), 500
-    # except Exception as e:
-    #     logging.error(f"Unexpected error: {e}")
-    #     return jsonify({"error": "An unexpected error occurred"}), 500
 
     # End Database Uploading---------------------
 
@@ -218,7 +210,7 @@ def checkin_checkout():
             primary_person_address, primary_person_nationality, primary_person_id_type, 
             primary_person_id_number, secondary_person_name, secondary_person_gender, 
             secondary_person_id_type, secondary_person_id_number, room_no, check_in, 
-            bed_type, room_type, tour_type, company_name, gst, company_address, no_of_adults, no_of_children, no_of_extra_bed, check_out,booking_type, no_of_nights
+            bed_type, room_type, tour_type, company_name, gst, company_address, no_of_adults, no_of_children, no_of_extra_bed, check_out,booking_type, room_total
         ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?,?,?)
     """
 
@@ -250,7 +242,7 @@ def checkin_checkout():
                     form_data.get("extraBeds", 0),
                     form_data.get("checkoutDate"),
                     form_data.get("bookingType"),
-                    form_data.get("numberOfNights"),
+                    form_data.get("roomTotal"),
                 ),
             )
             # print("hey hey hey",query_res)
@@ -395,7 +387,7 @@ def checkin_edit():
                         no_of_extra_bed = ?,
                         check_out = ?,
                         booking_type = ?,
-                        no_of_nights = ?
+                        room_total = ?
                     WHERE id = ?
                 """
 
@@ -427,7 +419,7 @@ def checkin_edit():
                         form_data.get("extraBeds", 0),
                         form_data.get("checkoutDate"),
                         form_data.get("bookingType"),
-                        form_data.get("numberOfNights"),
+                        form_data.get("roomTotal"),
                         entry_id  
                     )
                 )
@@ -495,7 +487,7 @@ def checkin_edit_checkout():
                 secondary_person_gender = ?, secondary_person_id_type = ?, secondary_person_id_number = ?, 
                 room_no = ?, check_in = ?, bed_type = ?, room_type = ?, tour_type = ?, company_name = ?, 
                 gst = ?, company_address = ?, no_of_adults = ?, no_of_children = ?, no_of_extra_bed = ?, 
-                check_out = ?, no_of_nights = ?
+                check_out = ?, room_total = ?
             WHERE id = ?
             """
 
@@ -526,7 +518,7 @@ def checkin_edit_checkout():
                     form_data.get("children", 0),
                     form_data.get("extraBeds", 0),
                     form_data.get("checkoutDate"),
-                    form_data.get("numberOfNights"),
+                    form_data.get("roomTotal"),
                     entry_id,
                 ),
             )
@@ -598,11 +590,11 @@ def dashboard_checkout():
                 entry_id = record["id"]
                 update_query = """
                                 UPDATE HotelManagement
-                                SET check_out = ?, no_of_nights=?
+                                SET check_out = ?, 
                                 WHERE id = ?
                             """
                 check_out_date_update_response = cursor.execute(
-                    update_query, (check_out_date_time,days_stayed, entry_id)
+                    update_query, (check_out_date_time, entry_id)
                 )
                 # print(f"[INFO] response: {check_out_date_update_response}")
 
