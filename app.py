@@ -139,7 +139,7 @@ def checkin():
                     form_data.get("extraBeds", 0),
                     form_data.get("checkoutDate"),
                     form_data.get("bookingType"),
-                    form_data.get("roomTotal"),
+                    form_data.get("roomTotal",0),
                 ),
             )
             # print("hey hey hey",query_res)
@@ -242,7 +242,7 @@ def checkin_checkout():
                     form_data.get("extraBeds", 0),
                     form_data.get("checkoutDate"),
                     form_data.get("bookingType"),
-                    form_data.get("roomTotal"),
+                    form_data.get("roomTotal", 0),
                 ),
             )
             # print("hey hey hey",query_res)
@@ -411,7 +411,7 @@ def checkin_edit():
                         form_data.get("extraBeds", 0),
                         form_data.get("checkoutDate"),
                         form_data.get("bookingType"),
-                        form_data.get("roomTotal"),
+                        form_data.get("roomTotal", 0),
                         entry_id,
                     ),
                 )
@@ -508,7 +508,7 @@ def checkin_edit_checkout():
                     form_data.get("children", 0),
                     form_data.get("extraBeds", 0),
                     form_data.get("checkoutDate"),
-                    form_data.get("roomTotal"),
+                    form_data.get("roomTotal", 0),
                     entry_id,
                 ),
             )
@@ -611,6 +611,8 @@ def checkout():
     total_amount = data.get("total_amount")
     room_no = data.get("room_no")
     payment_method = data.get("payment_method")
+    print("First")
+    print(total_amount,room_no,payment_method)
 
     try:
         with get_db_connection() as conn:
@@ -625,6 +627,7 @@ def checkout():
             results = cursor.fetchall()
             matches = len(results)
             record = dict(results[0])
+            print(f'record: {record}')
 
             query = "SELECT MAX(invoice_no) FROM HotelManagement"
             cursor.execute(query)
@@ -681,11 +684,11 @@ def checkout():
     hotel_data = load_data()
 
     requiredRoomNumber = room_no.split(" - ")[0]
-    # print(requiredRoomNumber)
+    print(requiredRoomNumber)
     floorDetails = hotel_data["floorDetails"]
-    roomFound = False
     # print(type(requiredRoomNumber))
 
+    roomFound = False
     for floor in floorDetails:
         if roomFound:
             break
@@ -700,7 +703,6 @@ def checkout():
     return (
         jsonify(
             {
-                "message": response_message,
                 "invoice_number": this_bill_invoice_number,
                 "invoice_date": invoice_date_time,
             }
@@ -812,6 +814,46 @@ def reportSubmit():
 @app.route("/report", methods=["GET"])
 def report():
     return render_template("reportForm.html")
+
+@app.route("/payment-mode-change", methods=["POST"])
+def updatePaymentMode():
+    # Get JSON data from the request
+    data = request.get_json()  # Use get_json() to parse JSON data
+    if not data:
+        return jsonify({"error": "No data provided"}), 400
+
+    # Extract the payment mode and ID from the JSON data
+    payment_mode = data.get("paymentMode")
+    entry_id = data.get("id")
+
+    # Validate required fields
+    if not payment_mode or not entry_id:
+        return jsonify({"error": "Payment mode or ID not provided"}), 400
+
+    # Print the payment mode and ID (for debugging)
+    print("Received payment mode:", payment_mode)
+    print("Received ID:", entry_id)
+
+    try:
+        # Update the database
+        with get_db_connection() as conn:
+            cursor = conn.cursor()
+            update_query = """
+                UPDATE HotelManagement
+                SET payment_method = ?
+                WHERE id = ?
+            """
+            cursor.execute(update_query, (payment_mode, entry_id))
+            conn.commit()  # Commit the transaction
+
+        # Return a success response
+        return jsonify({"status": "success", "message": f"Payment mode updated to {payment_mode}"})
+
+    except Exception as e:
+        # Handle database errors
+        print("Database error:", str(e))
+        return jsonify({"error": "Failed to update payment mode"}), 500
+    
 
 
 if __name__ == "__main__":

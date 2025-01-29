@@ -362,6 +362,23 @@ function initializeForm() {
 // Call this function when the page loads
 window.addEventListener('load', initializeForm);
 
+
+function validateDates() {
+  const checkinDate = new Date(document.getElementById('input-checkinDate').value);
+  const checkoutDate = new Date(document.getElementById('input-checkoutDate').value);
+  const errorDiv = document.getElementById('date-error');
+  
+  if (checkoutDate <= checkinDate) {
+    errorDiv.style.display = 'block';
+    document.getElementById('input-checkoutDate').value = '';
+  } else {
+    errorDiv.style.display = 'none';
+  }
+  
+  calculateNights(); // Assuming you want to keep this function
+}
+
+
   </script>
 
 </head>
@@ -397,7 +414,7 @@ window.addEventListener('load', initializeForm);
                   <tr>
                     <td>
                       <input type="number" step="0.01" class="base-tariff" placeholder="0" aria-label="Room Tariff"
-                        oninput="updateFromTariff(this)" name="roomTariff">
+                        oninput="updateFromTariff(this)" required name="roomTariff" min="0">
                     </td>
                     <td>
                       <input type="number" step="0.01" class="state-gst" readonly value="0" aria-label="State GST">
@@ -407,7 +424,7 @@ window.addEventListener('load', initializeForm);
                     </td>
                     <td>
                       <input type="number" step="0.01" class="total" placeholder="0" aria-label="Room Total" value="{{checkin_data.room_total}}"
-                        oninput="updateFromTotal(this)" name="roomTotal">
+                        oninput="updateFromTotal(this)" name="roomTotal" required min="0">
                     </td>
                   </tr>
                 </tbody>
@@ -440,16 +457,16 @@ window.addEventListener('load', initializeForm);
               <h3>Arrival Details</h3>
               <div class="form-group">
                 <label>
-                  Check In Date * (By default, date time of checkin button clicked
-                  on dashboard)
+                  Check In Date 
                 </label>
                 <input id="input-checkinDate" name="checkinDate" type="datetime-local" value="{{checkin_data.check_in}}"
-                  onchange="calculateNights()" />
+                  onchange="validateDates()" required />
               </div>
               <div class="form-group">
-                <label>Check Out Date * (By default current time)</label>
-                <input id="input-checkoutDate" name="checkoutDate" type="datetime-local" onchange="calculateNights()" />
+                <label>Check Out Date </label>
+                <input id="input-checkoutDate" name="checkoutDate" type="datetime-local" onchange="validateDates()" required/>
               </div>
+              <div id="date-error" style="color: red; display: none;">Check-out date must be after check-in date.</div>
               <div class="form-group">
                 <label>No Of Nights</label>
                 <input id="input-nights" type="number" name="numberOfNights" readonly />
@@ -494,15 +511,15 @@ window.addEventListener('load', initializeForm);
               <div class="occupancy">
                 <div class="form-group">
                   <label>Adults *</label>
-                  <input type="number" name="adults" value="{{checkin_data.no_of_adults}}" />
+                  <input type="number" name="adults" value="{{checkin_data.no_of_adults}}" required min="0" />
                 </div>
                 <div class="form-group">
                   <label>Children</label>
-                  <input type="number" name="children" value="{{checkin_data.no_of_children}}" />
+                  <input type="number" name="children" value="{{checkin_data.no_of_children}}" required min="0"/>
                 </div>
                 <div class="form-group">
                   <label>Extra Bed</label>
-                  <input type="number" name="extraBeds" value="{{checkin_data.no_of_extra_bed}}" />
+                  <input type="number" name="extraBeds" value="{{checkin_data.no_of_extra_bed}}" required min="0"/>
                 </div>
               </div>
             </section>
@@ -541,7 +558,7 @@ window.addEventListener('load', initializeForm);
               </div>
               <div class="form-group">
                 <label>Nationality</label>
-                <input type="text" name="primaryGuestNationality" value="Indian" />
+                <input type="text" name="primaryGuestNationality" value="INDIAN" />
               </div>
               <div class="form-group">
                 <label>ID Type</label>
@@ -709,53 +726,55 @@ window.addEventListener('load', initializeForm);
 
 
     function calculateNights() {
-      const checkinInput = document.getElementById("input-checkinDate").value;
-      const checkoutInput = document.getElementById("input-checkoutDate").value;
-      const nightsInput = document.getElementById("input-nights");
+  const checkinInput = document.getElementById("input-checkinDate").value;
+  const checkoutInput = document.getElementById("input-checkoutDate").value;
+  const nightsInput = document.getElementById("input-nights");
 
-      if (!checkinInput || !checkoutInput) {
-        nightsInput.value = 0;
-        return;
-      }
+  if (!checkinInput || !checkoutInput) {
+    nightsInput.value = 0;
+    return;
+  }
 
-      const checkinDate = new Date(checkinInput);
-      const checkoutDate = new Date(checkoutInput);
+  const checkinDate = new Date(checkinInput);
+  const checkoutDate = new Date(checkoutInput);
 
-      // Ensure check-in date is before checkout date
-      if (checkinDate > checkoutDate) {
-        nightsInput.value = 0;
-        return;
-      }
+  // Ensure check-in date is before checkout date
+  if (checkinDate > checkoutDate) {
+    nightsInput.value = 0;
+    return;
+  }
 
-      // Define the hotel's checkout time as "hh:mm"
-      const hotelCheckoutTime = "{{ hotel_data.hotelCheckoutTime}}"; // Example: "10:00 AM"
+  // Define the hotel's checkout time as "hh:mm"
+  const hotelCheckoutTime = "{{ hotel_data.hotelCheckoutTime }}"; // Example: "12:00"
+  const [checkoutHour, checkoutMinute] = hotelCheckoutTime.split(":").map(Number);
 
-      // Parse the hotel checkout time
-      const [checkoutHour, checkoutMinute] = hotelCheckoutTime.split(":").map(Number);
+  // Normalize check-in and check-out dates to ignore time components
+  const normalizedCheckinDate = new Date(checkinDate);
+  normalizedCheckinDate.setHours(0, 0, 0, 0);
 
-      // Adjust the checkout date's time to the hotel's standard checkout time
-      const adjustedCheckout = new Date(checkoutDate);
-      adjustedCheckout.setHours(checkoutHour, checkoutMinute, 0, 0);
+  const normalizedCheckoutDate = new Date(checkoutDate);
+  normalizedCheckoutDate.setHours(0, 0, 0, 0);
 
-      const roomNumberHeading = document.getElementById("heading-roomNumber");
-      roomNumberHeading.textContent = `${roomNumber} - ${roomName}`;
+  // Calculate the base number of nights stayed
+  let nightsStayed = Math.floor((normalizedCheckoutDate - normalizedCheckinDate) / (1000 * 3600 * 24));
 
+  // Adjust for hotel checkout time
+  const checkoutCutoff = new Date(checkoutDate);
+  checkoutCutoff.setHours(checkoutHour, checkoutMinute, 0, 0);
 
-      // Calculate total nights (difference in days between check-in and adjusted checkout)
-      let totalNights = Math.floor((adjustedCheckout - checkinDate) / (1000 * 60 * 60 * 24));
+  // If checkout is after or equal to the hotel's checkout time, add an extra night
+  if (checkoutDate >= checkoutCutoff) {
+    nightsStayed += 1;
+  }
 
-      // If the actual checkout time is past the hotel's checkout time, add an additional night
-      if (checkoutDate.getHours() > checkoutHour ||
-        (checkoutDate.getHours() === checkoutHour && checkoutDate.getMinutes() > checkoutMinute)) {
-        totalNights += 1;
-      }
+  // Ensure at least one night is counted
+  nightsStayed = Math.max(nightsStayed, 1);
 
-      totalNights = Math.max(totalNights, 1)
-      // Update the nights input field
-      nightsInput.value = totalNights;
+  // Update the nights input field
+  nightsInput.value = nightsStayed;
 
-      return totalNights
-    }
+  return nightsStayed;
+}
 
     // Initialize default values on page load
     function initializeDates() {

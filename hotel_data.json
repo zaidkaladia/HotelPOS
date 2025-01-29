@@ -12,39 +12,39 @@
             {
                 "number": "101",
                 "name": "kjn",
-                "occupied": true
+                "occupied": false
             },
             {
                 "number": "102",
                 "name": "kjn",
-                "occupied": true
+                "occupied": false
             },
             {
                 "number": "103",
                 "name": "kjn",
-                "occupied": true
+                "occupied": false
             },
             {
                 "number": "104",
                 "name": "nkjn",
-                "occupied": true
+                "occupied": false
             }
         ],
         "Floor 2": [
             {
                 "number": "201",
                 "name": "kjn",
-                "occupied": true
+                "occupied": false
             },
             {
                 "number": "202",
                 "name": "kjn",
-                "occupied": true
+                "occupied": false
             },
             {
                 "number": "203",
                 "name": "nkjn",
-                "occupied": true
+                "occupied": false
             },
             {
                 "number": "204",
@@ -54,7 +54,7 @@
             {
                 "number": "205",
                 "name": "kjnkjn",
-                "occupied": true
+                "occupied": false
             }
         ]
     }

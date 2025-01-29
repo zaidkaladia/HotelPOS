@@ -1,159 +1,130 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Invoice</title>
-    <style>
-        @media print {
-            body {
-                margin: 0;
-                padding: 0;
-                -webkit-print-color-adjust: exact;
-            }
-            .container {
-                margin: 0;
-                padding: 20mm;
-                border: none;
-                box-shadow: none;
-            }
-            .table-container {
-                overflow: visible;
-            }
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Invoice</title>
+  <style>
+    @media print {
+      body {
+        margin: 0;
+        padding: 0;
+        -webkit-print-color-adjust: exact;
+      }
 
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f9;
-        }
-        p {
-          margin: 4px;
-        }
-        .container {
-            width: 210mm; /* A4 width */
-            max-width: 210mm;
-            margin: 20px auto;
-            padding: 20px;
-            background-color: #fff;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-        h3 {
-            text-align: center;
-            margin-bottom: 20px;
-            color: #333;
-            font-size: 18px;
-        }
-        .table-container {
-            margin-bottom: 20px;
-            overflow-x: auto;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 20px;
-            font-size: 14px;
-        }
-        th, td {
-            text-align: left;
-            padding: 8px;
-            border: 1px solid #ddd;
-        }
-        th {
-            background-color: #f1f1f1;
-            font-weight: bold;
-        }
-        td input {
-            width: calc(100% - 12px);
-            padding: 5px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            font-size: 13px;
-        }
-        td input[readonly] {
-            background-color: #f9f9f9;
-        }
-        label {
-            font-weight: bold;
-            display: block;
-            margin-bottom: 5px;
-            font-size: 14px;
-        }
-        select {
-            width: 100%;
-            padding: 8px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            background-color: #fff;
-            font-size: 14px;
-        }
-        .calculate-section {
-            text-align: right;
-            margin-top: 20px;
-        }
-        button {
-            padding: 10px 15px;
-            background-color: #007bff;
-            color: #fff;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 14px;
-        }
-        button:hover {
-            background-color: #0056b3;
-        }
+      .container {
+        margin: 0;
+        padding: 20mm;
+        border: none;
+        box-shadow: none;
+      }
 
+      .table-container {
+        overflow: visible;
+      }
+    }
 
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f9;
+    }
 
+    p {
+      margin: 4px;
+    }
 
+    .container {
+      width: 210mm;
+      /* A4 width */
+      max-width: 210mm;
+      margin: 20px auto;
+      padding: 20px;
+      background-color: #fff;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
 
+    h3 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #333;
+      font-size: 18px;
+    }
 
+    .table-container {
+      margin-bottom: 20px;
+      overflow-x: auto;
+    }
 
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+      font-size: 14px;
+    }
 
+    th,
+    td {
+      text-align: left;
+      padding: 8px;
+      border: 1px solid #ddd;
+    }
 
+    th {
+      background-color: #f1f1f1;
+      font-weight: bold;
+    }
 
-        /* _______________________________________________________ */
-        body {
-            font-family: Arial, sans-serif;
-            margin: 40px;
-        }
-        .invoice-header {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 20px;
-        }
-        .hotel-info {
-            text-align: right;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 20px 0;
-        }
-        th, td {
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: left;
-        }
-        .amount-words {
-            margin: 20px 0;
-            font-style: italic;
-        }
-        .signatures {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 50px;
-        }
-        .payment-details {
-            border: 1px solid #ddd;
-            padding: 10px;
-            width: 200px;
-            float: right;
-        }
+    td input {
+      width: calc(100% - 12px);
+      padding: 5px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 13px;
+    }
+
+    td input[readonly] {
+      background-color: #f9f9f9;
+    }
+
+    label {
+      font-weight: bold;
+      display: block;
+      margin-bottom: 5px;
+      font-size: 14px;
+    }
+
+    select {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      background-color: #fff;
+      font-size: 14px;
+    }
+
+    .calculate-section {
+      text-align: right;
+      margin-top: 20px;
+    }
+
+    button {
+      padding: 10px 15px;
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
 
 
 
@@ -164,7 +135,63 @@
 
 
 
-        body {
+    /* _______________________________________________________ */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 40px;
+    }
+
+    .invoice-header {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+
+    .hotel-info {
+      text-align: right;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+    }
+
+    th,
+    td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: left;
+    }
+
+    .amount-words {
+      margin: 20px 0;
+      font-style: italic;
+    }
+
+    .signatures {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 50px;
+    }
+
+    .payment-details {
+      border: 1px solid #ddd;
+      padding: 10px;
+      width: 200px;
+      float: right;
+    }
+
+
+
+
+
+
+
+
+
+
+    body {
       font-family: Arial, sans-serif;
       margin: 20px;
     }
@@ -175,7 +202,8 @@
       margin-bottom: 20px;
     }
 
-    th, td {
+    th,
+    td {
       border: 1px solid #000;
       padding: 8px;
       text-align: center;
@@ -212,6 +240,7 @@
     body {
       font-family: Arial, sans-serif;
       margin: 20px;
+      font-size: smaller;
     }
 
     table {
@@ -220,7 +249,8 @@
       margin-bottom: 20px;
     }
 
-    th, td {
+    th,
+    td {
       border: 1px solid #000;
       padding: 8px;
       text-align: center;
@@ -262,103 +292,142 @@
     }
 
     .navbar {
-  background-color: #333;
-  padding: 10px 0;
-}
-
-.navbar ul {
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  justify-content: space-around;
-}
-
-.navbar li {
-  display: inline;
-}
-
-.navbar a {
-  color: white;
-  text-decoration: none;
-  padding: 10px 20px;
-  font-size: 16px;
-}
-
-.navbar a:hover {
-  background-color: #ddd;
-  color: black;
-}
-
-
-
-
-.invoice-header {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 1rem;
-}
-
-.customer-info,
-.hotel-info {
-    max-width: 100%;
-}
-
-.address {
-    word-wrap: break-word;
-    white-space: pre-wrap;
-}
-
-
-@media print {
-  button, select, nav, .navbar {
-    display: none;
-  }
-  @page {
-    margin: 15px;
-  }
-  @page :footer {
-    display: none;
-  }
-  @page :header {
-    display: none;
-  }
+      background-color: #333;
+      padding: 10px 0;
     }
-    
-    </style>
-    <script>
-        function calculateRow(row, changedField) {
-            const baseTariffInput = row.querySelector(".base-tariff");
-            const stateGSTInput = row.querySelector(".state-gst");
-            const centerGSTInput = row.querySelector(".center-gst");
-            const totalInput = row.querySelector(".total");
 
-            let baseTariff = parseFloat(baseTariffInput.value) || 0;
-            let total = parseFloat(totalInput.value) || 0;
+    .navbar ul {
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: space-around;
+    }
 
-            if (changedField === "base-tariff" && baseTariff > 0) {
-                const stateGST = baseTariff * 0.06;
-                const centerGST = baseTariff * 0.06;
-                const calculatedTotal = baseTariff + stateGST + centerGST;
+    .navbar li {
+      display: inline;
+    }
 
-                stateGSTInput.value = stateGST.toFixed(2);
-                centerGSTInput.value = centerGST.toFixed(2);
-                totalInput.value = calculatedTotal.toFixed(2);
-            } else if (changedField === "total" && total > 0) {
-                const baseTariffFromTotal = total / 1.12;
-                const stateGST = baseTariffFromTotal * 0.06;
-                const centerGST = baseTariffFromTotal * 0.06;
+    .navbar a {
+      color: white;
+      text-decoration: none;
+      padding: 10px 20px;
+      font-size: 16px;
+    }
 
-                baseTariffInput.value = baseTariffFromTotal.toFixed(2);
-                stateGSTInput.value = stateGST.toFixed(2);
-                centerGSTInput.value = centerGST.toFixed(2);
-            }
+    .navbar a:hover {
+      background-color: #ddd;
+      color: black;
+    }
+
+
+
+
+    .invoice-header {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 1rem;
+    }
+
+    .customer-info,
+    .hotel-info {
+      max-width: 100%;
+    }
+
+    .address {
+      word-wrap: break-word;
+      white-space: pre-wrap;
+    }
+
+
+    @media print {
+
+      button,
+      select,
+      nav,
+      .navbar {
+        display: none;
+      }
+
+      @page {
+        margin: 15px;
+      }
+
+      @page :footer {
+        display: none;
+      }
+
+      @page :header {
+        display: none;
+      }
+    }
+  </style>
+  <script>
+
+    function calculateRow(row, changedField) {
+      const baseTariffInput = row.querySelector(".base-tariff");
+      const stateGSTInput = row.querySelector(".state-gst");
+      const centerGSTInput = row.querySelector(".center-gst");
+      const totalInput = row.querySelector(".total");
+
+      let baseTariff = parseFloat(baseTariffInput.value) || 0;
+      let total = parseFloat(totalInput.value) || 0;
+
+      if (changedField === "base-tariff" && baseTariff > 0) {
+        const stateGST = baseTariff * 0.06;
+        const centerGST = baseTariff * 0.06;
+        const calculatedTotal = baseTariff + stateGST + centerGST;
+
+        stateGSTInput.value = stateGST.toFixed(2);
+        centerGSTInput.value = centerGST.toFixed(2);
+        totalInput.value = calculatedTotal.toFixed(2);
+      } else if (changedField === "total" && total > 0) {
+        const baseTariffFromTotal = total / 1.12;
+        const stateGST = baseTariffFromTotal * 0.06;
+        const centerGST = baseTariffFromTotal * 0.06;
+
+        baseTariffInput.value = baseTariffFromTotal.toFixed(2);
+        stateGSTInput.value = stateGST.toFixed(2);
+        centerGSTInput.value = centerGST.toFixed(2);
+      }
+    }
+
+
+
+    // Function to handle the payment mode change
+    async function handlePaymentModeChange(event) {
+      const selectedPaymentMode = event.target.value; // Get the selected payment mode
+
+      // API endpoint (replace with your actual API endpoint)
+      const apiUrl = "/payment-mode-change";
+
+      try {
+        // Make the API call
+        const response = await fetch(apiUrl, {
+          method: "POST", // or "GET" depending on your API
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ paymentMode: selectedPaymentMode, id: "{{data.id}}" }), // Send the selected payment mode
+        });
+
+        if (!response.ok) {
+          throw new Error("API request failed");
         }
-        
 
-        
+        const data = await response.json();
+        console.log("API Response:", data);
 
-    </script>
+        // Handle the API response (e.g., update the UI or show a message)
+        // alert(`Payment mode changed to: ${selectedPaymentMode}. API response received.`);
+      } catch (error) {
+        console.error("Error making API call:", error);
+        // alert("Failed to update payment mode. Please try again.");
+      }
+    }
+
+
+  </script>
 </head>
 
 
@@ -366,167 +435,208 @@
   <nav class="navbar">
     <ul>
       <li><a href="http://localhost:54321/">Dashboard</a></li>
-    <li><a href="http://localhost:54321/invoice">Invoice</a></li>
-    <li><a href="http://localhost:54321/report">Report</a></li>
-  </ul>
+      <li><a href="http://localhost:54321/invoice">Invoice</a></li>
+      <li><a href="http://localhost:54321/report">Report</a></li>
+    </ul>
   </nav>
-    <div class="invoice-header">
-        <div>
-            <p><b style="font-size: xx-large;">Invoice</b></p>
-            <p><b>Name: </b>{{data.primary_person_name}}</p>
-            <p ><b>Ph:</b>+91 {{data.primary_person_mobile[:5]}}-{{data.primary_person_mobile[5:]}}</p>
+  <div class="invoice-header">
+    <div>
+      <p><b style="font-size: xx-large;">Invoice</b></p>
+      <p><b>Name: </b>{{data.primary_person_name}}</p>
+      <p><b>Ph:</b>+91 {{data.primary_person_mobile[:5]}}-{{data.primary_person_mobile[5:]}}</p>
 
-            <p><b>C/o:</b> {{data.company_name}}</p>
-            <p><b>GSTN:</b> {{data.gst}}</p>
-            <p>{{data.company_address}}</p>
-        </div>
-        <div class="empty-column"></div>
-        <div class="hotel-info">
-            <p><b style="font-size: x-large;">{{hotel_data.hotelName}}</b></p>
-            <p ><b>Add:</b> {{hotel_data.address}}</p>
-            <p ><b>Ph:</b>+91 {{hotel_data.phone[:5]}}-{{hotel_data.phone[5:]}}</p>
-            <p ><b>Mail:</b> {{hotel_data.email}}</p>            
-            <p ><b>GSTN:</b> {{hotel_data.gstn}}</p>
+      {% if data.company_name != "None" %}
+      <p><b>C/o:</b> {{ data.company_name }}</p>
+      {% endif %}
 
-        </div>
+      {% if data.gst != "None" %}
+      <p><b>GSTN:</b> {{ data.gst }}</p>
+      {% endif %}
+
+      {% if data.company_address != "None" %}
+      <p>{{ data.company_address }}</p>
+      {% endif %}
     </div>
+    <div class="empty-column"></div>
+    <div class="hotel-info">
+      <p><b style="font-size: x-large;">{{hotel_data.hotelName}}</b></p>
+      <p><b>Add:</b> {{hotel_data.address}}</p>
+      <p><b>Ph:</b>+91 {{hotel_data.phone[:5]}}-{{hotel_data.phone[5:]}}</p>
+      <p><b>Mail:</b> {{hotel_data.email}}</p>
+      <p><b>GSTN:</b> {{hotel_data.gstn}}</p>
 
-    <table>
-        <tr>
-            <td><b>Stay Id:</b> <br>{{data.id}}</td>
-            <td><b>Invoice No:</b> <br>{{data.invoice_no}}</td>
-            <td><b>Invoice Date:</b> <br>{{data.invoice_date}}</td>
-            <td><b>Nationality: </b><br>{{data.primary_person_nationality}}</td>
-            
-        </tr>
-        <tr>
-            <td><b>Room No:</b> <br>{{data.room_no}}</td>
-            <td><b>Arrival:</b> <br>{{data.check_in[:10]}} {{data.check_in[12:]}} </td>
-            <td><b>Departure:</b><br> {{data.check_out[:10]}} {{data.check_out[12:]}}</td>
-            <td><b>No of Days:</b><br> {{data.no_of_nights}}</td>
-        </tr>
-    </table>
+    </div>
+  </div>
 
-    <table>
-        <thead>
-          <tr>
-            <th>Date</th>
-            <th>Particulars</th>
-            <th>Room Tariff</th>
-            <th>SGST (6%)</th>
-            <th>CGST (6%)</th>
-            <th>Room Total</th>
-          </tr>
-        </thead>
-        <tbody id="stay-rows">
-          <!-- Rows will be dynamically added here -->
-        </tbody>
-        <tfoot>
-            <tr class="total-row">
-                <td colspan="5">TOTAL in words
-                    <br><p><span id="total-amount-words">Zero only</span></p>
-                </td>
-              <td >TOTAL
-                <br><p>₹<span id="total-amount">0.00</span></p>
-              </td>
-              </tr>
-            <!-- <tr class="grand-total">
+  <table>
+    <tr>
+      <td><b>Invoice No:</b> <br>{{data.invoice_no}}</td>
+      <td><b>Folio No.:</b> <br>{{data.id}}</td>
+      <td><b>Room No:</b> <br>{{data.room_no[:3]}}</td>
+      <td><b>Room Type:</b> <br>{{data.room_type}}</td>
+      <td><b>Pax:</b> <br>{{data.no_of_adults}} Adults, {{data.no_of_children}} </td>
+      
+
+
+      
+      
+    </tr>
+    <tr>
+      <td><b>Invoice Date:</b> <br>{{data.invoice_date}}</td>
+      <td><b>Nationality: </b><br>{{data.primary_person_nationality}}</td>
+      <!-- <td><b>Room No:</b> <br>{{data.room_no}}</td> -->
+      <td><b>Arrival:</b> <br>{{data.check_in[:10]}} {{data.check_in[11:]}} </td>
+      <td><b>Departure:</b><br> {{data.check_out[:10]}} {{data.check_out[11:]}}</td>
+      <td><b>No of Days:</b><br> <span id="number-of-nights"></span></td>
+    </tr>
+  </table>
+  <p style="font-size: larger;"><b>Billing Details</b></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Date</th>
+        <th>Particulars</th>
+        <th>Room Tariff</th>
+        <th>SGST </th>
+        <th>CGST </th>
+        <th>Room Total</th>
+      </tr>
+    </thead>
+    <tbody id="stay-rows">
+      <!-- Rows will be dynamically added here -->
+    </tbody>
+    <tfoot>
+      <tr class="total-row">
+        <td colspan="5">TOTAL in words
+          <br>
+          <p><span id="total-amount-words">Zero only</span></p>
+        </td>
+        <td>TOTAL
+          <br>
+          <p>₹<span id="total-amount">0.00</span></p>
+        </td>
+      </tr>
+      <!-- <tr class="grand-total">
               <td colspan="8">GRAND TOTAL: Rs. 3000.00</td>
             </tr> -->
-          </tfoot>
-      
+    </tfoot>
 
-      
+
+
   </table>
 
-      <div>
-        <label for="paymentMode">Payment Mode:</label>
-        <select id="paymentMode" aria-label="Payment Mode" >
-            <option value="cash">Cash</option>
-            <option value="card">Card</option>
-            <option value="paytm">PayTM / GPay</option>
-            <option value="netbanking">Net Banking</option>
-            <option value="upi">UPI</option>
-        </select>
-    </div>
-    
-    <br><br><br>
+  <div>
+    <label for="paymentMode">Payment Mode:</label>
+    <select id="paymentMode" aria-label="Payment Mode" onchange="handlePaymentModeChange(event)">
+      <option value="Cash" {% if data.payment_method=="Cash" %}selected{% endif %}>Cash</option>
+      <option value="Card" {% if data.payment_method=="Card" %}selected{% endif %}>Card</option>
+      <option value="PayTM / GPay" {% if data.payment_method=="PayTM / GPay" %}selected{% endif %}>PayTM / GPay</option>
+      <option value="Net Banking" {% if data.payment_method=="Net Banking" %}selected{% endif %}>Net Banking</option>
+      <option value="UPI" {% if data.payment_method=="UPI" %}selected{% endif %}>UPI</option>
+    </select>
+  </div>
 
-    <div class="signatures">
-        <div>
-            <p>_________________</p>
-            <p>Authorized Signature</p>
-            
-        </div>
-        <div>
-            <p>_________________</p>
-            <p>Guest Signature</p>
-        
-        </div>
-    </div>
-    
-    <div style="display: flex; justify-content: space-between;">
+  <br><br><br>
+
+  <div class="signatures">
     <div>
-        <button type="button" onclick="printBill()"> Print</button>
+      <p>_________________</p>
+      <p>Authorized Signature</p>
+
+    </div>
+    <div>
+      <p>_________________</p>
+      <p>Guest Signature</p>
+
+    </div>
+  </div>
+
+  <div style="display: flex; justify-content: space-between;">
+    <div>
+      <button type="button" onclick="printBill()"> Print</button>
     </div>
 
-    <div id="checkoutButtonContainer" >
-        <button onclick="checkout()" style="background-color: red;">Checkout</button>
+    <div id="checkoutButtonContainer">
+      <button onclick="checkout()" style="background-color: red;">Checkout</button>
     </div>
-</div>
+  </div>
 
-    <script>
-      
+  <script>
 
-        function populateStayRows() {
-    const checkinInput = "{{data.check_in}}"; // Replace with actual data
-    const checkoutInput = "{{data.check_out}}"; // Replace with actual data
-    const roomNo = "{{data.room_no}}"; // Room number from your data
-    const tableBody = document.getElementById("stay-rows");
-    const totalDisplay = document.getElementById("total-amount");
-    const totalInWordsDisplay = document.getElementById("total-amount-words");
-    tableBody.innerHTML = ""; // Clear existing rows
 
-    // Parse check-in and check-out dates
-    const checkinDate = new Date(checkinInput); // Ensure checkinInput is a valid date string
-    const checkoutDate = new Date(checkoutInput); // Ensure checkoutInput is a valid date string
+    function populateStayRows() {
+      const checkinInput = "{{data.check_in}}";
+      const checkoutInput = "{{data.check_out}}";
+      const roomNo = "{{data.room_no}}"; // Room number from your data
+      const tableBody = document.getElementById("stay-rows");
+      const totalDisplay = document.getElementById("total-amount");
+      const totalInWordsDisplay = document.getElementById("total-amount-words");
+      tableBody.innerHTML = ""; // Clear existing rows
 
-    // Hotel checkout time as a string (e.g., "12:00"), needs to be parsed
-    const hotelCheckoutTime = "{{ hotel_data.hotelCheckoutTime}}"; // Example: "12:00"
-    const [checkoutHour, checkoutMinute] = hotelCheckoutTime.split(":").map(Number); // Convert "12:00" to 12 (hour) and 0 (minute)
+      // Parse check-in and check-out dates
+      const checkinDate = new Date(checkinInput); // Ensure checkinInput is a valid date string
+      const checkoutDate = new Date(checkoutInput); // Ensure checkoutInput is a valid date string
 
-    // Adjust checkoutDate for comparison with hotel checkout time
-    const checkoutCutoff = new Date(checkoutDate);
-    checkoutCutoff.setHours(checkoutHour, checkoutMinute, 0, 0); // Set the checkout cutoff time (e.g., 12:00 PM)
+      // Hotel checkout time as a string (e.g., "12:00"), needs to be parsed
+      const hotelCheckoutTime = "{{ hotel_data.hotelCheckoutTime }}"; // Example: "12:00"
+      const [checkoutHour, checkoutMinute] = hotelCheckoutTime.split(":").map(Number); // Convert "12:00" to 12 (hour) and 0 (minute)
 
-    // Calculate the number of days stayed
-    let daysStayed = Math.floor((checkoutDate - checkinDate) / (1000 * 3600 * 24)) + 1; // Base calculation includes the first day
+      // Normalize check-in and check-out dates to ignore time components
+      const normalizedCheckinDate = new Date(checkinDate);
+      normalizedCheckinDate.setHours(0, 0, 0, 0); // Set time to 00:00:00
 
-    // Exclude the last day if the departure is before the hotel's checkout time
-    if (checkoutDate <= checkoutCutoff) {
+      const normalizedCheckoutDate = new Date(checkoutDate);
+      normalizedCheckoutDate.setHours(0, 0, 0, 0); // Set time to 00:00:00
+
+      // Calculate the base number of days stayed
+      let daysStayed = Math.floor((normalizedCheckoutDate - normalizedCheckinDate) / (1000 * 3600 * 24)) + 1; // Base calculation includes the first day
+
+      // Adjust for hotel checkout time
+      const checkoutCutoff = new Date(checkoutDate);
+      checkoutCutoff.setHours(checkoutHour, checkoutMinute, 0, 0); // Set the checkout cutoff time (e.g., 12:00 PM)
+
+      // If checkout is before the hotel's checkout time, exclude the last day
+      if (checkoutDate < checkoutCutoff) {
         daysStayed -= 1;
-    }
+      }
 
-    // Ensure at least one day is counted
-    daysStayed = Math.max(daysStayed, 1);
+      // Ensure at least one day is counted
+      daysStayed = Math.max(daysStayed, 1);
+      
+      // Update the span with the number of days stayed
+document.getElementById("number-of-nights").textContent = daysStayed;
 
-    // Generate an array of dates from check-in to the adjusted check-out day
-    const dates = [];
-    const currentDate = new Date(checkinDate); // Start from the check-in date
-    for (let i = 0; i < daysStayed; i++) {
+
+      // Generate an array of dates from check-in to the adjusted check-out day
+      const dates = [];
+      const currentDate = new Date(normalizedCheckinDate); // Start from the check-in date
+      for (let i = 0; i < daysStayed; i++) {
         dates.push(new Date(currentDate)); // Add a copy of the current date
         currentDate.setDate(currentDate.getDate() + 1); // Move to the next day
-    }
+      }
 
-    let grandTotal = 0; // Initialize total sum
+      console.log(dates);
+      let grandTotal = 0; // Initialize total sum
 
-    // Populate table rows
-    dates.forEach((date) => {
+      // Populate table rows
+      dates.forEach((date) => {
+
         const formattedDate = date.toLocaleDateString("en-GB"); // Format as dd/mm/yyyy
-        const baseTariff = 1607.14; // Default room tariff
+        const total = "{{ data.room_total}}";
+        console.log(total)
+        if (total / 1.18 < 7500) {
+          gstRate = 0.06;
+          baseTariff = (total / 1.12).toFixed(2);
+          ;
+        } else {
+          gstRate = 0.09;
+          baseTariff = (total / 1.12).toFixed(2);
+        }
+
+        // const baseTariff = "{{ data.roomtariff}}"; // Default room tariff
         const sgst = (baseTariff * 0.06).toFixed(2);
         const cgst = (baseTariff * 0.06).toFixed(2);
-        const total = (baseTariff + parseFloat(sgst) + parseFloat(cgst)).toFixed(2);
+        // const total = (baseTariff + parseFloat(sgst) + parseFloat(cgst)).toFixed(2);
 
         grandTotal += parseFloat(total); // Add to total sum
 
@@ -548,235 +658,233 @@
             </td>
         `;
         tableBody.appendChild(row);
-    });
+      });
 
-    // Update the total and amount in words
-    updateTotalDisplay(grandTotal);
-}
-
-        // Function to calculate row values dynamically
-        function calculateRow(row, changedField) {
-            const baseTariffInput = row.querySelector(".base-tariff");
-            const stateGSTInput = row.querySelector(".state-gst");
-            const centerGSTInput = row.querySelector(".center-gst");
-            const totalInput = row.querySelector(".total");
-
-            let baseTariff = parseFloat(baseTariffInput.value) || 0;
-            let total = parseFloat(totalInput.value) || 0;
-
-            if (changedField === "base-tariff" && baseTariff > 0) {
-                const stateGST = baseTariff * 0.06;
-                const centerGST = baseTariff * 0.06;
-                const calculatedTotal = baseTariff + stateGST + centerGST;
-
-                stateGSTInput.value = stateGST.toFixed(2);
-                centerGSTInput.value = centerGST.toFixed(2);
-                totalInput.value = calculatedTotal.toFixed(2);
-            } else if (changedField === "total" && total > 0) {
-                const baseTariffFromTotal = total / 1.12;
-                const stateGST = baseTariffFromTotal * 0.06;
-                const centerGST = baseTariffFromTotal * 0.06;
-
-                baseTariffInput.value = baseTariffFromTotal.toFixed(2);
-                stateGSTInput.value = stateGST.toFixed(2);
-                centerGSTInput.value = centerGST.toFixed(2);
-            }
-
-            const totalInputs = document.querySelectorAll(".total");
-    let grandTotal = 0;
-
-    totalInputs.forEach((input) => {
-      grandTotal += parseFloat(input.value) || 0;
-    });
-
-    updateTotalDisplay(grandTotal);
-        }
-
-
-        function calculateTotal() {
-    const totalInputs = document.querySelectorAll(".total");
-    let grandTotal = 0;
-
-    totalInputs.forEach((input) => {
-      grandTotal += parseFloat(input.value) || 0;
-    });
-
-    updateTotalDisplay(grandTotal);
-  }
-
-
-        function updateTotalDisplay(grandTotal) {
-    const totalDisplay = document.getElementById("total-amount");
-    const totalInWordsDisplay = document.getElementById("total-amount-words");
-
-    totalDisplay.textContent = grandTotal.toFixed(2);
-
-    // Convert total to words
-    totalInWordsDisplay.textContent = numberToWords(grandTotal) + " only";
-  }
-
-
-
-
-        function numberToWords(amount) {
-    // Simple number-to-words function for INR
-    const words = [
-      "Zero", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten", "Eleven",
-      "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen", "Seventeen", "Eighteen", "Nineteen",
-    ];
-    const tens = ["", "", "Twenty", "Thirty", "Forty", "Fifty", "Sixty", "Seventy", "Eighty", "Ninety"];
-    const scales = ["", "Thousand", "Lakh", "Crore"];
-
-    function convertToWords(num) {
-      if (num < 20) return words[num];
-      if (num < 100) return tens[Math.floor(num / 10)] + (num % 10 !== 0 ? " " + words[num % 10] : "");
-      if (num < 1000) return words[Math.floor(num / 100)] + " Hundred" + (num % 100 !== 0 ? " and " + convertToWords(num % 100) : "");
-
-      let scaleIndex = 0;
-      let result = "";
-      while (num > 0) {
-        const chunk = num % 1000;
-        if (chunk !== 0) {
-          result = convertToWords(chunk) + " " + scales[scaleIndex] + " " + result;
-        }
-        num = Math.floor(num / 1000);
-        scaleIndex++;
-      }
-      return result.trim();
+      // Update the total and amount in words
+      updateTotalDisplay(grandTotal);
     }
 
-    return convertToWords(Math.floor(amount));
-  }
-        
-      
-        // Run the function on page load
-        window.onload = populateStayRows;
+    // Function to calculate row values dynamically
+    function calculateRow(row, changedField) {
+      const baseTariffInput = row.querySelector(".base-tariff");
+      const stateGSTInput = row.querySelector(".state-gst");
+      const centerGSTInput = row.querySelector(".center-gst");
+      const totalInput = row.querySelector(".total");
+
+      let baseTariff = parseFloat(baseTariffInput.value) || 0;
+      let total = parseFloat(totalInput.value) || 0;
+
+      if (changedField === "base-tariff" && baseTariff > 0) {
+        const stateGST = baseTariff * 0.06;
+        const centerGST = baseTariff * 0.06;
+        const calculatedTotal = baseTariff + stateGST + centerGST;
+
+        stateGSTInput.value = stateGST.toFixed(2);
+        centerGSTInput.value = centerGST.toFixed(2);
+        totalInput.value = calculatedTotal.toFixed(2);
+      } else if (changedField === "total" && total > 0) {
+        const baseTariffFromTotal = total / 1.12;
+        const stateGST = baseTariffFromTotal * 0.06;
+        const centerGST = baseTariffFromTotal * 0.06;
+
+        baseTariffInput.value = baseTariffFromTotal.toFixed(2);
+        stateGSTInput.value = stateGST.toFixed(2);
+        centerGSTInput.value = centerGST.toFixed(2);
+      }
+
+      const totalInputs = document.querySelectorAll(".total");
+      let grandTotal = 0;
+
+      totalInputs.forEach((input) => {
+        grandTotal += parseFloat(input.value) || 0;
+      });
+
+      updateTotalDisplay(grandTotal);
+
+    }
+
+
+    function calculateTotal() {
+      const totalInputs = document.querySelectorAll(".total");
+      let grandTotal = 0;
+
+      totalInputs.forEach((input) => {
+        grandTotal += parseFloat(input.value) || 0;
+      });
+
+      updateTotalDisplay(grandTotal);
+    }
+
+
+    function updateTotalDisplay(grandTotal) {
+      const totalDisplay = document.getElementById("total-amount");
+      const totalInWordsDisplay = document.getElementById("total-amount-words");
+
+      totalDisplay.textContent = grandTotal.toFixed(2);
+
+      // Convert total to words
+      totalInWordsDisplay.textContent = numberToWords(grandTotal) + " only";
+    }
 
 
 
-function printBill() {
-  // Save the original content of the body
-  const originalContent = document.body.innerHTML;
 
-  // Temporarily modify the DOM for printing
-  const paymentModeSelect = document.querySelector("#paymentMode");
-  let paymentModeText;
+    function numberToWords(amount) {
+      // Simple number-to-words function for INR
+      const words = [
+        "Zero", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten", "Eleven",
+        "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen", "Seventeen", "Eighteen", "Nineteen",
+      ];
+      const tens = ["", "", "Twenty", "Thirty", "Forty", "Fifty", "Sixty", "Seventy", "Eighty", "Ninety"];
+      const scales = ["", "Thousand", "Lakh", "Crore"];
 
-  if (paymentModeSelect) {
-    const selectedOption = paymentModeSelect.options[paymentModeSelect.selectedIndex].text;
+      function convertToWords(num) {
+        if (num < 20) return words[num];
+        if (num < 100) return tens[Math.floor(num / 10)] + (num % 10 !== 0 ? " " + words[num % 10] : "");
+        if (num < 1000) return words[Math.floor(num / 100)] + " Hundred" + (num % 100 !== 0 ? " and " + convertToWords(num % 100) : "");
 
-    // Replace the dropdown with a single text node
-    paymentModeText = document.createTextNode(selectedOption);
-    paymentModeSelect.parentNode.replaceChild(paymentModeText, paymentModeSelect);
-  }
+        let scaleIndex = 0;
+        let result = "";
+        while (num > 0) {
+          const chunk = num % 1000;
+          if (chunk !== 0) {
+            result = convertToWords(chunk) + " " + scales[scaleIndex] + " " + result;
+          }
+          num = Math.floor(num / 1000);
+          scaleIndex++;
+        }
+        return result.trim();
+      }
 
-  // Replace input elements with their values
-  const inputs = document.querySelectorAll("input");
-  const replacedInputs = [];
-  inputs.forEach(input => {
-    const textNode = document.createTextNode(input.value); // Get the input value
-    replacedInputs.push({ input, textNode });
-    input.parentNode.replaceChild(textNode, input); // Replace the input with the value
-  });
-
-  // Trigger print
-  window.print();
-
-  // Restore the original content
-  if (paymentModeSelect && paymentModeText) {
-    paymentModeText.parentNode.replaceChild(paymentModeSelect, paymentModeText); // Restore the dropdown
-  }
-
-  replacedInputs.forEach(({ input, textNode }) => {
-    textNode.parentNode.replaceChild(input, textNode); // Restore input elements
-  });
-
-  document.body.innerHTML = originalContent;
-}
+      return convertToWords(Math.floor(amount));
+    }
 
 
-function checkout() {
-    const totalAmount = document.getElementById("total-amount").textContent;
-    const roomNo = "{{data.room_no}}";
-    const paymentMode = document.getElementById("paymentMode").value;
+    // Run the function on page load
+    window.onload = populateStayRows;
 
-    fetch('/checkout', {
+
+
+    function printBill() {
+      // Save the original content of the body
+      const originalContent = document.body.innerHTML;
+
+      // Temporarily modify the DOM for printing
+      const paymentModeSelect = document.querySelector("#paymentMode");
+      let paymentModeText;
+
+      if (paymentModeSelect) {
+        const selectedOption = paymentModeSelect.options[paymentModeSelect.selectedIndex].text;
+
+        // Replace the dropdown with a single text node
+        paymentModeText = document.createTextNode(selectedOption);
+        paymentModeSelect.parentNode.replaceChild(paymentModeText, paymentModeSelect);
+      }
+
+      // Replace input elements with their values
+      const inputs = document.querySelectorAll("input");
+      const replacedInputs = [];
+      inputs.forEach(input => {
+        const textNode = document.createTextNode(input.value); // Get the input value
+        replacedInputs.push({ input, textNode });
+        input.parentNode.replaceChild(textNode, input); // Replace the input with the value
+      });
+
+      // Trigger print
+      window.print();
+
+      // Restore the original content
+      if (paymentModeSelect && paymentModeText) {
+        paymentModeText.parentNode.replaceChild(paymentModeSelect, paymentModeText); // Restore the dropdown
+      }
+
+      replacedInputs.forEach(({ input, textNode }) => {
+        textNode.parentNode.replaceChild(input, textNode); // Restore input elements
+      });
+
+      document.body.innerHTML = originalContent;
+    }
+
+
+    function checkout() {
+      const totalAmount = document.getElementById("total-amount").textContent;
+      const roomNo = "{{data.room_no}}";
+      const paymentMode = document.getElementById("paymentMode").value;
+
+      fetch('/checkout', {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json',
+          'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ total_amount: totalAmount,
-            room_no: roomNo,
-            payment_method: paymentMode
-         }),
-    })
-    .then(response => response.json())
-    .then(data => {
-        console.log('Success:', data);
-        // Handle the response from the server
+        body: JSON.stringify({
+          total_amount: totalAmount,
+          room_no: roomNo,
+          payment_method: paymentMode
+        }),
+      })
+        .then(response => response.json())
+        .then(data => {
+          console.log('Success:', data);
+          // Handle the response from the server
 
-        // Update the invoice number in the table
-        if (data.invoice_number) {
-            const invoiceCell = document.querySelector('table td:nth-child(2)');
-            if (invoiceCell) {
-                invoiceCell.innerHTML = `<b>Invoice No:</b> <br>${data.invoice_number}`;
-            }
-        }
-
-        // Update the invoice date if provided in the response
-        if (data.invoice_date) {
-            const invoiceDateCell = document.querySelector('table td:nth-child(3)');
-            if (invoiceDateCell) {
-                invoiceDateCell.innerHTML = `<b>Invoice Date:</b> <br>${data.invoice_date}`;
-            }
-        }
-
-        // Hide the checkout button
-        const checkoutButtonContainer = document.getElementById('checkoutButtonContainer');
-        if (checkoutButtonContainer) {
-            checkoutButtonContainer.style.display = 'none';
-        }
-        
-        // Replace input elements with their values
-  const inputs = document.querySelectorAll("input");
-  const replacedInputs = [];
-  inputs.forEach(input => {
-    const textNode = document.createTextNode(input.value); // Get the input value
-    replacedInputs.push({ input, textNode });
-    input.parentNode.replaceChild(textNode, input); // Replace the input with the value
-  });
-
-
-  // Temporarily modify the DOM for printing
-  const paymentModeSelect = document.querySelector("#paymentMode");
-  let paymentModeText;
-
-  if (paymentModeSelect) {
-    const selectedOption = paymentModeSelect.options[paymentModeSelect.selectedIndex].text;
-
-    // Replace the dropdown with a single text node
-    paymentModeText = document.createTextNode(selectedOption);
-    paymentModeSelect.parentNode.replaceChild(paymentModeText, paymentModeSelect);
+          // Update the invoice number in the table
+if (data.invoice_number) {
+  const invoiceCell = document.querySelector('table tr:nth-child(1) td:nth-child(1)');
+  if (invoiceCell) {
+    invoiceCell.innerHTML = `<b>Invoice No:</b> <br>${data.invoice_number}`;
   }
-
-
-  
-        // Call printBill() after updating the table
-        printBill();
-
-    })
-    .catch((error) => {
-        console.error('Error:', error);
-        // Handle any errors
-    });
-    
-    
-            
-
 }
 
-      </script>
-      
+// Update the invoice date if provided in the response
+if (data.invoice_date) {
+  const invoiceDateCell = document.querySelector('table tr:nth-child(2) td:nth-child(1)');
+  if (invoiceDateCell) {
+    invoiceDateCell.innerHTML = `<b>Invoice Date:</b> <br>${data.invoice_date}`;
+  }
+}
+
+          // Hide the checkout button
+          const checkoutButtonContainer = document.getElementById('checkoutButtonContainer');
+          if (checkoutButtonContainer) {
+            checkoutButtonContainer.style.display = 'none';
+          }
+
+          // Replace input elements with their values
+          const inputs = document.querySelectorAll("input");
+          const replacedInputs = [];
+          inputs.forEach(input => {
+            const textNode = document.createTextNode(input.value); // Get the input value
+            replacedInputs.push({ input, textNode });
+            input.parentNode.replaceChild(textNode, input); // Replace the input with the value
+          });
+
+
+          // Temporarily modify the DOM for printing
+          const paymentModeSelect = document.querySelector("#paymentMode");
+          let paymentModeText;
+
+          if (paymentModeSelect) {
+            const selectedOption = paymentModeSelect.options[paymentModeSelect.selectedIndex].text;
+
+            // Replace the dropdown with a single text node
+            paymentModeText = document.createTextNode(selectedOption);
+            paymentModeSelect.parentNode.replaceChild(paymentModeText, paymentModeSelect);
+          }
+
+
+
+          // Call printBill() after updating the table
+          printBill();
+
+        })
+        .catch((error) => {
+          console.error('Error:', error);
+          // Handle any errors
+        });
+    }
+
+  </script>
+
 </body>
 
 </html>
