@@ -30,7 +30,7 @@ def save_data(data):
 
 def get_db_connection():
     conn = sqlite3.connect("database.db")
-    print("Connected to database successfully")
+    # print("Connected to database successfully")
     conn.row_factory = sqlite3.Row
     return conn
 
@@ -82,7 +82,7 @@ def checkinForm():
 def checkin():
     data = load_data()
     form_data = request.form
-    print(form_data)
+    # print(form_data)
     # required_fields = ['primaryGuestName', 'primaryGuestMobileNumber', 'roomNumber', 'checkinDate']
 
     # for field in required_fields:
@@ -147,7 +147,7 @@ def checkin():
             response_message = f"CheckedIn Succesfully"
     except sqlite3.Error as e:
         conn.rollback()
-        print(e)
+        # print(e)
         response_message = f"An error occurred: {e}"
     finally:
         conn.close()
@@ -179,7 +179,7 @@ def checkin():
 
 @app.route("/checkin-checkout", methods=["POST"])
 def checkin_checkout():
-    print("inside checkin_checkout")
+    # print("inside checkin_checkout")
     try:
         form_data = request.form
 
@@ -257,12 +257,12 @@ LIMIT 1;
             """
             cursor.execute(find_query, (form_data["roomNumber"],))
             results = dict(cursor.fetchall()[0])
-            print(results)
+            # print(results)
 
     except sqlite3.Error as e:
         conn.rollback()
 
-        print(e)
+        # print(e)
 
 
         response_message = f"An error occurred: {e}"
@@ -345,7 +345,7 @@ LIMIT 1;
 def checkin_edit():
     try:
         form_data = request.form
-        print(form_data)
+        # print(form_data)
 
         with get_db_connection() as conn:
             cursor = conn.cursor()
@@ -437,7 +437,7 @@ def checkin_edit():
 
     except sqlite3.Error as e:
         conn.rollback()
-        print(e)
+        # print(e)
         response_message = f"An error occurred: {e}"
     finally:
         conn.close()
@@ -538,7 +538,7 @@ LIMIT 1;
 
     except sqlite3.Error as e:
         conn.rollback()
-        print(e)
+        # print(e)
         response_message = f"An error occurred: {e}"
     finally:
         conn.close()
@@ -554,7 +554,7 @@ def dashboard_checkout():
     # print(roomNumber)
     try:
         with get_db_connection() as conn:
-            print("[INFO] Hello from dashboard-billing")
+            # print("[INFO] Hello from dashboard-billing")
             cursor = conn.cursor()
             # First, find the entry to update
             find_query = """
@@ -575,8 +575,8 @@ LIMIT 1;
             check_out_date_time = now.strftime("%Y-%m-%dT%H:%M")
             if matches == 1:
                 entry_id = record["id"]
-                print(f'[INFO] entry_id: {entry_id}')
-                print(f'[INFO] check_out_date_time: {check_out_date_time}')
+                # print(f'[INFO] entry_id: {entry_id}')
+                # print(f'[INFO] check_out_date_time: {check_out_date_time}')
                 update_query = """
                                 UPDATE HotelManagement
                                 SET check_out = ?
@@ -585,14 +585,14 @@ LIMIT 1;
                 check_out_date_update_response = cursor.execute(
                     update_query, (check_out_date_time, entry_id,)
                 )
-                print(f"[INFO] response: {check_out_date_update_response}")
+                # print(f"[INFO] response: {check_out_date_update_response}")
 
                 # conn.commit()
                 response_message = "Entry updated successfully"
-                print(f"[INFO] {response_message}")
+                # print(f"[INFO] {response_message}")
             elif matches > 1:
                 response_message = f"[INFO] {matches} matches found for room number.: {request.args.get('roomNumber')}"
-                print(response_message)
+                # print(response_message)
             else:
                 response_message = (
                     "No matching entry found or entry already has an invoice number"
@@ -604,19 +604,19 @@ WHERE invoice_no IS NULL AND room_no = ?
 ORDER BY id DESC
 LIMIT 1;
             """
-            print(f"[INFO] Room number: {roomNumber}")
+            # print(f"[INFO] Room number: {roomNumber}")
             cursor.execute(find_query, (roomNumber,))
             results = dict(cursor.fetchall()[0])
-            print(results)
+            # print(results)
 
     except sqlite3.Error as e:
         conn.rollback()
-        print(f"[ERROR] Some error occured: {e}")
+        # print(f"[ERROR] Some error occured: {e}")
     finally:
         conn.close()
 
-    print(list(results))
-    print(f'mobile number: {results.get("primary_person_mobile")}')
+    # print(list(results))
+    # print(f'mobile number: {results.get("primary_person_mobile")}')
     data = load_data()
     return render_template("billing.html", hotel_data=data, data=results)
 
@@ -628,8 +628,8 @@ def checkout():
     room_no = data.get("room_no")
     payment_method = data.get("payment_method")
     globalDaysStayed = data.get("globalDaysStayed")
-    print("First")
-    print(type(globalDaysStayed),globalDaysStayed)
+    # print("First")
+    # print(type(globalDaysStayed),globalDaysStayed)
 
     try:
         with get_db_connection() as conn:
@@ -650,7 +650,7 @@ def checkout():
             results = cursor.fetchall()
             matches = len(results)
             record = dict(results[0])
-            print(f'record: {record}')
+            # print(f'record: {record}')
 
             query = "SELECT MAX(invoice_no) FROM HotelManagement"
             cursor.execute(query)
@@ -668,9 +668,9 @@ def checkout():
 
             if matches == 1:
                 entry_id = record["id"]
-                print("yoyoyoyoyo")
-                print(entry_id)
-                print("yoyoyoyoyo")
+                # print("yoyoyoyoyo")
+                # print(entry_id)
+                # print("yoyoyoyoyo")
 
                 update_query = """
                                 UPDATE HotelManagement
@@ -691,24 +691,24 @@ def checkout():
 
                 # conn.commit()
                 response_message = "Entry updated successfully"
-                print(f"[INFO] {response_message}")
+                # print(f"[INFO] {response_message}")
             elif matches > 1:
                 response_message = f"[INFO] {matches} matches found for room number.: {request.args.get('roomNumber')}"
-                print(response_message)
+                # print(response_message)
             else:
                 response_message = (
                     "No matching entry found or entry already has an invoice number"
                 )
     except sqlite3.Error as e:
         conn.rollback()
-        print(f"[ERROR] Some error occured: {e}")
+        # print(f"[ERROR] Some error occured: {e}")
     finally:
         conn.close()
 
     hotel_data = load_data()
 
     requiredRoomNumber = room_no.split(" - ")[0]
-    print(requiredRoomNumber)
+    # print(requiredRoomNumber)
     floorDetails = hotel_data["floorDetails"]
     # print(type(requiredRoomNumber))
 
@@ -718,7 +718,7 @@ def checkout():
             break
         for room in floorDetails[floor]:
             if room["number"] == requiredRoomNumber:
-                print(room["number"], type(room["number"]))
+                # print(room["number"], type(room["number"]))
                 room["occupied"] = False
                 roomFound = True
                 break
@@ -752,20 +752,20 @@ def invoice():
             data = []
             for result in results:
                 data.append(dict(result))
-            print(data[-1])
-            print(f"[INFO] Number of matches: {matches}")
-            print(f"[INFO] Data: {data}")
+            # print(data[-1])
+            # print(f"[INFO] Number of matches: {matches}")
+            # print(f"[INFO] Data: {data}")
             # record = dict(results)
     except Exception as e:
-        print(f"[INFO] Something went wrong while processing /invoice endpoint: {e}")
+        # print(f"[INFO] Something went wrong while processing /invoice endpoint: {e}")
     return render_template("invoice.html", data=data)
 
 
 @app.route("/report-submit", methods=["GET"])
 def reportSubmit():
     request_data = request.args.to_dict()
-    print("request_data: ", request_data)
-    print(request_data.get("startDate"))
+    # print("request_data: ", request_data)
+    # print(request_data.get("startDate"))
     try:
         with get_db_connection() as conn:
             cursor = conn.cursor()
@@ -811,12 +811,12 @@ def reportSubmit():
                 record["final_tarif"] = tarif
                 data.append(record)
 
-            print(f"[INFO] Number of matches: {matches}")
-            print(f"[INFO] Data: {data}")
-            print(f"[INFO] Totals: {totals}")
+            # print(f"[INFO] Number of matches: {matches}")
+            # print(f"[INFO] Data: {data}")
+            # print(f"[INFO] Totals: {totals}")
 
     except Exception as e:
-        print(f"[INFO] Something went wrong while processing /report endpoint: {e}")
+        # print(f"[INFO] Something went wrong while processing /report endpoint: {e}")
         data = []
         totals = {
             "sgst": 0.0,
@@ -853,9 +853,9 @@ def updatePaymentMode():
     if not payment_mode or not entry_id:
         return jsonify({"error": "Payment mode or ID not provided"}), 400
 
-    # Print the payment mode and ID (for debugging)
-    print("Received payment mode:", payment_mode)
-    print("Received ID:", entry_id)
+    Print the payment mode and ID (for debugging)
+    # print("Received payment mode:", payment_mode)
+    # print("Received ID:", entry_id)
 
     try:
         # Update the database
@@ -874,11 +874,11 @@ def updatePaymentMode():
 
     except Exception as e:
         # Handle database errors
-        print("Database error:", str(e))
+        # print("Database error:", str(e))
         return jsonify({"error": "Failed to update payment mode"}), 500
 
-@app.route('/print_invoice/<invoice_id>')
-def print_invoice(invoice_id):
+# @app.route('/print_invoice/<invoice_id>')
+# def print_invoice(invoice_id):
     with get_db_connection() as conn:
         cursor = conn.cursor()
         find_query = """
