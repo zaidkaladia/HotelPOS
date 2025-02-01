@@ -210,18 +210,18 @@ tr:hover {
               <td>{{ row.check_in[:10] }}</td>
               <td>{{ row.check_out[:10] }}</td>
               <td>{{ row.no_of_nights }}</td>
-              <td>{{ row.total_fare - sgst - cgst }}</td>
-              <td>{{ sgst }}</td>
-              <td>{{ cgst }}</td>
+              <td>{{ (row.total_fare - sgst - cgst) | round(2)}}</td>
+              <td>{{ sgst | round(2) }}</td>
+              <td>{{ cgst | round(2) }}</td>
               <td>{{ row.payment_method }}</td>
               <td>{{ row.total_fare }}</td>
             </tr>
             {% endfor %}
             <tr>
                 <td colspan="10" style="text-align: right; font-weight: bold;">Total</td>
-                <td><strong>{{totals['final_tarif']}}</strong></td>
-                <td><strong>{{ totals['sgst'] }}</strong></td>
-                <td><strong>{{ totals['cgst'] }}</strong></td>
+                <td><strong>{{totals['final_tarif'] | round(2)}}</strong></td>
+                <td><strong>{{ totals['sgst']  | round(2)}}</strong></td>
+                <td><strong>{{ totals['cgst']  | round(2)}}</strong></td>
                 <td></td>
                 <td><strong>{{ totals['final_total'] }}</strong></td>
               </tr>
