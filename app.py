@@ -251,15 +251,20 @@ def checkin_checkout():
             # print(form_data.get("room_no"))
             find_query = """
             SELECT * FROM HotelManagement
-            WHERE invoice_no IS NULL AND room_no = ?
+WHERE invoice_no IS NULL AND room_no = ?
+ORDER BY id DESC
+LIMIT 1;
             """
             cursor.execute(find_query, (form_data["roomNumber"],))
             results = dict(cursor.fetchall()[0])
-            # print(results)
+            print(results)
 
     except sqlite3.Error as e:
         conn.rollback()
+
         print(e)
+
+
         response_message = f"An error occurred: {e}"
     finally:
         conn.close()
@@ -302,7 +307,12 @@ def checkin_edit_form():
         conn = get_db_connection()
         cursor = conn.cursor()
 
-        query = "SELECT * FROM HotelManagement WHERE invoice_no IS NULL AND room_no = ?"
+        query = """
+            SELECT * FROM HotelManagement
+WHERE invoice_no IS NULL AND room_no = ?
+ORDER BY id DESC
+LIMIT 1;
+            """
         cursor.execute(query, (table_room_no,))
 
         row = cursor.fetchone()
@@ -518,7 +528,9 @@ def checkin_edit_checkout():
             # print(form_data.get("room_no"))
             find_query = """
             SELECT * FROM HotelManagement
-            WHERE invoice_no IS NULL AND room_no = ?
+WHERE invoice_no IS NULL AND room_no = ?
+ORDER BY id DESC
+LIMIT 1;
             """
             cursor.execute(find_query, (form_data.get("roomNumber"),))
             results = dict(cursor.fetchall()[0])
@@ -547,7 +559,9 @@ def dashboard_checkout():
             # First, find the entry to update
             find_query = """
             SELECT * FROM HotelManagement
-            WHERE invoice_no IS NULL AND room_no = ?
+WHERE invoice_no IS NULL AND room_no = ?
+ORDER BY id DESC
+LIMIT 1;
             """
             cursor.execute(find_query, (roomNumber,))
             results = cursor.fetchall()
@@ -585,8 +599,10 @@ def dashboard_checkout():
                 )
             # First, find the entry to update
             find_query = """
-                SELECT * FROM HotelManagement
-                WHERE invoice_no IS NULL AND room_no = ?
+            SELECT * FROM HotelManagement
+WHERE invoice_no IS NULL AND room_no = ?
+ORDER BY id DESC
+LIMIT 1;
             """
             print(f"[INFO] Room number: {roomNumber}")
             cursor.execute(find_query, (roomNumber,))
@@ -611,17 +627,24 @@ def checkout():
     total_amount = data.get("total_amount")
     room_no = data.get("room_no")
     payment_method = data.get("payment_method")
+    globalDaysStayed = data.get("globalDaysStayed")
     print("First")
-    print(total_amount,room_no,payment_method)
+    print(type(globalDaysStayed),globalDaysStayed)
 
     try:
         with get_db_connection() as conn:
             # print("[INFO] Hello from dashboard-billing")
             cursor = conn.cursor()
             # First, find the entry to update
+            # find_query = """
+            # SELECT * FROM HotelManagement
+            # WHERE invoice_no IS NULL AND room_no = ?
+            # """
             find_query = """
             SELECT * FROM HotelManagement
-            WHERE invoice_no IS NULL AND room_no = ?
+                WHERE invoice_no IS NULL AND room_no = ?
+                ORDER BY id DESC
+                LIMIT 1;
             """
             cursor.execute(find_query, (room_no,))
             results = cursor.fetchall()
@@ -651,7 +674,7 @@ def checkout():
 
                 update_query = """
                                 UPDATE HotelManagement
-                                SET payment_method = ?, total_fare=?, invoice_date = ?,invoice_no=?
+                                SET payment_method = ?, total_fare=?, invoice_date = ?,invoice_no=?, no_of_nights = ?
                                 WHERE id = ?
                             """
                 check_out_date_update_response = cursor.execute(
@@ -661,6 +684,7 @@ def checkout():
                         total_amount,
                         invoice_date_time,
                         this_bill_invoice_number,
+                        globalDaysStayed,
                         entry_id,
                     ),
                 )
@@ -748,8 +772,7 @@ def reportSubmit():
 
             # Query to fetch filtered data
             find_query = """
-            SELECT *
-            FROM HotelManagement
+            SELECT * FROM HotelManagement
             WHERE DATE(invoice_date) >= DATE(?) AND DATE(invoice_date) <= DATE(?)
             """
             cursor.execute(
@@ -853,7 +876,23 @@ def updatePaymentMode():
         # Handle database errors
         print("Database error:", str(e))
         return jsonify({"error": "Failed to update payment mode"}), 500
-    
+
+@app.route('/print_invoice/<invoice_id>')
+def print_invoice(invoice_id):
+    with get_db_connection() as conn:
+        cursor = conn.cursor()
+        find_query = """
+        SELECT * FROM HotelManagement
+        WHERE invoice_no = ?
+        """
+        cursor.execute(find_query, (invoice_id,))
+        results = dict(cursor.fetchall()[0])
+        # results = cursor.fetchall()
+
+    data = load_data()  # Assuming this function loads some additional data
+    return render_template("invoiceBill.html", hotel_data=data, data=results)
+            
+            
 
 
 if __name__ == "__main__":

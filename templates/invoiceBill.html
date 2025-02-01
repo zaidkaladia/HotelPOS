@@ -556,9 +556,7 @@
       <button type="button" onclick="printBill()"> Print</button>
     </div>
 
-    <div id="checkoutButtonContainer">
-      <button onclick="checkout()" style="background-color: red;">Checkout</button>
-    </div>
+    
   </div>
 
   <script>
@@ -809,83 +807,6 @@ document.getElementById("number-of-nights").textContent = daysStayed;
     }
 
 
-    function checkout() {
-      const totalAmount = document.getElementById("total-amount").textContent;
-      const roomNo = "{{data.room_no}}";
-      const paymentMode = document.getElementById("paymentMode").value;
-
-      fetch('/checkout', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          total_amount: totalAmount,
-          room_no: roomNo,
-          payment_method: paymentMode,
-          globalDaysStayed: globalDaysStayed
-        }),
-      })
-        .then(response => response.json())
-        .then(data => {
-          console.log('Success:', data);
-          // Handle the response from the server
-
-          // Update the invoice number in the table
-if (data.invoice_number) {
-  const invoiceCell = document.querySelector('table tr:nth-child(1) td:nth-child(1)');
-  if (invoiceCell) {
-    invoiceCell.innerHTML = `<b>Invoice No:</b> <br>${data.invoice_number}`;
-  }
-}
-
-// Update the invoice date if provided in the response
-if (data.invoice_date) {
-  const invoiceDateCell = document.querySelector('table tr:nth-child(2) td:nth-child(1)');
-  if (invoiceDateCell) {
-    invoiceDateCell.innerHTML = `<b>Invoice Date:</b> <br>${data.invoice_date}`;
-  }
-}
-
-          // Hide the checkout button
-          const checkoutButtonContainer = document.getElementById('checkoutButtonContainer');
-          if (checkoutButtonContainer) {
-            checkoutButtonContainer.style.display = 'none';
-          }
-
-          // Replace input elements with their values
-          const inputs = document.querySelectorAll("input");
-          const replacedInputs = [];
-          inputs.forEach(input => {
-            const textNode = document.createTextNode(input.value); // Get the input value
-            replacedInputs.push({ input, textNode });
-            input.parentNode.replaceChild(textNode, input); // Replace the input with the value
-          });
-
-
-          // Temporarily modify the DOM for printing
-          const paymentModeSelect = document.querySelector("#paymentMode");
-          let paymentModeText;
-
-          if (paymentModeSelect) {
-            const selectedOption = paymentModeSelect.options[paymentModeSelect.selectedIndex].text;
-
-            // Replace the dropdown with a single text node
-            paymentModeText = document.createTextNode(selectedOption);
-            paymentModeSelect.parentNode.replaceChild(paymentModeText, paymentModeSelect);
-          }
-
-
-
-          // Call printBill() after updating the table
-          printBill();
-
-        })
-        .catch((error) => {
-          console.error('Error:', error);
-          // Handle any errors
-        });
-    }
 
   </script>
 

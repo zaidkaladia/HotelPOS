@@ -793,8 +793,11 @@
   const normalizedCheckoutDate = new Date(checkoutDate);
   normalizedCheckoutDate.setHours(0, 0, 0, 0);
 
+console.log(normalizedCheckinDate,normalizedCheckoutDate)
+
   // Calculate the base number of nights stayed
   let nightsStayed = Math.floor((normalizedCheckoutDate - normalizedCheckinDate) / (1000 * 3600 * 24));
+  console.log(nightsStayed)
 
   // Adjust for hotel checkout time
   const checkoutCutoff = new Date(checkoutDate);

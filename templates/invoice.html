@@ -109,8 +109,8 @@
           </tr>
           {% for row in data %}
           <tr>
-            <td style="display: flex; justify-content: space-between">
-              <i class="fas fa-edit"></i><i class="fa-solid fa-trash"></i>
+            <td>
+              <i class="fas fa-print" onclick="handlePrint('{{ row.invoice_no }}')"></i>
             </td>
             <td>{{ row.invoice_no }}</td>
             <td>{{ row.id }}</td>
@@ -122,10 +122,10 @@
             <td>{{ row.check_out }}</td>
             <td>{{ row.no_of_nights }}</td>
             <td>{{ row.room_no.split(' - ')[0] if row.room_no }}</td>
-            <td>{{row.total_fare - row.total_fare * 0.06 - row.total_fare * 0.06  }}</td>
+            <td>{{(row.total_fare - row.total_fare * 0.06 - row.total_fare * 0.06) | round(2)  }}</td>
             <!-- <td>taxablet</td> -->
-            <td>{{ row.total_fare * 0.06 }}</td>
-            <td>{{ row.total_fare * 0.06 }}</td>
+            <td>{{ (row.total_fare * 0.06) | round(2) }}</td>
+            <td>{{ (row.total_fare * 0.06) | round(2) }}</td>
             <td>
               {{ row.room_no.split(' - ')[1] if row.room_no or row.room_no }}
             </td>
@@ -168,5 +168,18 @@
           }
         }
       });
+
+
+      function handlePrint(invoiceId) {
+            // Hit Flask endpoint via fetch API
+            fetch(`/print_invoice/${invoiceId}`)
+                .then(response => response.text())
+                .then(html => {
+                    const newWindow = window.open('', '_blank');
+                    newWindow.document.write(html);
+                    newWindow.document.close();
+                    // newWindow.print();
+                });
+        }
   </script>
 </html>
