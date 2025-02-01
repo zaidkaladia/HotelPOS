@@ -30,7 +30,7 @@ def save_data(data):
 
 def get_db_connection():
     conn = sqlite3.connect("database.db")
-    # print("Connected to database successfully")
+    print("Connected to database successfully")
     conn.row_factory = sqlite3.Row
     return conn
 
@@ -147,7 +147,7 @@ def checkin():
             response_message = f"CheckedIn Succesfully"
     except sqlite3.Error as e:
         conn.rollback()
-        # print(e)
+        print(e)
         response_message = f"An error occurred: {e}"
     finally:
         conn.close()
@@ -262,7 +262,7 @@ LIMIT 1;
     except sqlite3.Error as e:
         conn.rollback()
 
-        # print(e)
+        print(e)
 
 
         response_message = f"An error occurred: {e}"
@@ -437,7 +437,7 @@ def checkin_edit():
 
     except sqlite3.Error as e:
         conn.rollback()
-        # print(e)
+        print(e)
         response_message = f"An error occurred: {e}"
     finally:
         conn.close()
@@ -538,7 +538,7 @@ LIMIT 1;
 
     except sqlite3.Error as e:
         conn.rollback()
-        # print(e)
+        print(e)
         response_message = f"An error occurred: {e}"
     finally:
         conn.close()
@@ -592,7 +592,7 @@ LIMIT 1;
                 # print(f"[INFO] {response_message}")
             elif matches > 1:
                 response_message = f"[INFO] {matches} matches found for room number.: {request.args.get('roomNumber')}"
-                # print(response_message)
+                print(response_message)
             else:
                 response_message = (
                     "No matching entry found or entry already has an invoice number"
@@ -611,7 +611,7 @@ LIMIT 1;
 
     except sqlite3.Error as e:
         conn.rollback()
-        # print(f"[ERROR] Some error occured: {e}")
+        print(f"[ERROR] Some error occured: {e}")
     finally:
         conn.close()
 
@@ -694,14 +694,14 @@ def checkout():
                 # print(f"[INFO] {response_message}")
             elif matches > 1:
                 response_message = f"[INFO] {matches} matches found for room number.: {request.args.get('roomNumber')}"
-                # print(response_message)
+                print(response_message)
             else:
                 response_message = (
                     "No matching entry found or entry already has an invoice number"
                 )
     except sqlite3.Error as e:
         conn.rollback()
-        # print(f"[ERROR] Some error occured: {e}")
+        print(f"[ERROR] Some error occured: {e}")
     finally:
         conn.close()
 
@@ -718,7 +718,7 @@ def checkout():
             break
         for room in floorDetails[floor]:
             if room["number"] == requiredRoomNumber:
-                # print(room["number"], type(room["number"]))
+                print(room["number"], type(room["number"]))
                 room["occupied"] = False
                 roomFound = True
                 break
@@ -757,7 +757,7 @@ def invoice():
             # print(f"[INFO] Data: {data}")
             # record = dict(results)
     except Exception as e:
-        # print(f"[INFO] Something went wrong while processing /invoice endpoint: {e}")
+        print(f"[INFO] Something went wrong while processing /invoice endpoint: {e}")
     return render_template("invoice.html", data=data)
 
 
@@ -816,7 +816,7 @@ def reportSubmit():
             # print(f"[INFO] Totals: {totals}")
 
     except Exception as e:
-        # print(f"[INFO] Something went wrong while processing /report endpoint: {e}")
+        print(f"[INFO] Something went wrong while processing /report endpoint: {e}")
         data = []
         totals = {
             "sgst": 0.0,
@@ -853,7 +853,7 @@ def updatePaymentMode():
     if not payment_mode or not entry_id:
         return jsonify({"error": "Payment mode or ID not provided"}), 400
 
-    Print the payment mode and ID (for debugging)
+    # Print the payment mode and ID (for debugging)
     # print("Received payment mode:", payment_mode)
     # print("Received ID:", entry_id)
 
@@ -874,11 +874,11 @@ def updatePaymentMode():
 
     except Exception as e:
         # Handle database errors
-        # print("Database error:", str(e))
+        print("Database error:", str(e))
         return jsonify({"error": "Failed to update payment mode"}), 500
 
-# @app.route('/print_invoice/<invoice_id>')
-# def print_invoice(invoice_id):
+@app.route('/print_invoice/<invoice_id>')
+def print_invoice(invoice_id):
     with get_db_connection() as conn:
         cursor = conn.cursor()
         find_query = """
