@@ -116,8 +116,8 @@
             <td>{{ row.id }}</td>
             <td>{{ row.invoice_date }}</td>
             <td>{{ row.primary_person_name }}</td>
-            <td>{{ row.company_name }}</td>
-            <td>{{ row.gst }}</td>
+            <td>{{ row.company_name if row.company_name else "" }}</td>
+            <td>{{ row.gst if row.gst else ""}}</td>
             <td>{{ row.check_in }}</td>
             <td>{{ row.check_out }}</td>
             <td>{{ row.no_of_nights }}</td>
