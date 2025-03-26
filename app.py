@@ -38,6 +38,10 @@ def get_db_connection():
 @app.route("/")
 def index():
     data = load_data()
+
+    variable = render_template("dashboard.html", hotel_data=data)
+    print(variable)
+
     return render_template("dashboard.html", hotel_data=data)
 
 
@@ -345,7 +349,7 @@ LIMIT 1;
 def checkin_edit():
     try:
         form_data = request.form
-        # print(form_data)
+        print(form_data)
 
         with get_db_connection() as conn:
             cursor = conn.cursor()
@@ -354,11 +358,15 @@ def checkin_edit():
             find_query = """
             SELECT id FROM HotelManagement
             WHERE invoice_no IS NULL AND room_no = ?
+            ORDER BY id DESC
+            LIMIT 1;
             """
             cursor.execute(find_query, (form_data.get("roomNumber"),))
             results = cursor.fetchall()
+            print(results[0][0])
 
             if len(results) == 1:
+                print("okay there are only one maching entry")
                 # We found exactly one matching entry
                 entry_id = results[0][0]
 
@@ -473,6 +481,8 @@ def checkin_edit_checkout():
             find_query = """
             SELECT id FROM HotelManagement
             WHERE invoice_no IS NULL AND room_no = ?
+            ORDER BY id DESC
+            LIMIT 1;
             """
             cursor.execute(find_query, (form_data.get("roomNumber"),))
             results = cursor.fetchall()

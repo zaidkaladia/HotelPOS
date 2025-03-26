@@ -111,49 +111,38 @@ tr:hover {
 
 @media print {
     table {
-    max-width: 90%;
-    font-size: 10pt;
-  }
-    .navbar {
-      display: none;
+        width: 98%; /* Ensure table takes full width */
+        max-width: 100%; /* Prevent table from exceeding page width */
+        table-layout: auto; /* Allow columns to adjust based on content */
+        font-size: 8pt; /* Reduce font size for better fit */
     }
+
+    th, td {
+        padding: 2px; /* Reduce padding for better spacing */
+        overflow: visible; /* Ensure content is not clipped */
+        white-space: normal; /* Allow text to wrap */
+        text-overflow: clip; /* Prevent ellipsis */
+    }
+
     @page {
-    margin: 0;
-  }
-  @page :footer {
-    display: none;
-  }
-  @page :header {
-    display: none;
-  }
-  
-  body {
-    font-size: 8pt;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
+        margin: 0.5cm; /* Reduce margins to maximize printable area */
+    }
 
-  table {
-    font-size: 7pt;
-    width: 100%;
-    table-layout: fixed;
-  }
+    body {
+        font-size: 8pt; /* Reduce base font size */
+    }
 
-  th, td {
-    padding: 2px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
+    h2 {
+        font-size: 12pt; /* Adjust heading size */
+    }
 
-  h2 {
-    font-size: 12pt;
-  }
+    h3 {
+        font-size: 10pt; /* Adjust heading size */
+    }
 
-  h3 {
-    font-size: 10pt;
-  }
+    .navbar {
+        display: none; /* Hide navbar during printing */
+    }
 }
   </style>
   <body>
@@ -210,9 +199,9 @@ tr:hover {
               <td>{{ row.check_in[:10] }}</td>
               <td>{{ row.check_out[:10] }}</td>
               <td>{{ row.no_of_nights }}</td>
-              <td>{{ (row.total_fare - sgst - cgst) | round(2)}}</td>
-              <td>{{ sgst | round(2) }}</td>
-              <td>{{ cgst | round(2) }}</td>
+              <td>{{ (row.total_fare / 1.12) | round(2)}}</td>
+              <td>{{ row.total_fare / 1.12 * 0.6 | round(2) }}</td>
+              <td>{{ row.total_fare / 1.12 * 0.6 | round(2) }}</td>
               <td>{{ row.payment_method }}</td>
               <td>{{ row.total_fare }}</td>
             </tr>
