@@ -1,5 +1,9 @@
 # HotelPOS
-this is an open source Hotel PPOS
+this is an open source Hotel POS.
+
+#USP
+1. Free
+2. Easiest to navigate UI
 
 # Todo:
 dont send:
